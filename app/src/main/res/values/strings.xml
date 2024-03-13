@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">Digitrack</string>
+    <string name="app_name">DIGITRACK</string>
+
+<!--    BUTTON-->
+    <string name="btn_login">LOGIN</string>
+
+<!--    TEXTVIEW-->
+    <string name="tv_donthaveaccount">Don\'t have an account?</string>
+    <string name="tv_register">Register</string>
 </resources>

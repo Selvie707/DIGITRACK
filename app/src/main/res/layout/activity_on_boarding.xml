@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OnBoardingActivity">
+
+    <ImageView
+        android:id="@+id/iv_maskot"
+        android:layout_width="230dp"
+        android:layout_height="113dp"
+        android:layout_marginTop="200dp"
+        android:src="@drawable/maskot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_digitrack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/app_name"
+        android:fontFamily="@font/boldinter"
+        android:textSize="28sp"
+        android:textColor="@color/purple"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/iv_maskot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+    
+    <Button
+        android:id="@+id/btn_login_onboarding"
+        android:layout_width="280dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="200dp"
+        android:background="@drawable/bg_corner"
+        android:backgroundTint="@color/purple"
+        android:text="@string/btn_login"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/boldinter"
+        app:layout_constraintTop_toBottomOf="@id/tv_digitrack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+    
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/btn_login_onboarding"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_donthaveaccount"
+            android:textColor="@color/purple"
+            android:textSize="12sp"
+            android:fontFamily="@font/regularinter"/>
+        <TextView
+            android:id="@+id/tv_register_onboarding"
+            android:layout_marginStart="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_register"
+            android:textColor="@color/purple"
+            android:textSize="12sp"
+            android:fontFamily="@font/boldinter"/>
+    </LinearLayout>
+    
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
