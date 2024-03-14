@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="32dp"
+    tools:context=".LoginActivity">
+
+    <TextView
+        android:id="@+id/tvLogin_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_login"
+        android:fontFamily="@font/boldinter"
+        android:textSize="28sp"
+        android:textColor="@color/purple"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/ivMaskot"
+        android:layout_width="230dp"
+        android:layout_height="113dp"
+        android:layout_marginTop="70dp"
+        android:src="@drawable/maskot"
+        app:layout_constraintTop_toBottomOf="@id/tvLogin_login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <EditText
+        android:id="@+id/etEmail_Login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/h_email"
+        android:textColorHint="@color/purple"
+        android:layout_marginTop="25dp"
+        android:padding="10dp"
+        android:drawableStart="@drawable/ic_email"
+        android:drawablePadding="15dp"
+        android:background="@drawable/bg_corner_stroke"
+        app:layout_constraintTop_toBottomOf="@+id/ivMaskot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <EditText
+        android:id="@+id/etPassword_Login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/h_password"
+        android:textColorHint="@color/purple"
+        android:layout_marginTop="15dp"
+        android:padding="15dp"
+        android:drawableStart="@drawable/ic_lock"
+        android:drawablePadding="15dp"
+        android:background="@drawable/bg_corner_stroke"
+        app:layout_constraintTop_toBottomOf="@+id/etEmail_Login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+    <Button
+        android:id="@+id/btnLogin_onboarding"
+        android:layout_width="280dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/bg_corner"
+        android:backgroundTint="@color/purple"
+        android:text="@string/btn_login"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/boldinter"
+        app:layout_constraintTop_toBottomOf="@id/cbRememberMe"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <CheckBox
+        android:id="@+id/cbRememberMe"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/h_remember"
+        android:fontFamily="@font/regularinter"
+        android:textSize="12sp"
+        android:textColor="@color/purple"
+        app:layout_constraintTop_toBottomOf="@id/etPassword_Login"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvForgetPassword"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/h_forgetPaddword"
+        android:textColor="@color/purple"
+        android:fontFamily="@font/boldinter"
+        app:layout_constraintTop_toBottomOf="@id/etPassword_Login"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/btnLogin_onboarding"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_donthaveaccount"
+            android:textColor="@color/purple"
+            android:textSize="12sp"
+            android:fontFamily="@font/regularinter"/>
+        <TextView
+            android:id="@+id/tvRegister_login"
+            android:layout_marginStart="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_register"
+            android:textColor="@color/purple"
+            android:textSize="12sp"
+            android:fontFamily="@font/boldinter"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

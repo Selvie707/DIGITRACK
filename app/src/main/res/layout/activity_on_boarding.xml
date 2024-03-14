@@ -7,7 +7,7 @@
     tools:context=".OnBoardingActivity">
 
     <ImageView
-        android:id="@+id/iv_maskot"
+        android:id="@+id/ivMaskot"
         android:layout_width="230dp"
         android:layout_height="113dp"
         android:layout_marginTop="200dp"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/tv_digitrack"
+        android:id="@+id/tvDigitrack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -26,12 +26,12 @@
         android:textSize="28sp"
         android:textColor="@color/purple"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/iv_maskot"
+        app:layout_constraintTop_toBottomOf="@id/ivMaskot"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
     
     <Button
-        android:id="@+id/btn_login_onboarding"
+        android:id="@+id/btnLogin_onboarding"
         android:layout_width="280dp"
         android:layout_height="60dp"
         android:layout_marginTop="200dp"
@@ -41,7 +41,7 @@
         android:textSize="20sp"
         android:textColor="@color/white"
         android:fontFamily="@font/boldinter"
-        app:layout_constraintTop_toBottomOf="@id/tv_digitrack"
+        app:layout_constraintTop_toBottomOf="@id/tvDigitrack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
     
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/btn_login_onboarding"
+        app:layout_constraintTop_toBottomOf="@id/btnLogin_onboarding"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
         <TextView
@@ -61,7 +61,7 @@
             android:textSize="12sp"
             android:fontFamily="@font/regularinter"/>
         <TextView
-            android:id="@+id/tv_register_onboarding"
+            android:id="@+id/tvRegister_onboarding"
             android:layout_marginStart="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
