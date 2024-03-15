@@ -1,10 +1,30 @@
 <resources>
     <string name="app_name">DIGITRACK</string>
 
-<!--    BUTTON-->
+    <!--    BUTTON-->
     <string name="btn_login">LOGIN</string>
+    <string name="btn_register">REGISTER</string>
 
-<!--    TEXTVIEW-->
+    <!--    TEXTVIEW-->
     <string name="tv_donthaveaccount">Don\'t have an account?</string>
+    <string name="tv_haveaccount">Have an account?</string>
     <string name="tv_register">Register</string>
+    <string name="tv_register2">REGISTER</string>
+    <string name="tv_login">LOGIN</string>
+    <string name="tv_login2">Login</string>
+    <!--    HINT-->
+    <string name="h_name">Name</string>
+    <string name="h_email">Email</string>
+    <string name="h_password">Password</string>
+    <string name="h_repeatPassword">Repeat Password</string>
+    <string name="h_role">Role</string>
+    <string name="h_remember">Remember Me</string>
+    <string name="h_forgetPaddword">Forget Password?</string>
+
+    <!--    SPINNER-->
+    <string-array name="spRole">
+        <item>Role</item>
+        <item>Admin</item>
+        <item>Teacher</item>
+    </string-array>
 </resources>
