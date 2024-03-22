@@ -4,6 +4,13 @@
     <!--    BUTTON-->
     <string name="btn_login">LOGIN</string>
     <string name="btn_register">REGISTER</string>
+    <string name="btn_EditProfile">EDIT PROFILE</string>
+    <string name="btn_feedback">FEEDBACK</string>
+    <string name="btn_helpCenter">HELP CENTER</string>
+    <string name="btn_logout">LOG OUT</string>
+    <string name="btn_update">UPDATE</string>
+    <string name="btn_new">NEW STUDENT</string>
+    <string name="btn_add">ADD</string>
 
     <!--    TEXTVIEW-->
     <string name="tv_donthaveaccount">Don\'t have an account?</string>
@@ -12,6 +19,14 @@
     <string name="tv_register2">REGISTER</string>
     <string name="tv_login">LOGIN</string>
     <string name="tv_login2">Login</string>
+    <string name="tv_profile">PROFILE</string>
+    <string name="tv_editProfile">EDIT PROFILE</string>
+    <string name="tv_hiUser">Hi, Via!</string>
+    <string name="tv_ready">Ready to teach?</string>
+    <string name="tv_welcome">Welcome!</string>
+    <string name="tv_lets">Let’s check today’s teaching schedule</string>
+    <string name="tv_access">ACCESS OTHER PAGE</string>
+
     <!--    HINT-->
     <string name="h_name">Name</string>
     <string name="h_email">Email</string>
@@ -20,6 +35,11 @@
     <string name="h_role">Role</string>
     <string name="h_remember">Remember Me</string>
     <string name="h_forgetPaddword">Forget Password?</string>
+    <string name="h_level">Level</string>
+    <string name="h_day">Day</string>
+    <string name="h_time">Time</string>
+    <string name="h_teacher">Teacher</string>
+    <string name="h_link">Daily Report Link</string>
 
     <!--    SPINNER-->
     <string-array name="spRole">
