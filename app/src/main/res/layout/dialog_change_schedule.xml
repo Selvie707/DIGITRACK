@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="32dp"
+    android:gravity="center"
+    android:layout_marginHorizontal="16dp"
+    android:background="@drawable/bg_corner_fill_8dp">
+
+    <TextView
+        android:id="@+id/tvTitleChangeSchedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="@string/change_schedule"/>
+
+    <TextView
+        android:id="@+id/tvChangeCalendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/day"
+        android:drawablePadding="8dp"
+        android:textColor="@color/white"
+        android:drawableTint="@color/white"
+        android:drawableStart="@drawable/ic_calendar"
+        android:background="@drawable/bg_corner_back_white"/>
+
+    <Spinner
+        android:id="@+id/spChangeTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bg_spinner_white"
+        android:paddingStart="38dp"
+        android:padding="5dp"/>
+
+    <Button
+        android:id="@+id/btnChange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/change"
+        android:textColor="@color/purple"
+        android:backgroundTint="@color/white"/>
+
+</LinearLayout>

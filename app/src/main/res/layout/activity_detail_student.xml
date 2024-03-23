@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailStudentActivity">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/purple"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/llHeader"/>
+
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:tint="@color/white"
+        android:src="@drawable/ic_back"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="32dp"
+        android:background="@drawable/bg_corner_back_white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="@string/title_detail_student"
+        android:layout_marginLeft="12dp"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toTopOf="@id/btnBack"
+        app:layout_constraintStart_toEndOf="@id/btnBack"
+        app:layout_constraintBottom_toBottomOf="@id/btnBack"/>
+
+    <LinearLayout
+        android:id="@+id/llHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="32dp"
+        android:gravity="center_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvHeader">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivProfilePicture"
+            android:layout_width="122dp"
+            android:layout_height="122dp"
+            android:src="@drawable/photo"
+            android:scaleType="centerCrop"
+            android:background="@color/purple"/>
+
+        <TextView
+            android:id="@+id/tvStudentLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/level"
+            android:layout_marginTop="22dp"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:id="@+id/tvStudentAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/age"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clStudentDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llHeader">
+
+        <ImageView
+            android:id="@+id/ivCalendar"
+            android:layout_width="38dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_calendar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvDateTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/day_and_time"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/ivCalendar"
+            app:layout_constraintStart_toEndOf="@id/ivCalendar"
+            app:layout_constraintBottom_toBottomOf="@id/ivCalendar"/>
+
+        <ImageView
+            android:id="@+id/ivAttendance"
+            android:layout_width="38dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_attendance"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivCalendar"/>
+
+        <TextView
+            android:id="@+id/tvAttendance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/day_and_time"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/ivAttendance"
+            app:layout_constraintStart_toEndOf="@id/ivAttendance"
+            app:layout_constraintBottom_toBottomOf="@id/ivAttendance"/>
+
+        <ImageView
+            android:id="@+id/ivTeacher"
+            android:layout_width="38dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_role"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivAttendance"/>
+
+        <TextView
+            android:id="@+id/tvTeacher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/day_and_time"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/ivTeacher"
+            app:layout_constraintStart_toEndOf="@id/ivTeacher"
+            app:layout_constraintBottom_toBottomOf="@id/ivTeacher"/>
+
+        <ImageView
+            android:id="@+id/ivDailyReport"
+            android:layout_width="38dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_daily_report"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivTeacher"/>
+
+        <TextView
+            android:id="@+id/tvDailyReport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/day_and_time"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/ivDailyReport"
+            app:layout_constraintStart_toEndOf="@id/ivDailyReport"
+            app:layout_constraintBottom_toBottomOf="@id/ivDailyReport"/>
+
+        <LinearLayout
+            android:id="@+id/llDateDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivDailyReport">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginRight="16dp">
+
+                <TextView
+                    android:id="@+id/tvTitleJoinDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:textStyle="bold"
+                    android:text="@string/join_date"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="3dp"
+                    android:gravity="center_horizontal"
+                    android:background="@drawable/bg_corner_fill_8dp"/>
+
+                <TextView
+                    android:id="@+id/tvJoinDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:textStyle="bold"
+                    android:text="@string/date"
+                    android:gravity="center_horizontal"
+                    android:background="@drawable/bg_corner_back"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvTitleLevelUp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:textStyle="bold"
+                    android:text="@string/level_up"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="3dp"
+                    android:gravity="center_horizontal"
+                    android:background="@drawable/bg_corner_fill_8dp"/>
+
+                <TextView
+                    android:id="@+id/tvLevelUpDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:textStyle="bold"
+                    android:text="@string/date"
+                    android:gravity="center_horizontal"
+                    android:background="@drawable/bg_corner_back"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnEditProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/bg_corner_fill_8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/llDateDetail">
+
+            <ImageView
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                app:tint="@color/white"
+                android:src="@drawable/ic_edit"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:text="@string/edit_profile"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

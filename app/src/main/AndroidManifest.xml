@@ -13,6 +13,24 @@
         android:theme="@style/Theme.Digitrack"
         tools:targetApi="31">
         <activity
+            android:name=".DetailStudentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MaterialsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DailyReportActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AttendanceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HelpCenterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ScheduleActivity"
+            android:exported="false" />
+        <activity
             android:name=".EditProfileActivity"
             android:exported="false" />
         <activity

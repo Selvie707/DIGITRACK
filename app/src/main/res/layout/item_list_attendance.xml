@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:text="@string/name"
+        android:layout_marginRight="8dp"
+        android:gravity="center_horizontal"
+        android:background="@drawable/bg_corner_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvWeekI"/>
+
+    <TextView
+        android:id="@+id/tvWeekI"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/week_i"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="18dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/bg_corner_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvWeekII"/>
+
+    <TextView
+        android:id="@+id/tvWeekII"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/week_ii"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="18dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/bg_corner_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvWeekIII"/>
+
+    <TextView
+        android:id="@+id/tvWeekIII"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/week_iii"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="18dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/bg_corner_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvWeekIV"/>
+
+    <TextView
+        android:id="@+id/tvWeekIV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="18dp"
+        android:text="@string/week_iv"
+        android:background="@drawable/bg_corner_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvMaterial"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:text="@string/material"
+        android:visibility="gone"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
+        android:background="@drawable/bg_corner_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvName"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
