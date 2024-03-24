@@ -11,6 +11,7 @@
     <string name="btn_update">UPDATE</string>
     <string name="btn_new">NEW STUDENT</string>
     <string name="btn_add">ADD</string>
+    <string name="btn_save">SAVE</string>
 
     <!--    TEXTVIEW-->
     <string name="tv_donthaveaccount">Don\'t have an account?</string>
@@ -26,6 +27,12 @@
     <string name="tv_welcome">Welcome!</string>
     <string name="tv_lets">Let’s check today’s teaching schedule</string>
     <string name="tv_access">ACCESS OTHER PAGE</string>
+    <string name="tv_namaMurid">NAMA MURID</string>
+    <string name="tv_schedule">SCHEDULE</string>
+    <string name="tv_attendance">ATTENDANCE</string>
+    <string name="tv_materials">MATERIALS</string>
+    <string name="tv_daily">DAILY REPORT</string>
+    <string name="tv_nearest">NEAREST SCHEDULE</string>
 
     <!--    HINT-->
     <string name="h_name">Name</string>
@@ -45,8 +52,8 @@
     <string name="contact_us">Contact Us</string>
     <string name="email_via">selvietan.mukhua@gmail.com</string>
     <string name="no_via">0895621654714</string>
-    <string name="email_lia">Mulia@gmail.com</string>
-    <string name="no_lia">0812326578576</string>
+    <string name="email_lia">muliasahpira@gmail.com</string>
+    <string name="no_lia">081274612228</string>
     <string name="title_attendance">ATTENDANCE</string>
     <string name="month">MONTH</string>
     <string name="name">Name</string>

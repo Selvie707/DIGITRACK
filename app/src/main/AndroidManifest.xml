@@ -13,6 +13,12 @@
         android:theme="@style/Theme.Digitrack"
         tools:targetApi="31">
         <activity
+            android:name=".EditDetailStudentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddNewStudentActivity"
+            android:exported="false" />
+        <activity
             android:name=".DetailStudentActivity"
             android:exported="false" />
         <activity
