@@ -33,6 +33,17 @@
     <string name="tv_materials">MATERIALS</string>
     <string name="tv_daily">DAILY REPORT</string>
     <string name="tv_nearest">NEAREST SCHEDULE</string>
+    <string name="tv_namaAnak">Nama Anak</string>
+    <string name="tv_mingguKe">Minggu Ke</string>
+    <string name="tv_materi">Materi</string>
+    <string name="tv_level">Level</string>
+    <string name="tv_jam">JAM 17.00 - 18.00 WIB</string>
+    <string name="tv_feedback">FEEDBACK</string>
+    <string name="tv_thankyoutakingpart">Thank you for taking part</string>
+    <string name="tv_pleaseComplete">Please complate the documtent to help us improve this app in the future</string>
+    <string name="tv_Rate">Rate this App</string>
+    <string name="tv_criticssugges">Critics or Suggestion</string>
+    <string name="tv_pleaseWrite">Please write critics or suggestion in here</string>
 
     <!--    HINT-->
     <string name="h_name">Name</string>
