@@ -7,16 +7,43 @@
     tools:context=".NearestScheduleActivity">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/tvNearest"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nearest"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/tv_nearest"
+        android:fontFamily="@font/boldinter"
+        android:textSize="28sp"
         android:textColor="@color/purple"
-        android:layout_centerInParent="true"
-        android:textSize="36sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_jam"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:paddingStart="20dp"
+        android:gravity="center|start"
+        android:text="@string/tv_jam"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:fontFamily="@font/boldinter"
+        android:background="@drawable/bottom_bg_purple"
+        app:layout_constraintTop_toBottomOf="@+id/tvNearest" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvNearestSchedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        tools:listitem="@layout/item_row_nearestschedule"
+        app:layout_constraintTop_toBottomOf="@+id/tv_jam"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
@@ -35,5 +62,6 @@
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/bottom_menu"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:background="@drawable/bg_corner_stroke">
+
+            <CheckBox
+                android:id="@+id/cbNearestSchedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:button="@null"
+                android:drawableLeft="@drawable/image_check"
+                android:padding="13dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="6dp"
+                android:layout_weight="1"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvNamaAnak"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_namaAnak"
+                    android:fontFamily="@font/boldinter"
+                    android:textSize="16sp"
+                    android:textColor="@color/purple"/>
+
+                <TextView
+                    android:id="@+id/tvPembatas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" | "
+                    android:fontFamily="@font/boldinter"
+                    android:textSize="16sp"
+                    android:layout_toRightOf="@+id/tvNamaAnak"
+                    android:textColor="@color/purple"/>
+
+                <TextView
+                    android:id="@+id/tvLevelAnak"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_level"
+                    android:fontFamily="@font/boldinter"
+                    android:textSize="16sp"
+                    android:layout_toRightOf="@id/tvPembatas"
+                    android:textColor="@color/purple"/>
+
+                <TextView
+                    android:id="@+id/tvMingguKe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_mingguKe"
+                    android:fontFamily="@font/regularinter"
+                    android:textSize="12sp"
+                    android:layout_below="@+id/tvNamaAnak"
+                    android:textColor="@color/purple"/>
+
+                <TextView
+                    android:id="@+id/tvMateriAnak"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_materi"
+                    android:fontFamily="@font/regularinter"
+                    android:textSize="12sp"
+                    android:layout_below="@+id/tvMingguKe"
+                    android:textColor="@color/purple"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>
