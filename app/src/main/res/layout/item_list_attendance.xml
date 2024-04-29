@@ -17,51 +17,51 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tvWeekI"/>
 
-    <TextView
+    <ImageView
         android:id="@+id/tvWeekI"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/week_i"
-        android:paddingVertical="12dp"
-        android:paddingHorizontal="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_checklist"
+        android:padding="12dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/bg_corner_back"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvName"
+        app:layout_constraintBottom_toBottomOf="@id/tvName"
         app:layout_constraintEnd_toStartOf="@id/tvWeekII"/>
 
-    <TextView
+    <ImageView
         android:id="@+id/tvWeekII"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/week_ii"
-        android:paddingVertical="12dp"
-        android:paddingHorizontal="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_checklist"
+        android:padding="12dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/bg_corner_back"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvName"
+        app:layout_constraintBottom_toBottomOf="@id/tvName"
         app:layout_constraintEnd_toStartOf="@id/tvWeekIII"/>
 
-    <TextView
+    <ImageView
         android:id="@+id/tvWeekIII"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/week_iii"
-        android:paddingVertical="12dp"
-        android:paddingHorizontal="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_checklist"
+        android:padding="12dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/bg_corner_back"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvName"
+        app:layout_constraintBottom_toBottomOf="@id/tvName"
         app:layout_constraintEnd_toStartOf="@id/tvWeekIV"/>
 
-    <TextView
+    <ImageView
         android:id="@+id/tvWeekIV"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingVertical="12dp"
-        android:paddingHorizontal="18dp"
-        android:text="@string/week_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_checklist"
+        android:padding="12dp"
         android:background="@drawable/bg_corner_back"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvName"
+        app:layout_constraintBottom_toBottomOf="@id/tvName"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
