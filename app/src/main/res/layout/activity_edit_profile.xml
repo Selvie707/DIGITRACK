@@ -7,13 +7,15 @@
     android:padding="32dp"
     tools:context=".EditProfileActivity">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnBack_EditProfile"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:paddingStart="20dp"
-        android:drawableStart="@drawable/ic_back"
-        android:background="@drawable/bg_corner_stroke"
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="3dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_back"
+        app:tint="@color/purple"
+        android:background="@drawable/bg_corner_back"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -21,14 +23,14 @@
         android:id="@+id/tvRegister_Register"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="1dp"
         android:text="@string/tv_editProfile"
         android:fontFamily="@font/boldinter"
         android:textSize="28sp"
         android:textColor="@color/purple"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btnBack_EditProfile"/>
+        app:layout_constraintStart_toEndOf="@id/btnBack"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivProfile_EditProfile"
@@ -36,20 +38,31 @@
         android:layout_height="132dp"
         android:layout_marginTop="30dp"
         android:src="@drawable/photo"
-        app:layout_constraintTop_toBottomOf="@+id/btnBack_EditProfile"
+        app:layout_constraintTop_toBottomOf="@+id/btnBack"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <ImageView
         android:id="@+id/btnEditPhoto"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="115dp"
-        android:drawableStart="@drawable/ic_edit"
-        android:drawableTint="@color/purple"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/btnBack_EditProfile"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="130dp"
+        android:src="@drawable/ic_edit"
+        app:tint="@color/purple"
+        app:layout_constraintTop_toBottomOf="@id/btnBack"
         app:layout_constraintStart_toEndOf="@+id/ivProfile_EditProfile"/>
+
+    <TextView
+        android:id="@+id/tv_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="5dp"
+        android:text="@string/h_username"
+        android:textColor="@color/purple"
+        android:fontFamily="@font/boldinter"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@id/btnEditPhoto"/>
 
     <EditText
         android:id="@+id/etName_EditProfile"
@@ -57,14 +70,26 @@
         android:layout_height="wrap_content"
         android:hint="@string/h_name"
         android:textColorHint="@color/purple"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="5dp"
         android:padding="15dp"
         android:drawableStart="@drawable/ic_person"
         android:drawablePadding="15dp"
         android:background="@drawable/bg_corner_stroke"
-        app:layout_constraintTop_toBottomOf="@+id/ivProfile_EditProfile"
+        app:layout_constraintTop_toBottomOf="@+id/tv_username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_Email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginStart="5dp"
+        android:text="@string/h_email"
+        android:textColor="@color/purple"
+        android:fontFamily="@font/boldinter"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@id/etName_EditProfile"/>
 
     <EditText
         android:id="@+id/etEmail_EditProfile"
@@ -72,14 +97,26 @@
         android:layout_height="wrap_content"
         android:hint="@string/h_email"
         android:textColorHint="@color/purple"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:padding="15dp"
         android:drawableStart="@drawable/ic_email"
         android:drawablePadding="15dp"
         android:background="@drawable/bg_corner_stroke"
-        app:layout_constraintTop_toBottomOf="@+id/etName_EditProfile"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_Password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginStart="5dp"
+        android:text="@string/h_password"
+        android:textColor="@color/purple"
+        android:fontFamily="@font/boldinter"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@id/etEmail_EditProfile"/>
 
     <EditText
         android:id="@+id/etPasswordEditProfile"
@@ -88,23 +125,36 @@
         android:hint="@string/h_password"
         android:inputType="textPassword"
         android:textColorHint="@color/purple"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:padding="15dp"
         android:drawableStart="@drawable/ic_lock"
         android:drawablePadding="15dp"
         android:background="@drawable/bg_corner_stroke"
-        app:layout_constraintTop_toBottomOf="@+id/etEmail_EditProfile"/>
+        app:layout_constraintTop_toBottomOf="@+id/tv_Password"/>
+
+    <TextView
+        android:id="@+id/tv_Role"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginStart="5dp"
+        android:text="@string/h_role"
+        android:textColor="@color/purple"
+        android:fontFamily="@font/boldinter"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@id/etPasswordEditProfile"/>
+
 
     <Spinner
         android:id="@+id/spRoleEditProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/bg_spinner"
         android:drawableStart="@drawable/ic_role"
         android:paddingStart="38dp"
-        android:padding="5dp"
-        app:layout_constraintTop_toBottomOf="@+id/etPasswordEditProfile"
+        android:padding="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Role"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -113,7 +163,7 @@
         android:id="@+id/btnBack_onboarding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="45dp"
         android:background="@drawable/bg_corner"
         android:backgroundTint="@color/purple"
         android:text="@string/btn_update"

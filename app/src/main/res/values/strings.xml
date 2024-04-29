@@ -46,6 +46,7 @@
     <string name="tv_pleaseWrite">Please write critics or suggestion in here</string>
 
     <!--    HINT-->
+    <string name="h_username">Username</string>
     <string name="h_name">Name</string>
     <string name="h_email">Email</string>
     <string name="h_password">Password</string>

@@ -7,13 +7,15 @@
     tools:context=".FeedbackActivity"
     android:layout_margin="32dp">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnBack_Feedback"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:paddingStart="20dp"
-        android:drawableStart="@drawable/ic_back"
-        android:background="@drawable/bg_corner_stroke"
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="3dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_back"
+        app:tint="@color/purple"
+        android:background="@drawable/bg_corner_back"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -21,14 +23,14 @@
         android:id="@+id/tvFeedback"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="1dp"
         android:text="@string/tv_feedback"
         android:fontFamily="@font/boldinter"
         android:textSize="28sp"
         android:textColor="@color/purple"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btnBack_Feedback"/>
+        app:layout_constraintStart_toEndOf="@id/btnBack"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clThankyou"
@@ -170,7 +172,7 @@
         android:id="@+id/btnBack_onboarding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="37dp"
         android:background="@drawable/bg_corner"
         android:backgroundTint="@color/purple"
         android:text="@string/btn_save"
