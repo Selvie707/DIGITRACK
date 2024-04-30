@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "622379977453",
+    "project_id": "digitrack-266cb",
+    "storage_bucket": "digitrack-266cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:622379977453:android:fe6529d61cc69356995ae4",
+        "android_client_info": {
+          "package_name": "com.example.digitrack"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqkPEQNEPAxzvk4QNmIXZPEs3Zj90Kb4g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

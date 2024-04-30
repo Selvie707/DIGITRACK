@@ -17,15 +17,15 @@
 
     <ImageView
         android:id="@+id/btnBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:tint="@color/white"
-        android:src="@drawable/ic_back"
-        android:layout_marginTop="32dp"
+        android:layout_width="16dp"
+        android:layout_height="22dp"
         android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/bg_corner_back_white"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:tint="@color/white" />
 
     <TextView
         android:id="@+id/tvHeader"

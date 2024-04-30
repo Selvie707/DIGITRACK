@@ -8,7 +8,7 @@
     tools:context=".AddNewStudentActivity">
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnBack_AddNewStudent"
+        android:id="@+id/btnBack"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:paddingStart="20dp"
@@ -28,7 +28,7 @@
         android:textSize="28sp"
         android:textColor="@color/purple"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btnBack_AddNewStudent"/>
+        app:layout_constraintStart_toEndOf="@id/btnBack"/>
 
     <EditText
         android:id="@+id/etName_Add"
@@ -41,7 +41,7 @@
         android:drawableStart="@drawable/ic_person"
         android:drawablePadding="15dp"
         android:background="@drawable/bg_corner_stroke"
-        app:layout_constraintTop_toBottomOf="@+id/btnBack_AddNewStudent"
+        app:layout_constraintTop_toBottomOf="@+id/btnBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 

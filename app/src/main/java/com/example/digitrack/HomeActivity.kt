@@ -3,12 +3,17 @@ package com.example.digitrack
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.digitrack.databinding.ActivityHomeBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityHomeBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNavigation.setSelectedItemId(R.id.btn_home)
@@ -29,6 +34,19 @@ class HomeActivity : AppCompatActivity() {
                 }
                 else -> false
             }
+        }
+
+        binding.llSchedule.setOnClickListener {
+            startActivity(Intent(this, ScheduleActivity::class.java))
+        }
+        binding.llAttendance.setOnClickListener {
+            startActivity(Intent(this, AttendanceActivity::class.java))
+        }
+        binding.llMaterials.setOnClickListener {
+            startActivity(Intent(this, MaterialsActivity::class.java))
+        }
+        binding.llDailyReport.setOnClickListener {
+            startActivity(Intent(this, DailyReportActivity::class.java))
         }
     }
 }

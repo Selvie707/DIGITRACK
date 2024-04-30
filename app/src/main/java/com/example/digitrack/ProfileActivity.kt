@@ -3,12 +3,17 @@ package com.example.digitrack
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.digitrack.databinding.ActivityProfileBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ProfileActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityProfileBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile)
+        binding = ActivityProfileBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNavigationView.selectedItemId = R.id.btn_profile
@@ -31,5 +36,18 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
 
+        binding.btnEditProfile.setOnClickListener {
+            startActivity(Intent(this, EditProfileActivity::class.java))
+        }
+        binding.btnFeedback.setOnClickListener {
+            startActivity(Intent(this, FeedbackActivity::class.java))
+        }
+        binding.btnHelpCenter.setOnClickListener {
+            startActivity(Intent(this, HelpCenterActivity::class.java))
+        }
+        binding.btnLogout.setOnClickListener {
+            startActivity(Intent(this, OnBoardingActivity::class.java))
+            finish()
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.digitrack
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -18,5 +19,13 @@ class RegisterActivity : AppCompatActivity() {
         val arrayAdapter:ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_list_item_activated_1, spinnerList)
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spRole.adapter = arrayAdapter
+
+        binding.btnLoginOnboarding.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
+
+        binding.tvLoginRegister.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
     }
 }

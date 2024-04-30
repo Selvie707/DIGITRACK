@@ -123,9 +123,9 @@
 
         <ImageView
             android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/schedule"
-            android:layout_margin="8dp"/>
+            android:layout_height="59dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/schedule" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

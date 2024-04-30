@@ -1,14 +1,20 @@
 package com.example.digitrack
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.digitrack.databinding.ActivityNearestScheduleBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class NearestScheduleActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityNearestScheduleBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_nearest_schedule)
+        binding = ActivityNearestScheduleBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNavigationView.selectedItemId = R.id.btn_session
@@ -29,6 +35,13 @@ class NearestScheduleActivity : AppCompatActivity() {
                 }
                 else -> false
             }
+        }
+
+        binding.tvJam.setOnClickListener {
+            val url = "https://docs.google.com"
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(url)
+            startActivity(intent)
         }
 
     }

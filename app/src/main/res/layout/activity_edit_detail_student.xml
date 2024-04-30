@@ -8,7 +8,7 @@
     tools:context=".EditDetailStudentActivity">
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnBack_EditDetailStudent"
+        android:id="@+id/btnBack"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:paddingStart="20dp"
@@ -28,7 +28,7 @@
         android:textSize="28sp"
         android:textColor="@color/purple"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btnBack_EditDetailStudent"/>
+        app:layout_constraintStart_toEndOf="@id/btnBack"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivEditDetailStudent"
