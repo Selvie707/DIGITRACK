@@ -1,5 +1,6 @@
 package com.example.digitrack
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,6 +14,14 @@ class OnBoardingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityOnBoardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val sharedPref = applicationContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+
+        val hasName = sharedPref.contains("name")
+
+        if (hasName) {
+            startActivity(Intent(this, NearestScheduleActivity::class.java))
+        }
 
         binding.btnLoginOnboarding.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))

@@ -1,5 +1,6 @@
 package com.example.digitrack
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,6 +15,8 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val sharedPref = applicationContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
 
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNavigation.setSelectedItemId(R.id.btn_home)
@@ -48,5 +51,9 @@ class HomeActivity : AppCompatActivity() {
         binding.llDailyReport.setOnClickListener {
             startActivity(Intent(this, DailyReportActivity::class.java))
         }
+
+        val name = sharedPref.getString("name", "")
+
+        binding.tvHaiUser.text = "Hi, $name"
     }
 }

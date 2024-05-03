@@ -1,5 +1,6 @@
 package com.example.digitrack
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,6 +15,8 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val sharedPref = applicationContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNavigationView.selectedItemId = R.id.btn_profile
@@ -46,6 +49,12 @@ class ProfileActivity : AppCompatActivity() {
             startActivity(Intent(this, HelpCenterActivity::class.java))
         }
         binding.btnLogout.setOnClickListener {
+            val editor = sharedPref.edit()
+
+            editor.clear()
+
+            editor.apply()
+
             startActivity(Intent(this, OnBoardingActivity::class.java))
             finish()
         }
