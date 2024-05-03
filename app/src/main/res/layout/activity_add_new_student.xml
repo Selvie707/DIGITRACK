@@ -7,13 +7,15 @@
     android:padding="32dp"
     tools:context=".AddNewStudentActivity">
 
-    <androidx.appcompat.widget.AppCompatButton
+    <ImageView
         android:id="@+id/btnBack"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:paddingStart="20dp"
-        android:drawableStart="@drawable/ic_back"
-        android:background="@drawable/bg_corner_stroke"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="3dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_back"
+        app:tint="@color/purple"
+        android:background="@drawable/bg_corner_back"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -21,8 +23,8 @@
         android:id="@+id/tvAddNewStudent"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="1dp"
         android:text="@string/btn_new"
         android:fontFamily="@font/boldinter"
         android:textSize="28sp"

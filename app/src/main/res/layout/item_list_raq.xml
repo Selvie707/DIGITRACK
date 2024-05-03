@@ -6,7 +6,7 @@
     android:layout_marginBottom="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clContactUsVia"
+        android:id="@+id/clQuestion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
@@ -19,19 +19,46 @@
             android:layout_width="38dp"
             android:layout_height="38dp"
             android:src="@drawable/ic_arrow_drop_down"
+            app:tint="@color/purple"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
             android:id="@+id/tvEmailVia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="@string/email_via"
+            android:textSize="15sp"
+            android:fontFamily="@font/regularinter"
+            android:textColor="@color/purple"
             android:layout_marginLeft="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/btnExpand"
-            app:layout_constraintBottom_toBottomOf="@id/btnExpand"/>
+            app:layout_constraintTop_toTopOf="@id/btnExpand"/>
+
+        <View
+            android:visibility="gone"
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/purple"
+            app:layout_constraintTop_toBottomOf="@id/tvEmailVia"/>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tvAnswerVia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:text="@string/email_via"
+            android:textSize="15sp"
+            android:fontFamily="@font/regularinter"
+            android:textColor="@color/purple"
+            android:layout_marginLeft="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
