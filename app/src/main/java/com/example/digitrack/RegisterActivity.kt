@@ -65,8 +65,6 @@ class RegisterActivity : AppCompatActivity() {
                         // Menghasilkan ID baru dengan format yang diinginkan
                         val newID = "USR${String.format("%03d", count + 1)}"
 
-                        //
-
                         val userMap = hashMapOf(
                             "id" to newID,
                             "name" to name,

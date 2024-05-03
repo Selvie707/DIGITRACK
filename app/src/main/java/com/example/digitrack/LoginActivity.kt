@@ -44,11 +44,10 @@ class LoginActivity : AppCompatActivity() {
                                 val id = document.getString("id")
                                 val name = document.getString("name")
                                 val email = document.getString("email")
-                                val aPassword = document.getString("password") // Ambil password dari dokumen
-                                // Lakukan sesuatu dengan data yang didapatkan
+                                val aPassword = document.getString("password")
+
                                 Log.d("Firestore", "$id: $email and $name")
 
-                                // Contoh: Memeriksa apakah password sama dengan yang dimasukkan pengguna
                                 if (aPassword == password) {
                                     val editor = sharedPref.edit()
                                     editor.putString("id", id)
@@ -58,7 +57,6 @@ class LoginActivity : AppCompatActivity() {
                                     startActivity(Intent(this, NearestScheduleActivity::class.java))
                                     finish()
                                 } else {
-                                    // Password tidak cocok, lakukan sesuatu
                                     binding.etPasswordLogin.error = "Password not match"
                                 }
                             }

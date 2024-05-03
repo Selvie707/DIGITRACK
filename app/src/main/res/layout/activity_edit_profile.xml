@@ -154,6 +154,7 @@
         android:drawableStart="@drawable/ic_role"
         android:paddingStart="38dp"
         android:padding="15dp"
+        android:entries="@array/spRole"
         app:layout_constraintTop_toBottomOf="@+id/tv_Role"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
