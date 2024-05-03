@@ -8,8 +8,11 @@
         android:id="@+id/tvTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:text="@string/time"
+        android:textSize="18sp"
         android:padding="16dp"
+        android:fontFamily="@font/boldinter"
         android:textColor="@color/white"
         android:background="@drawable/bg_corner_fill_8dp"
         app:layout_constraintTop_toTopOf="parent"
@@ -27,9 +30,10 @@
 
         <ImageView
             android:id="@+id/btnEdit"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
             android:src="@drawable/ic_edit"
+            app:tint="@color/purple"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -37,7 +41,10 @@
             android:id="@+id/ivTeacherColor"
             android:layout_width="32dp"
             android:layout_height="32dp"
+            android:layout_marginTop="20dp"
             android:background="@color/purple"
+            app:shapeAppearance="@style/shape_circle"
+            app:layout_constraintTop_toBottomOf="@id/btnEdit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -46,7 +53,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/name"
-            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="@color/purple"
+            android:fontFamily="@font/boldinter"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
@@ -55,7 +64,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/border"
-            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="@color/purple"
+            android:fontFamily="@font/boldinter"
             android:layout_marginLeft="8dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvStudentName"/>
@@ -65,7 +76,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/level"
-            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="@color/purple"
+            android:fontFamily="@font/boldinter"
             android:layout_marginLeft="8dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvBorder"/>
@@ -75,6 +88,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/week"
+            android:textSize="15sp"
+            android:textColor="@color/purple"
+            android:fontFamily="@font/regularinter"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvStudentName"/>
@@ -84,7 +100,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/material"
-            android:layout_marginTop="8dp"
+            android:textSize="15sp"
+            android:textColor="@color/purple"
+            android:fontFamily="@font/regularinter"
+            android:layout_marginTop="2dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvStudentWeek"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

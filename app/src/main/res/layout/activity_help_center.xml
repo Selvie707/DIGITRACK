@@ -9,21 +9,28 @@
 
     <ImageView
         android:id="@+id/btnBack"
-        android:layout_width="15dp"
-        android:layout_height="26dp"
-        android:background="@drawable/bg_corner_back"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="3dp"
+        android:padding="5dp"
         android:src="@drawable/ic_back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:tint="@color/purple"
+        android:background="@drawable/bg_corner_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
         android:id="@+id/tvHeader"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="1dp"
         android:text="@string/title_help_center"
-        app:layout_constraintTop_toTopOf="@id/btnBack"
-        app:layout_constraintStart_toEndOf="@id/btnBack"
-        app:layout_constraintBottom_toBottomOf="@id/btnBack"/>
+        android:fontFamily="@font/boldinter"
+        android:textSize="28sp"
+        android:textColor="@color/purple"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnBack"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -39,7 +46,11 @@
                 android:id="@+id/tvFaq"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
                 android:text="@string/faq"
+                android:textSize="20sp"
+                android:fontFamily="@font/boldinter"
+                android:textColor="@color/purple"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
 
@@ -47,6 +58,7 @@
                 android:id="@+id/rvFaq"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 tools:listitem="@layout/item_list_raq"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvFaq"/>
@@ -55,7 +67,11 @@
                 android:id="@+id/tvContactUs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
                 android:text="@string/contact_us"
+                android:textSize="20sp"
+                android:fontFamily="@font/boldinter"
+                android:textColor="@color/purple"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rvFaq"/>
 
@@ -63,6 +79,7 @@
                 android:id="@+id/clContactUsVia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:padding="16dp"
                 android:background="@drawable/bg_corner_stroke_text"
                 app:layout_constraintStart_toStartOf="parent"
@@ -83,6 +100,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/email_via"
                     android:layout_marginLeft="16dp"
+                    android:fontFamily="@font/regularinter"
+                    android:textColor="@color/purple"
                     app:layout_constraintStart_toEndOf="@id/ivIconCsVia"
                     app:layout_constraintTop_toTopOf="@id/ivIconCsVia"/>
 
@@ -92,6 +111,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/no_via"
                     android:layout_marginLeft="16dp"
+                    android:fontFamily="@font/regularinter"
+                    android:textColor="@color/purple"
                     app:layout_constraintStart_toEndOf="@id/ivIconCsVia"
                     app:layout_constraintBottom_toBottomOf="@id/ivIconCsVia"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -121,6 +142,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/email_lia"
                     android:layout_marginLeft="16dp"
+                    android:fontFamily="@font/regularinter"
+                    android:textColor="@color/purple"
                     app:layout_constraintStart_toEndOf="@id/ivIconCsLia"
                     app:layout_constraintTop_toTopOf="@id/ivIconCsLia"/>
 
@@ -130,6 +153,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/no_lia"
                     android:layout_marginLeft="16dp"
+                    android:fontFamily="@font/regularinter"
+                    android:textColor="@color/purple"
                     app:layout_constraintStart_toEndOf="@id/ivIconCsLia"
                     app:layout_constraintBottom_toBottomOf="@id/ivIconCsLia"/>
             </androidx.constraintlayout.widget.ConstraintLayout>

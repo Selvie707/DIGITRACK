@@ -21,6 +21,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/by_view_rectangle1"
+        app:layout_constraintTop_toBottomOf="@+id/tvProfile"/>
+
+    <View
+        android:layout_width="162dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/by_view_circle"
+        app:layout_constraintTop_toBottomOf="@+id/tvProfile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivProfile"
         android:layout_width="132dp"
@@ -49,7 +65,7 @@
         android:id="@+id/tvRole_Profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/h_name"
+        android:text="@string/h_role"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:textSize="20sp"
