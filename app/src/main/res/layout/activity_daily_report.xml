@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="32dp"
     tools:context=".activities.DailyReportActivity">
 
     <ScrollView
@@ -19,18 +20,26 @@
 
             <ImageView
                 android:id="@+id/btnBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="37dp"
+                android:layout_height="37dp"
+                android:layout_marginTop="3dp"
+                android:padding="5dp"
                 android:src="@drawable/ic_back"
+                app:tint="@color/purple"
                 android:background="@drawable/bg_corner_back"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
 
             <TextView
                 android:id="@+id/tvHeader"
-                android:layout_width="wrap_content"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="1dp"
                 android:text="@string/title_daily_report"
+                android:fontFamily="@font/boldinter"
+                android:textSize="28sp"
+                android:textColor="@color/purple"
                 app:layout_constraintTop_toTopOf="@id/btnBack"
                 app:layout_constraintStart_toEndOf="@id/btnBack"
                 app:layout_constraintBottom_toBottomOf="@id/btnBack"/>
@@ -38,6 +47,7 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvHeader">
 
@@ -48,27 +58,21 @@
 
                     <com.google.android.material.search.SearchBar
                         android:id="@+id/svSearch"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:hint="@string/h_search"
+                        android:textColorHint="@color/purple"
+                        app:navigationIconTint="@color/purple"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/btnFilter"/>
-
-                    <ImageView
-                        android:id="@+id/btnFilter"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginRight="12dp"
-                        android:src="@drawable/ic_filter"
-                        android:background="@drawable/bg_corner_back"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/svSearch"
-                        app:layout_constraintBottom_toBottomOf="@id/svSearch"/>
+                        app:layout_constraintStart_toStartOf="parent"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvFaq"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
                         tools:listitem="@layout/item_list_daily_report"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/svSearch"/>

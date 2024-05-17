@@ -9,7 +9,7 @@
     <com.google.android.material.imageview.ShapeableImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/purple"
+        android:background="@drawable/by_view_rectangle2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,29 +17,32 @@
 
     <ImageView
         android:id="@+id/btnBack"
-        android:layout_width="16dp"
-        android:layout_height="22dp"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="32dp"
+        android:padding="5dp"
         android:background="@drawable/bg_corner_back_white"
         android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/white" />
+        app:tint="@color/white"  />
 
     <TextView
         android:id="@+id/tvHeader"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="1dp"
         android:text="@string/title_detail_student"
-        android:layout_marginLeft="12dp"
+        android:fontFamily="@font/boldinter"
+        android:textSize="28sp"
         android:textColor="@color/white"
         app:layout_constraintTop_toTopOf="@id/btnBack"
         app:layout_constraintStart_toEndOf="@id/btnBack"
         app:layout_constraintBottom_toBottomOf="@id/btnBack"/>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/llHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -50,36 +53,58 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvHeader">
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <View
+            android:layout_width="155dp"
+            android:layout_height="155dp"
+            android:background="@drawable/by_view_circle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivProfilePicture"
-            android:layout_width="122dp"
-            android:layout_height="122dp"
+            android:layout_width="135dp"
+            android:layout_height="135dp"
+            android:layout_marginTop="10dp"
             android:src="@drawable/photo"
-            android:scaleType="centerCrop"
-            android:background="@color/purple"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
             android:id="@+id/tvStudentLevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/level"
-            android:layout_marginTop="22dp"
-            android:textColor="@color/white"/>
+            android:textSize="22sp"
+            android:fontFamily="@font/boldinter"
+            android:layout_marginTop="17dp"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/ivProfilePicture"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
             android:id="@+id/tvStudentAge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/age"
-            android:textColor="@color/white"/>
+            android:textSize="16sp"
+            android:fontFamily="@font/boldinter"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/tvStudentLevel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clStudentDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/llHeader">
 
@@ -88,6 +113,7 @@
             android:layout_width="38dp"
             android:layout_height="32dp"
             android:src="@drawable/ic_calendar"
+            app:tint="@color/purple"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
@@ -96,7 +122,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/day_and_time"
-            android:textStyle="bold"
+            android:textSize="13dp"
+            android:fontFamily="@font/boldinter"
+            android:layout_marginStart="10dp"
             app:layout_constraintTop_toTopOf="@id/ivCalendar"
             app:layout_constraintStart_toEndOf="@id/ivCalendar"
             app:layout_constraintBottom_toBottomOf="@id/ivCalendar"/>
@@ -106,6 +134,7 @@
             android:layout_width="38dp"
             android:layout_height="32dp"
             android:src="@drawable/ic_attendance"
+            app:tint="@color/purple"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivCalendar"/>
 
@@ -114,7 +143,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/day_and_time"
-            android:textStyle="bold"
+            android:textSize="13dp"
+            android:fontFamily="@font/boldinter"
+            android:layout_marginStart="10dp"
             app:layout_constraintTop_toTopOf="@id/ivAttendance"
             app:layout_constraintStart_toEndOf="@id/ivAttendance"
             app:layout_constraintBottom_toBottomOf="@id/ivAttendance"/>
@@ -132,7 +163,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/day_and_time"
-            android:textStyle="bold"
+            android:textSize="13dp"
+            android:fontFamily="@font/boldinter"
+            android:layout_marginStart="10dp"
             app:layout_constraintTop_toTopOf="@id/ivTeacher"
             app:layout_constraintStart_toEndOf="@id/ivTeacher"
             app:layout_constraintBottom_toBottomOf="@id/ivTeacher"/>
@@ -142,6 +175,7 @@
             android:layout_width="38dp"
             android:layout_height="32dp"
             android:src="@drawable/ic_daily_report"
+            app:tint="@color/purple"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivTeacher"/>
 
@@ -150,7 +184,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/day_and_time"
-            android:textStyle="bold"
+            android:textSize="13dp"
+            android:fontFamily="@font/boldinter"
+            android:layout_marginStart="10dp"
             app:layout_constraintTop_toTopOf="@id/ivDailyReport"
             app:layout_constraintStart_toEndOf="@id/ivDailyReport"
             app:layout_constraintBottom_toBottomOf="@id/ivDailyReport"/>
@@ -159,7 +195,7 @@
             android:id="@+id/llDateDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivDailyReport">
@@ -176,8 +212,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="12dp"
-                    android:textStyle="bold"
                     android:text="@string/join_date"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/boldinter"
                     android:textColor="@color/white"
                     android:layout_marginBottom="3dp"
                     android:gravity="center_horizontal"
@@ -188,8 +225,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="12dp"
-                    android:textStyle="bold"
                     android:text="@string/date"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/boldinter"
                     android:gravity="center_horizontal"
                     android:background="@drawable/bg_corner_back"/>
             </LinearLayout>
@@ -205,8 +243,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="12dp"
-                    android:textStyle="bold"
                     android:text="@string/level_up"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/boldinter"
                     android:textColor="@color/white"
                     android:layout_marginBottom="3dp"
                     android:gravity="center_horizontal"
@@ -217,8 +256,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="12dp"
-                    android:textStyle="bold"
                     android:text="@string/date"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/boldinter"
                     android:gravity="center_horizontal"
                     android:background="@drawable/bg_corner_back"/>
             </LinearLayout>
@@ -231,24 +271,27 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="25dp"
+            android:padding="7dp"
             android:background="@drawable/bg_corner_fill_8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/llDateDetail">
 
             <ImageView
-                android:layout_width="52dp"
-                android:layout_height="52dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 app:tint="@color/white"
                 android:src="@drawable/ic_edit"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
+                android:layout_marginStart="10dp"
                 android:textColor="@color/white"
-                android:text="@string/edit_profile"/>
+                android:text="@string/edit_profile"
+                android:textSize="20sp"
+                android:fontFamily="@font/boldinter"/>
 
         </LinearLayout>
 

@@ -4,109 +4,124 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="32dp"
     tools:context=".activities.ScheduleActivity">
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_height="match_parent"
+        android:padding="32dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/btnBack"
-                android:layout_width="37dp"
-                android:layout_height="37dp"
-                android:layout_marginTop="3dp"
-                android:padding="5dp"
-                android:src="@drawable/ic_back"
-                app:tint="@color/purple"
-                android:background="@drawable/bg_corner_back"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
-
-            <TextView
-                android:id="@+id/tvHeader"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="1dp"
-                android:text="@string/title_schedule"
-                android:fontFamily="@font/boldinter"
-                android:textSize="28sp"
-                android:textColor="@color/purple"
-                app:layout_constraintTop_toTopOf="@id/btnBack"
-                app:layout_constraintStart_toEndOf="@id/btnBack"
-                app:layout_constraintBottom_toBottomOf="@id/btnBack"/>
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clDay"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="26dp"
-                android:paddingHorizontal="32dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvHeader"
-                app:layout_constraintStart_toStartOf="parent">
+                android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/btnPrevDay"
-                    android:layout_width="52dp"
-                    android:layout_height="52dp"
-                    android:src="@drawable/ic_left"
+                    android:id="@+id/btnBack"
+                    android:layout_width="37dp"
+                    android:layout_height="37dp"
+                    android:layout_marginTop="3dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_back"
                     app:tint="@color/purple"
+                    android:background="@drawable/bg_corner_back"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tvHeader"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="1dp"
+                    android:text="@string/title_schedule"
+                    android:fontFamily="@font/boldinter"
+                    android:textSize="28sp"
+                    android:textColor="@color/purple"
+                    app:layout_constraintTop_toTopOf="@id/btnBack"
+                    app:layout_constraintStart_toEndOf="@id/btnBack"
+                    app:layout_constraintBottom_toBottomOf="@id/btnBack"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clDay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="26dp"
+                    android:paddingHorizontal="32dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvHeader"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <ImageView
+                        android:id="@+id/btnPrevDay"
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:src="@drawable/ic_left"
+                        app:tint="@color/purple"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvDay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/day"
+                        android:textSize="20sp"
+                        android:fontFamily="@font/boldinter"
+                        android:textColor="@color/purple"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/btnNextDay"
+                        app:layout_constraintStart_toEndOf="@id/btnPrevDay"/>
+
+                    <TextView
+                        android:id="@+id/tvDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/date"
+                        android:textSize="20sp"
+                        android:fontFamily="@font/boldinter"
+                        android:textColor="@color/purple"
+                        app:layout_constraintTop_toBottomOf="@id/tvDay"
+                        app:layout_constraintEnd_toStartOf="@id/btnNextDay"
+                        app:layout_constraintStart_toEndOf="@id/btnPrevDay"/>
+
+                    <ImageView
+                        android:id="@+id/btnNextDay"
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        app:tint="@color/purple"
+                        android:src="@drawable/ic_right_arrow"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    tools:listitem="@layout/item_list_schedule"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvDay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/day"
-                    android:textSize="20sp"
-                    android:fontFamily="@font/boldinter"
-                    android:textColor="@color/purple"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/btnNextDay"
-                    app:layout_constraintStart_toEndOf="@id/btnPrevDay"/>
-
-                <TextView
-                    android:id="@+id/tvDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/date"
-                    android:textSize="20sp"
-                    android:fontFamily="@font/boldinter"
-                    android:textColor="@color/purple"
-                    app:layout_constraintTop_toBottomOf="@id/tvDay"
-                    app:layout_constraintEnd_toStartOf="@id/btnNextDay"
-                    app:layout_constraintStart_toEndOf="@id/btnPrevDay"/>
-
-                <ImageView
-                    android:id="@+id/btnNextDay"
-                    android:layout_width="52dp"
-                    android:layout_height="52dp"
-                    app:tint="@color/purple"
-                    android:src="@drawable/ic_right_arrow"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@id/clDay"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                tools:listitem="@layout/item_list_schedule"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/clDay"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+
+    <View
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blacks2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
