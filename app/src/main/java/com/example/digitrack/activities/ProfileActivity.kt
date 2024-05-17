@@ -1,11 +1,14 @@
-package com.example.digitrack
+package com.example.digitrack.activities
 
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.digitrack.R
 import com.example.digitrack.databinding.ActivityProfileBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -49,11 +52,13 @@ class ProfileActivity : AppCompatActivity() {
             startActivity(Intent(this, HelpCenterActivity::class.java))
         }
         binding.btnLogout.setOnClickListener {
-            val editor = sharedPref.edit()
+//            val editor = sharedPref.edit()
+//
+//            editor.clear()
+//
+//            editor.apply()
 
-            editor.clear()
-
-            editor.apply()
+            Firebase.auth.signOut()
 
             startActivity(Intent(this, OnBoardingActivity::class.java))
             finish()

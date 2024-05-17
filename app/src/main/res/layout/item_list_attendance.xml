@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/tvName"
+        android:id="@+id/tvAttendanceName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="12dp"
@@ -25,8 +25,8 @@
         android:padding="12dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/bg_corner_back"
-        app:layout_constraintTop_toTopOf="@id/tvName"
-        app:layout_constraintBottom_toBottomOf="@id/tvName"
+        app:layout_constraintTop_toTopOf="@id/tvAttendanceName"
+        app:layout_constraintBottom_toBottomOf="@id/tvAttendanceName"
         app:layout_constraintEnd_toStartOf="@id/tvWeekII"/>
 
     <ImageView
@@ -37,8 +37,8 @@
         android:padding="12dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/bg_corner_back"
-        app:layout_constraintTop_toTopOf="@id/tvName"
-        app:layout_constraintBottom_toBottomOf="@id/tvName"
+        app:layout_constraintTop_toTopOf="@id/tvAttendanceName"
+        app:layout_constraintBottom_toBottomOf="@id/tvAttendanceName"
         app:layout_constraintEnd_toStartOf="@id/tvWeekIII"/>
 
     <ImageView
@@ -49,8 +49,8 @@
         android:padding="12dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/bg_corner_back"
-        app:layout_constraintTop_toTopOf="@id/tvName"
-        app:layout_constraintBottom_toBottomOf="@id/tvName"
+        app:layout_constraintTop_toTopOf="@id/tvAttendanceName"
+        app:layout_constraintBottom_toBottomOf="@id/tvAttendanceName"
         app:layout_constraintEnd_toStartOf="@id/tvWeekIV"/>
 
     <ImageView
@@ -60,8 +60,8 @@
         android:src="@drawable/ic_checklist"
         android:padding="12dp"
         android:background="@drawable/bg_corner_back"
-        app:layout_constraintTop_toTopOf="@id/tvName"
-        app:layout_constraintBottom_toBottomOf="@id/tvName"
+        app:layout_constraintTop_toTopOf="@id/tvAttendanceName"
+        app:layout_constraintBottom_toBottomOf="@id/tvAttendanceName"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
@@ -76,6 +76,6 @@
         android:background="@drawable/bg_corner_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvName"/>
+        app:layout_constraintTop_toBottomOf="@id/tvAttendanceName"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

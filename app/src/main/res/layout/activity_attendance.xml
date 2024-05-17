@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="32dp"
-    tools:context=".AttendanceActivity">
+    tools:context=".activities.AttendanceActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -208,7 +208,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvFaq"
+                        android:id="@+id/rvAttendance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"

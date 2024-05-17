@@ -1,4 +1,4 @@
-package com.example.digitrack
+package com.example.digitrack.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,8 +8,9 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.example.digitrack.databinding.ActivityRegisterBinding
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.firestore
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -20,11 +21,16 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var repPassword: String
     private lateinit var role: String
     private var db = FirebaseFirestore.getInstance()
+    private lateinit var auth: FirebaseAuth
+    private val TAG = RegisterActivity::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+// Initialize Firebase Auth
+        auth = Firebase.auth
 
         val spinnerList = listOf("Role", "Admin", "Teacher")
 
@@ -57,33 +63,50 @@ class RegisterActivity : AppCompatActivity() {
             } else if (role.isBlank()) {
                 binding.etName.error = "Please fill up this field"
             } else {
-                usersCollection.get()
-                    .addOnSuccessListener { result ->
-                        // Menghitung jumlah dokumen yang ada
-                        val count = result.size()
+                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
 
-                        // Menghasilkan ID baru dengan format yang diinginkan
-                        val newID = "USR${String.format("%03d", count + 1)}"
+                        Log.d(TAG, "createUserWithEmail:success")
+                        val user = auth.currentUser
 
-                        val userMap = hashMapOf(
-                            "id" to newID,
-                            "name" to name,
-                            "email" to email,
-                            "password" to password,
-                            "role" to role
-                        )
+                        val userId = user?.uid
 
-                        usersCollection.document(newID).set(userMap).addOnSuccessListener {
-                            Toast.makeText(this, "Successfully Added!!!", Toast.LENGTH_SHORT).show()
+                                // Menghitung jumlah dokumen yang ada
+                                //val count = result.size()
 
-                            val intent = Intent(this, LoginActivity::class.java)
-                            startActivity(intent)
-                        }
-                            .addOnFailureListener { e ->
-                                Toast.makeText(this, "There's something wrong", Toast.LENGTH_SHORT).show()
-                                Log.d("RegisterActivity", "Error: ${e.message}")
-                            }
+                                // Menghasilkan ID baru dengan format yang diinginkan
+                                //val newID = "USR${String.format("%03d", count + 1)}"
+
+                                val userMap = hashMapOf(
+                                    "userId" to userId,
+                                    "userName" to name,
+                                    "userEmail" to email,
+                                    "userRole" to role
+                                )
+
+                                usersCollection.document(userId!!).set(userMap).addOnSuccessListener {
+                                    Toast.makeText(this, "Successfully Added!!!", Toast.LENGTH_SHORT).show()
+
+                                    val intent = Intent(this, LoginActivity::class.java)
+                                    startActivity(intent)
+                                }
+                                    .addOnFailureListener { e ->
+                                        Toast.makeText(this, "There's something wrong", Toast.LENGTH_SHORT).show()
+                                        Log.d("RegisterActivity", "Error: ${e.message}")
+                                    }
+
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                        Toast.makeText(
+                            baseContext,
+                            "Authentication failed.",
+                            Toast.LENGTH_SHORT,
+                        ).show()
                     }
+                }
+
             }
 
             usersCollection

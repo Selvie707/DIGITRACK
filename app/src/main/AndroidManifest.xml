@@ -15,55 +15,55 @@
         android:theme="@style/Theme.Digitrack"
         tools:targetApi="31">
         <activity
-            android:name=".FeedbackActivity"
+            android:name=".activities.FeedbackActivity"
             android:exported="false" />
         <activity
-            android:name=".EditDetailStudentActivity"
+            android:name=".activities.EditDetailStudentActivity"
             android:exported="false" />
         <activity
-            android:name=".AddNewStudentActivity"
+            android:name=".activities.AddNewStudentActivity"
             android:exported="false" />
         <activity
-            android:name=".DetailStudentActivity"
+            android:name=".activities.DetailStudentActivity"
             android:exported="false" />
         <activity
-            android:name=".MaterialsActivity"
+            android:name=".activities.MaterialsActivity"
             android:exported="false" />
         <activity
-            android:name=".DailyReportActivity"
+            android:name=".activities.DailyReportActivity"
             android:exported="false" />
         <activity
-            android:name=".AttendanceActivity"
+            android:name=".activities.AttendanceActivity"
             android:exported="false" />
         <activity
-            android:name=".HelpCenterActivity"
+            android:name=".activities.HelpCenterActivity"
             android:exported="false" />
         <activity
-            android:name=".ScheduleActivity"
+            android:name=".activities.ScheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".EditProfileActivity"
+            android:name=".activities.EditProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".activities.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".activities.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".activities.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".OnBoardingActivity"
+            android:name=".activities.OnBoardingActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".activities.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -73,7 +73,7 @@
 
         </activity>
         <activity
-            android:name=".NearestScheduleActivity"
+            android:name=".activities.NearestScheduleActivity"
             android:exported="true">
         </activity>
     </application>

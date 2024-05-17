@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MaterialsActivity">
+    tools:context=".activities.MaterialsActivity">
 
     <ImageView
         android:id="@+id/btnBack"
@@ -89,6 +89,7 @@
                     android:background="@drawable/bg_corner_fill_8dp">
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvLevels"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:listitem="@layout/item_list_level"/>
@@ -106,6 +107,7 @@
                     android:background="@drawable/bg_corner_back">
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvMaterials"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:listitem="@layout/item_list_materials"/>

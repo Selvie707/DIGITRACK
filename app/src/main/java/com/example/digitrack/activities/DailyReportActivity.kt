@@ -1,4 +1,4 @@
-package com.example.digitrack
+package com.example.digitrack.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

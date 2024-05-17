@@ -1,20 +1,20 @@
-package com.example.digitrack
+package com.example.digitrack.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.digitrack.databinding.ActivityFeedbackBinding
+import com.example.digitrack.databinding.ActivityEditProfileBinding
 
-class FeedbackActivity : AppCompatActivity() {
+class EditProfileActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityFeedbackBinding
+    private lateinit var binding: ActivityEditProfileBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityFeedbackBinding.inflate(layoutInflater)
+        binding = ActivityEditProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnSave.setOnClickListener {
+        binding.btnUpdate.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
             intent.putExtra("key", "")
             startActivity(intent)

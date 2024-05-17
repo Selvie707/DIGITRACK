@@ -4,9 +4,10 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/idLevel"
+        android:id="@+id/tvMaterial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/material"/>
+        android:text="@string/material"
+        android:textColor="@color/black"/>
 
 </LinearLayout>

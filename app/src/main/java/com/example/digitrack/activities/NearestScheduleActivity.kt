@@ -1,11 +1,15 @@
-package com.example.digitrack
+package com.example.digitrack.activities
 
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import com.example.digitrack.R
 import com.example.digitrack.databinding.ActivityNearestScheduleBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 class NearestScheduleActivity : AppCompatActivity() {
 
@@ -15,6 +19,14 @@ class NearestScheduleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityNearestScheduleBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val user = Firebase.auth.currentUser
+        if (user != null) {
+            Toast.makeText(this, "Login Berhasil!!!", Toast.LENGTH_SHORT).show()
+        } else {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNavigationView.selectedItemId = R.id.btn_session

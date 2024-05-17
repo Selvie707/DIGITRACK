@@ -1,16 +1,16 @@
-package com.example.digitrack
+package com.example.digitrack.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.digitrack.databinding.ActivityMaterialsBinding
+import com.example.digitrack.databinding.ActivityHelpCenterBinding
 
-class MaterialsActivity : AppCompatActivity() {
+class HelpCenterActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMaterialsBinding
+    private lateinit var binding: ActivityHelpCenterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMaterialsBinding.inflate(layoutInflater)
+        binding = ActivityHelpCenterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.btnBack.setOnClickListener {
