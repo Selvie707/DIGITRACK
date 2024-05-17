@@ -148,10 +148,10 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/tvWeekI"/>
+                            app:layout_constraintEnd_toStartOf="@id/ivWeekI"/>
 
                         <TextView
-                            android:id="@+id/tvWeekI"
+                            android:id="@+id/ivWeekI"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="@string/week_i"
@@ -162,10 +162,10 @@
                             android:background="@drawable/bg_corner_fill_8dp"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/tvWeekII"/>
+                            app:layout_constraintEnd_toStartOf="@id/ivWeekII"/>
 
                         <TextView
-                            android:id="@+id/tvWeekII"
+                            android:id="@+id/ivWeekII"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="@string/week_ii"
@@ -176,10 +176,10 @@
                             android:background="@drawable/bg_corner_fill_8dp"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/tvWeekIII"/>
+                            app:layout_constraintEnd_toStartOf="@id/ivWeekIII"/>
 
                         <TextView
-                            android:id="@+id/tvWeekIII"
+                            android:id="@+id/ivWeekIII"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="@string/week_iii"
@@ -190,10 +190,10 @@
                             android:background="@drawable/bg_corner_fill_8dp"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/tvWeekIV"/>
+                            app:layout_constraintEnd_toStartOf="@id/ivWeekIV"/>
 
                         <TextView
-                            android:id="@+id/tvWeekIV"
+                            android:id="@+id/ivWeekIV"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:paddingVertical="12dp"

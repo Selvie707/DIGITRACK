@@ -13,6 +13,7 @@ import com.example.digitrack.data.Materials
 import com.example.digitrack.data.Students
 import com.example.digitrack.databinding.ActivityAttendanceBinding
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.Calendar
 
 class AttendanceActivity : AppCompatActivity() {
 
@@ -46,8 +47,25 @@ class AttendanceActivity : AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
         db.collection("student").get().addOnSuccessListener { querySnapshot ->
             for (document in querySnapshot) {
+
+
                 val student = document.toObject(Students::class.java)
+                if (student != null) {
+                    val studentAttendanceMaterials = document.data?.get("studentAttendanceMaterials") as? Map<String, String>
+                    Log.d("AttendanceActivity", studentList.toString())
+                    println("Level ID: ${student.levelId}")
+                    println("Student Attendance: ${student.studentAttendance}")
+                    println("Student Attendance Materials: $studentAttendanceMaterials")
+                    println("Student Daily Report Link: ${student.studentDailyReportLink}")
+                    println("Student ID: ${student.studentId}")
+                    println("Student Name: ${student.studentName}")
+                    println("Student Schedule: ${student.studentSchedule}")
+                    println("User ID: ${student.userId}")
+                }
                 studentList.add(student)
+
+
+                val studentAttendance = document.getLong("studentAttendance")
             }
             rvStudentName.adapter = AttendancesAdapter(studentList) { position ->
                 // Handle click event for materials
@@ -80,4 +98,8 @@ class AttendanceActivity : AppCompatActivity() {
             }
     }
 
+    fun getCurrentMonth(): Int {
+        val calendar = Calendar.getInstance()
+        return calendar.get(Calendar.MONTH) + 1 // Bulan dimulai dari indeks 0, jadi tambahkan 1
+    }
 }

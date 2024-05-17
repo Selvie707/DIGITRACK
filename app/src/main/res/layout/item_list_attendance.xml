@@ -15,10 +15,10 @@
         android:background="@drawable/bg_corner_back"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/tvWeekI"/>
+        app:layout_constraintEnd_toStartOf="@id/ivWeekI"/>
 
     <ImageView
-        android:id="@+id/tvWeekI"
+        android:id="@+id/ivWeekI"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:src="@drawable/ic_checklist"
@@ -27,10 +27,10 @@
         android:background="@drawable/bg_corner_back"
         app:layout_constraintTop_toTopOf="@id/tvAttendanceName"
         app:layout_constraintBottom_toBottomOf="@id/tvAttendanceName"
-        app:layout_constraintEnd_toStartOf="@id/tvWeekII"/>
+        app:layout_constraintEnd_toStartOf="@id/ivWeekII"/>
 
     <ImageView
-        android:id="@+id/tvWeekII"
+        android:id="@+id/ivWeekII"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:src="@drawable/ic_checklist"
@@ -39,10 +39,10 @@
         android:background="@drawable/bg_corner_back"
         app:layout_constraintTop_toTopOf="@id/tvAttendanceName"
         app:layout_constraintBottom_toBottomOf="@id/tvAttendanceName"
-        app:layout_constraintEnd_toStartOf="@id/tvWeekIII"/>
+        app:layout_constraintEnd_toStartOf="@id/ivWeekIII"/>
 
     <ImageView
-        android:id="@+id/tvWeekIII"
+        android:id="@+id/ivWeekIII"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:src="@drawable/ic_checklist"
@@ -51,10 +51,10 @@
         android:background="@drawable/bg_corner_back"
         app:layout_constraintTop_toTopOf="@id/tvAttendanceName"
         app:layout_constraintBottom_toBottomOf="@id/tvAttendanceName"
-        app:layout_constraintEnd_toStartOf="@id/tvWeekIV"/>
+        app:layout_constraintEnd_toStartOf="@id/ivWeekIV"/>
 
     <ImageView
-        android:id="@+id/tvWeekIV"
+        android:id="@+id/ivWeekIV"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:src="@drawable/ic_checklist"
