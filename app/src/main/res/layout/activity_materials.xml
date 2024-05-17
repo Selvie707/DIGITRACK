@@ -8,19 +8,27 @@
 
     <ImageView
         android:id="@+id/btnBack"
-        android:layout_width="13dp"
-        android:layout_height="26dp"
-        android:layout_marginLeft="32dp"
-        android:background="@drawable/bg_corner_back"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginStart="30dp"
+        android:padding="5dp"
         android:src="@drawable/ic_back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:tint="@color/purple"
+        android:background="@drawable/bg_corner_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tvHeader"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="1dp"
         android:text="@string/title_materials"
+        android:fontFamily="@font/boldinter"
+        android:textSize="28sp"
+        android:textColor="@color/purple"
         app:layout_constraintTop_toTopOf="@id/btnBack"
         app:layout_constraintStart_toEndOf="@id/btnBack"
         app:layout_constraintBottom_toBottomOf="@id/btnBack"/>
@@ -41,6 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_marginTop="30dp"
                 android:layout_marginHorizontal="32dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
@@ -50,6 +59,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/dk2"
+                    android:textSize="18sp"
+                    android:textColor="@color/purple"
+                    android:fontFamily="@font/boldinter"
+                    android:padding="5dp"
                     android:gravity="center_horizontal"
                     android:background="@drawable/bg_corner_back"/>
 
@@ -58,6 +71,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/dk3"
+                    android:textSize="18sp"
+                    android:textColor="@color/purple"
+                    android:fontFamily="@font/boldinter"
+                    android:padding="5dp"
                     android:gravity="center_horizontal"
                     android:layout_marginHorizontal="16dp"
                     android:background="@drawable/bg_corner_back"/>
@@ -67,6 +84,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/acd"
+                    android:textSize="18sp"
+                    android:textColor="@color/purple"
+                    android:fontFamily="@font/boldinter"
+                    android:padding="5dp"
                     android:gravity="center_horizontal"
                     android:background="@drawable/bg_corner_back"/>
             </LinearLayout>
@@ -75,6 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/llCurriculum">
 

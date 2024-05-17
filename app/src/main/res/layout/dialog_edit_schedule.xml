@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="32dp"
+    android:padding="28dp"
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -10,8 +10,10 @@
         android:id="@+id/tvTitleEditSchedule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
         android:text="@string/edit_schedule"
+        android:textSize="16sp"
+        android:textColor="@color/purple"
+        android:fontFamily="@font/boldinter"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
@@ -20,6 +22,8 @@
         android:id="@+id/rgOption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:backgroundTint="@color/purple"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTitleEditSchedule">
 
@@ -27,20 +31,28 @@
             android:id="@+id/rbThisSchedule"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/this_schedule"/>
+            android:backgroundTint="@color/purple"
+            android:text="@string/this_schedule"
+            android:textSize="13sp"
+            android:fontFamily="@font/regularinter"
+            android:textColor="@color/purple"/>
 
         <RadioButton
             android:id="@+id/rbThisAndFollowingSchedule"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/this_and_following_schedule"/>
+            android:text="@string/this_and_following_schedule"
+            android:textSize="13sp"
+            android:fontFamily="@font/regularinter"
+            android:textColor="@color/purple"/>
     </RadioGroup>
 
     <TextView
         android:id="@+id/tvSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/boldinter"
         android:text="@string/save"
         android:textColor="@color/purple"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,6 +63,7 @@
         android:id="@+id/tvCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="@string/cancel"
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toStartOf="@id/tvSave"

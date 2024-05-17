@@ -6,41 +6,49 @@
     android:padding="32dp"
     android:gravity="center"
     android:layout_marginHorizontal="16dp"
-    android:background="@drawable/bg_corner_fill_8dp">
+    android:background="@drawable/bg_corner_stroke">
 
     <TextView
         android:id="@+id/tvTitleChangeSchedule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:text="@string/change_schedule"/>
+        android:textColor="@color/purple"
+        android:text="@string/change_schedule"
+        android:textSize="16sp"
+        android:fontFamily="@font/boldinter"/>
 
     <TextView
         android:id="@+id/tvChangeCalendar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="10dp"
         android:text="@string/day"
+        android:textSize="17sp"
+        android:fontFamily="@font/regularinter"
         android:drawablePadding="8dp"
-        android:textColor="@color/white"
-        android:drawableTint="@color/white"
+        android:textColor="@color/purple"
+        android:drawableTint="@color/purple"
         android:drawableStart="@drawable/ic_calendar"
-        android:background="@drawable/bg_corner_back_white"/>
+        android:background="@drawable/bg_corner_stroke"/>
 
     <Spinner
         android:id="@+id/spChangeTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/bg_spinner_white"
+        android:layout_marginTop="7dp"
+        android:background="@drawable/spinner_time"
         android:paddingStart="38dp"
-        android:padding="5dp"/>
+        android:padding="10dp"/>
 
     <Button
         android:id="@+id/btnChange"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="@string/change"
-        android:textColor="@color/purple"
-        android:backgroundTint="@color/white"/>
+        android:textColor="@color/white"
+        android:fontFamily="@font/boldinter"
+        android:background="@drawable/bottom_bg_purple"/>
 
 </LinearLayout>
