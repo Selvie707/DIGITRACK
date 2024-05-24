@@ -6,4 +6,6 @@ data class HelpCenter(
     val hcAnswer: String,
     val hcCreatedAt: String,
     val hcUpdatedAt: String,
-)
+) {
+    constructor() : this("", "", "", "", "")
+}

@@ -9,6 +9,9 @@ data class Students(
     val studentAttendanceMaterials: Map<String, String> = emptyMap(), // <pertemuan ke, materialsId>
     val studentSchedule: Map<String, String> = emptyMap(),            // <date time, studentAttendanceMaterials>
     val studentDailyReportLink: String? = "",
+    val studentAge: String? = "",
+    val studentJoinDate: String? = "",
+    val studentDayTime: String? = "",
     val studentCreatedAt: String? = "",
     val studentUpdatedAt: String? = ""
 ) {
@@ -22,6 +25,9 @@ data class Students(
         studentAttendanceMaterials = emptyMap(),
         studentSchedule = emptyMap(),
         studentDailyReportLink = "",
+        studentAge = "",
+        studentJoinDate = "",
+        studentDayTime = "",
         studentCreatedAt = "",
         studentUpdatedAt = ""
     )

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.digitrack.R
 import com.example.digitrack.databinding.ActivityHomeBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -11,11 +12,27 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
+    private val TAG : String = "HomeActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Ambil intent yang memulai aktivitas ini
+        val intent = intent
+
+        // Ambil data dari intent
+        val userId = intent.getStringExtra("user_id")
+        val userEmail = intent.getStringExtra("user_email")
+        val userName = intent.getStringExtra("user_name")
+        val userRole = intent.getStringExtra("user_role")
+
+        // Log data yang diambil
+        Log.d(TAG, "User ID: $userId")
+        Log.d(TAG, "Email: $userEmail")
+        Log.d(TAG, "Name: $userName")
+        Log.d(TAG, "Role: $userRole")
 
         val sharedPref = applicationContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
 

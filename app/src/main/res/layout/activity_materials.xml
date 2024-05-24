@@ -108,7 +108,7 @@
                     android:padding="12dp"
                     android:orientation="vertical"
                     android:layout_marginRight="12dp"
-                    android:background="@drawable/bg_corner_fill_8dp">
+                    android:background="@drawable/bg_corner_radius">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvLevels"

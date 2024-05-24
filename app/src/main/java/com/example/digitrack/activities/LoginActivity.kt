@@ -47,8 +47,40 @@ class LoginActivity : AppCompatActivity() {
                         Log.d(TAG, "signInWithEmail:success")
                         val user = auth.currentUser
 
-                        startActivity(Intent(this, NearestScheduleActivity::class.java))
 
+                        val query = usersCollection.whereEqualTo("userEmail", email)
+                        query.get()
+                            .addOnSuccessListener { result ->
+                                if (result.isEmpty) {
+                                    binding.etEmailLogin.error = "Email not found"
+                                } else {
+                                    for (document in result) {
+                                        val userData = document.data
+
+                                        val id = document.getString("userId")
+                                        val name = document.getString("userName")
+                                        val email = document.getString("userEmail")
+                                        val role = document.getString("userRole")
+
+                                        Log.d("Firestore", "$id: $email and $name")
+
+                                        val editor = sharedPref.edit()
+                                        editor.putString("id", id)
+                                        editor.putString("name", name)
+                                        editor.putString("email", email)
+                                        editor.putString("role", role)
+                                        editor.apply()
+
+                                        startActivity(Intent(this, NearestScheduleActivity::class.java))
+                                        finish()
+                                    }
+                                }
+                            }
+                            .addOnFailureListener { exception ->
+                                Log.w("Firestore", "Error getting documents: ", exception)
+                                Toast.makeText(this, "There's something wrong", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithEmail:failure", task.exception)
@@ -58,9 +90,6 @@ class LoginActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT,
                         ).show()
                     }
-                }
-
-
 
 
 //                val query = usersCollection.whereEqualTo("email", email)
@@ -95,6 +124,7 @@ class LoginActivity : AppCompatActivity() {
 //                        Log.w("Firestore", "Error getting documents: ", exception)
 //                        Toast.makeText(this, "There's something wrong", Toast.LENGTH_SHORT).show()
 //                    }
+                }
             }
         }
 
