@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.digitrack.R
 import com.example.digitrack.data.Students
@@ -32,6 +34,7 @@ class ScheduleAdapter(
         private val tvStudentLevel: TextView = itemView.findViewById(R.id.tvStudentLevel)
         private val tvStudentWeek: TextView = itemView.findViewById(R.id.tvStudentWeek)
         private val tvStudentMaterial: TextView = itemView.findViewById(R.id.tvStudentMaterial)
+        private val ivTeacherColor: ImageView = itemView.findViewById(R.id.ivTeacherColor)
         private val btnEdit: ImageView = itemView.findViewById(R.id.btnEdit)
 
         fun bind(schedule: Students) {
@@ -60,6 +63,14 @@ class ScheduleAdapter(
 
             btnEdit.setOnClickListener {
                 showCustomDialog(itemView.context)
+            }
+
+            Log.d("CheckTeacherColor", schedule.userId)
+
+            if (schedule.userId == "01") {
+                ivTeacherColor.setColorFilter(ContextCompat.getColor(itemView.context, R.color.black))
+            } else if (schedule.userId == "02") {
+                ivTeacherColor.setColorFilter(ContextCompat.getColor(itemView.context, R.color.purple))
             }
         }
     }

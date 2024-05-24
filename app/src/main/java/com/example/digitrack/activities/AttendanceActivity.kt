@@ -11,13 +11,21 @@ import com.example.digitrack.adapters.AttendancesAdapter
 import com.example.digitrack.data.Students
 import com.example.digitrack.databinding.ActivityAttendanceBinding
 import com.google.firebase.firestore.FirebaseFirestore
-import java.util.Calendar
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
+import java.util.Locale
 
 class AttendanceActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAttendanceBinding
     private lateinit var rvStudentName: RecyclerView
+    private lateinit var adapter: AttendancesAdapter
     private val studentList = mutableListOf<Students>()
+    private var currentDate: LocalDate = LocalDate.now()
+    private var monthText: String? = ""
+    private var monthNumber: Int = currentDate.monthValue
+    private val dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yy")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +35,29 @@ class AttendanceActivity : AppCompatActivity() {
         rvStudentName = binding.rvAttendance
         rvStudentName.layoutManager = LinearLayoutManager(this)
 
+        adapter = AttendancesAdapter(studentList, monthNumber) { position ->
+            Toast.makeText(this, "Student clicked at position $position", Toast.LENGTH_SHORT).show()
+        }
+        rvStudentName.adapter = adapter
+
         loadStudentsName()
+
+        // Mendapatkan bulan saat ini dalam format angka dan huruf
+        monthText = currentDate.month.getDisplayName(TextStyle.FULL, Locale.getDefault())
+
+        binding.tvMonth.text = monthText
+
+        binding.btnPrevMonth.setOnClickListener {
+            previousDate()
+            binding.tvMonth.text = monthText
+            refreshAdapterData()
+        }
+
+        binding.btnNextMonth.setOnClickListener {
+            nextDate()
+            binding.tvMonth.text = monthText
+            refreshAdapterData()
+        }
 
         binding.btnAdd.setOnClickListener {
             startActivity(Intent(this, AddNewStudentActivity::class.java))
@@ -58,31 +88,27 @@ class AttendanceActivity : AppCompatActivity() {
                 studentList.add(student)
             }
 
-            rvStudentName.adapter = AttendancesAdapter(studentList) { position ->
-                Toast.makeText(this, "Student clicked at position $position", Toast.LENGTH_SHORT).show()
-            }
+            Log.d("MonthNumber", monthNumber.toString())
+            adapter.updateData(studentList, monthNumber)
         }.addOnFailureListener { exception ->
             Toast.makeText(this, "Failed to load students: $exception", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun loadStudentsData() {
-        val db = FirebaseFirestore.getInstance()
-        db.collection("student").get().addOnSuccessListener { querySnapshot ->
-            val studentsList = mutableListOf<Students>()
-            for (document in querySnapshot) {
-                val student = document.toObject(Students::class.java)
-                studentsList.add(student)
-            }
-            // Use the studentsList as needed
-            Toast.makeText(this, studentsList.toString(), Toast.LENGTH_SHORT).show()
-        }.addOnFailureListener { exception ->
-            Log.w("AttendanceActivity", "Error getting documents: ", exception)
-        }
+    private fun refreshAdapterData() {
+        loadStudentsName()  // Mengisi ulang daftar siswa
+        adapter.updateData(studentList, monthNumber)  // Memperbarui data adapter
     }
 
-    fun getCurrentMonth(): Int {
-        val calendar = Calendar.getInstance()
-        return calendar.get(Calendar.MONTH) + 1 // Bulan dimulai dari indeks 0, jadi tambahkan 1
+    private fun previousDate() {
+        currentDate = currentDate.minusMonths(1)
+        monthNumber = currentDate.monthValue
+        monthText = currentDate.month.getDisplayName(TextStyle.FULL, Locale.getDefault())
+    }
+
+    private fun nextDate() {
+        currentDate = currentDate.plusMonths(1)
+        monthNumber = currentDate.monthValue
+        monthText = currentDate.month.getDisplayName(TextStyle.FULL, Locale.getDefault())
     }
 }

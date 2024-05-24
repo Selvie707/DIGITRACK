@@ -1,7 +1,7 @@
 package com.example.digitrack.adapters
 
-// CustomAdapter.kt
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +11,11 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.digitrack.R
 import com.example.digitrack.activities.DetailStudentActivity
-import com.example.digitrack.data.Levels
-import com.example.digitrack.data.Materials
 import com.example.digitrack.data.Students
 
 class AttendancesAdapter(
-    private val attendancesList: List<Students>,
+    private var attendancesList: List<Students>,
+    private var currentMonth: Int,
     private val onItemClick: (Int) -> Unit
 ) : RecyclerView.Adapter<AttendancesAdapter.AttendanceViewHolder>() {
 
@@ -28,9 +27,13 @@ class AttendancesAdapter(
         private val ivWeekIV: ImageView = itemView.findViewById(R.id.ivWeekIV)
 
         fun bind(attendance: Students) {
-            tvStudentName.text = attendance.studentName
+            val studentName = attendance.studentName
+            val studentLevel = attendance.levelId
 
-            if (2 == 2) {     // Jika bulan anak tersebut masuk sama dengan bulan hari ini
+            tvStudentName.text = "$studentLevel - $studentName"
+
+            Log.d("CurrentMonthAdapter", currentMonth.toString())
+            if (currentMonth == 5) {  // Ganti ini dengan logika Anda
                 if (attendance.studentAttendance!! % 4 == 0) {
                     ivWeekI.setColorFilter(ContextCompat.getColor(itemView.context, R.color.purple))
                     ivWeekII.setColorFilter(ContextCompat.getColor(itemView.context, R.color.purple))
@@ -87,5 +90,12 @@ class AttendancesAdapter(
 
     override fun onBindViewHolder(holder: AttendanceViewHolder, position: Int) {
         holder.bind(attendancesList[position])
+    }
+
+    // Fungsi untuk memperbarui data dan menyegarkan tampilan
+    fun updateData(newList: List<Students>, newMonth: Int) {
+        attendancesList = newList
+        currentMonth = newMonth
+        notifyDataSetChanged()
     }
 }

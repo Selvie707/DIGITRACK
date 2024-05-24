@@ -55,6 +55,7 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
+                    android:id="@+id/btnDK2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -67,6 +68,7 @@
                     android:background="@drawable/bg_corner_back"/>
 
                 <TextView
+                    android:id="@+id/btnDK3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -80,6 +82,7 @@
                     android:background="@drawable/bg_corner_back"/>
 
                 <TextView
+                    android:id="@+id/btnACD"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

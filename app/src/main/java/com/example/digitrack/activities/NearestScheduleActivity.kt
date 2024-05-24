@@ -19,6 +19,8 @@ import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -70,6 +72,19 @@ class NearestScheduleActivity : AppCompatActivity() {
 
     private fun loadNearestSchedule() {
         val db = FirebaseFirestore.getInstance()
+
+        // Mendapatkan tanggal hari ini dalam format yang diminta
+        val currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yy"))
+
+        // Mendapatkan jam saat ini dan mengubahnya menjadi jam awal rentang jam sekarang
+        val currentHour = LocalTime.now().hour.toString().padStart(2, '0')
+        val nextHour = (LocalTime.now().hour + 1).toString().padStart(2, '0')
+        val currentMinute = "00"
+        val currentTime = "$currentHour.$currentMinute"
+        val nextTime = "$nextHour.$currentMinute"
+
+        binding.tvJam.text = "JAM $currentTime - $nextTime WIB"
+
         db.collection("student")
             .get()
             .addOnSuccessListener { querySnapshot ->
@@ -83,8 +98,17 @@ class NearestScheduleActivity : AppCompatActivity() {
                     }
                 }
 
-                // Mengambil entri pertama dari setiap studentSchedule dan mengurutkannya berdasarkan waktu
-                val firstEntries = studentsWithSchedule.mapNotNull { (student, schedule) ->
+                // Filter jadwal berdasarkan tanggal dan jam sekarang
+                val filteredStudents = studentsWithSchedule.filter { (_, schedule) ->
+                    schedule.any { (key, value) ->
+                        val scheduleDate = key.split("|").getOrNull(0) ?: ""
+                        val scheduleTime = key.split("|").getOrNull(1) ?: ""
+                        scheduleDate == currentDate && scheduleTime.startsWith(currentHour)
+                    }
+                }
+
+                // Mengambil entri pertama dari setiap studentSchedule yang memenuhi kriteria dan mengurutkannya berdasarkan waktu
+                val firstEntries = filteredStudents.mapNotNull { (student, schedule) ->
                     schedule.toSortedMap().entries.firstOrNull()?.let { entry ->
                         Pair(student, entry)
                     }
