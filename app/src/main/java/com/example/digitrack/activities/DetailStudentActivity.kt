@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.example.digitrack.databinding.ActivityDetailStudentBinding
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -38,7 +39,8 @@ class DetailStudentActivity : AppCompatActivity() {
         binding.tvLevelUpDate.text = studentLevelUp
 
         binding.btnEditProfile.setOnClickListener {
-            startActivity(Intent(this, EditDetailStudentActivity::class.java))
+            Toast.makeText(this, "Coming Soon", Toast.LENGTH_SHORT)
+//            startActivity(Intent(this, EditDetailStudentActivity::class.java))
         }
 
         binding.btnBack.setOnClickListener {

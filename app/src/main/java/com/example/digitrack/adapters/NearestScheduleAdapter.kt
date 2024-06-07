@@ -6,27 +6,26 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.widget.CheckBox
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.digitrack.R
-import com.example.digitrack.data.Levels
-import com.example.digitrack.data.Materials
 import com.example.digitrack.data.Students
-import java.time.DayOfWeek
-import java.time.LocalDate
+import com.google.firebase.firestore.FirebaseFirestore
 
 class NearestScheduleAdapter(
     private val scheduleList: List<Students>,
     private val onItemClick: (Int) -> Unit
 ) : RecyclerView.Adapter<NearestScheduleAdapter.ScheduleViewHolder>() {
 
+    private val db = FirebaseFirestore.getInstance()
+
     inner class ScheduleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvStudentName: TextView = itemView.findViewById(R.id.tvNamaAnak)
         private val tvStudentLevel: TextView = itemView.findViewById(R.id.tvLevelAnak)
         private val tvStudentWeek: TextView = itemView.findViewById(R.id.tvMingguKe)
         private val tvStudentMaterial: TextView = itemView.findViewById(R.id.tvMateriAnak)
+        private val cbAttendance: CheckBox = itemView.findViewById(R.id.cbNearestSchedule)
 
         fun bind(schedule: Students) {
             val studentWeek = schedule.studentAttendanceMaterials.keys.firstOrNull().toString()
@@ -35,6 +34,22 @@ class NearestScheduleAdapter(
             tvStudentLevel.text = schedule.levelId
             tvStudentWeek.text = "Week $studentWeek"
             tvStudentMaterial.text = schedule.studentAttendanceMaterials.values.firstOrNull().toString()
+
+            cbAttendance.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    // Update studentAttendance in Firestore
+                    val newAttendanceCount = (schedule.studentAttendance ?: 0) + 1
+                    db.collection("student")
+                        .document(schedule.studentId)
+                        .update("studentAttendance", newAttendanceCount)
+                        .addOnSuccessListener {
+                            Log.d("NearestScheduleAdapter", "Attendance updated successfully")
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("NearestScheduleAdapter", "Error updating attendance", e)
+                        }
+                }
+            }
 
             itemView.setOnClickListener {
                 onItemClick(adapterPosition)

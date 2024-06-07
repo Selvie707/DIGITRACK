@@ -29,7 +29,7 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-// Initialize Firebase Auth
+        // Initialize Firebase Auth
         auth = Firebase.auth
 
         val spinnerList = listOf("Role", "Admin", "Teacher")

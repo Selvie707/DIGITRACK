@@ -67,7 +67,6 @@ class NearestScheduleActivity : AppCompatActivity() {
                 else -> false
             }
         }
-
     }
 
     private fun loadNearestSchedule() {
@@ -99,33 +98,26 @@ class NearestScheduleActivity : AppCompatActivity() {
                 }
 
                 // Filter jadwal berdasarkan tanggal dan jam sekarang
-                val filteredStudents = studentsWithSchedule.filter { (_, schedule) ->
-                    schedule.any { (key, value) ->
-                        val scheduleDate = key.split("|").getOrNull(0) ?: ""
-                        val scheduleTime = key.split("|").getOrNull(1) ?: ""
+                val filteredSchedules = studentsWithSchedule.flatMap { (student, schedule) ->
+                    schedule.filter { (key, value) ->
+                        val scheduleDate = value.split("|").getOrNull(0) ?: ""
+                        val scheduleTime = value.split("|").getOrNull(1) ?: ""
                         scheduleDate == currentDate && scheduleTime.startsWith(currentHour)
-                    }
-                }
-
-                // Mengambil entri pertama dari setiap studentSchedule yang memenuhi kriteria dan mengurutkannya berdasarkan waktu
-                val firstEntries = filteredStudents.mapNotNull { (student, schedule) ->
-                    schedule.toSortedMap().entries.firstOrNull()?.let { entry ->
-                        Pair(student, entry)
-                    }
+                    }.map { entry -> Triple(student, entry.key, entry.value) }
                 }
 
                 // Ekstraksi dan konversi waktu dari kunci
-                val studentsWithFirstTime = firstEntries.map { (student, entry) ->
-                    val timeString = entry.key.split("|").getOrNull(1) ?: "00.00"
+                val studentsWithTimes = filteredSchedules.map { (student, scheduleKey, _) ->
+                    val timeString = scheduleKey.split("|").getOrNull(1) ?: "00.00"
                     val timeParts = timeString.split(".")
                     val hour = timeParts.getOrNull(0)?.toIntOrNull() ?: 0
                     val minute = timeParts.getOrNull(1)?.toIntOrNull() ?: 0
                     val totalMinutes = hour * 60 + minute
-                    Triple(student, entry.key, totalMinutes)
+                    Triple(student, scheduleKey, totalMinutes)
                 }
 
                 // Mengurutkan berdasarkan waktu
-                val sortedStudents = studentsWithFirstTime.sortedBy { it.third }
+                val sortedStudents = studentsWithTimes.sortedBy { it.third }
 
                 // Logging hasil urutan
                 sortedStudents.forEach { (student, scheduleKey, _) ->

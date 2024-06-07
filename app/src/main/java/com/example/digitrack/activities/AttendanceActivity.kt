@@ -25,6 +25,7 @@ class AttendanceActivity : AppCompatActivity() {
     private var currentDate: LocalDate = LocalDate.now()
     private var monthText: String? = ""
     private var monthNumber: Int = currentDate.monthValue
+    private var currentYear: Int = currentDate.year
     private val dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yy")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,27 +36,26 @@ class AttendanceActivity : AppCompatActivity() {
         rvStudentName = binding.rvAttendance
         rvStudentName.layoutManager = LinearLayoutManager(this)
 
-        adapter = AttendancesAdapter(studentList, monthNumber) { position ->
+        adapter = AttendancesAdapter(studentList, monthNumber, currentYear) { position ->
             Toast.makeText(this, "Student clicked at position $position", Toast.LENGTH_SHORT).show()
         }
         rvStudentName.adapter = adapter
 
+        // Load student data initially
         loadStudentsName()
 
-        // Mendapatkan bulan saat ini dalam format angka dan huruf
-        monthText = currentDate.month.getDisplayName(TextStyle.FULL, Locale.getDefault())
-
-        binding.tvMonth.text = monthText
+        // Set the current month and year text
+        updateMonthYearText()
 
         binding.btnPrevMonth.setOnClickListener {
             previousDate()
-            binding.tvMonth.text = monthText
+            updateMonthYearText()
             refreshAdapterData()
         }
 
         binding.btnNextMonth.setOnClickListener {
             nextDate()
-            binding.tvMonth.text = monthText
+            updateMonthYearText()
             refreshAdapterData()
         }
 
@@ -71,44 +71,38 @@ class AttendanceActivity : AppCompatActivity() {
     private fun loadStudentsName() {
         val db = FirebaseFirestore.getInstance()
         db.collection("student").get().addOnSuccessListener { querySnapshot ->
+            studentList.clear() // Clear the list before adding new data
             for (document in querySnapshot) {
                 val student = document.toObject(Students::class.java)
                 if (student != null) {
-                    val studentAttendanceMaterials = document.data?.get("studentAttendanceMaterials") as? Map<String, String>
-                    Log.d("AttendanceActivity", student.toString())
-                    println("Level ID: ${student.levelId}")
-                    println("Student Attendance: ${student.studentAttendance}")
-                    println("Student Attendance Materials: ${student.studentAttendanceMaterials}")
-                    println("Student Daily Report Link: ${student.studentDailyReportLink}")
-                    println("Student ID: ${student.studentId}")
-                    println("Student Name: ${student.studentName}")
-                    println("Student Schedule: ${student.studentSchedule}")
-                    println("User ID: ${student.userId}")
+                    studentList.add(student)
                 }
-                studentList.add(student)
             }
-
             Log.d("MonthNumber", monthNumber.toString())
-            adapter.updateData(studentList, monthNumber)
+            adapter.updateData(studentList, monthNumber, currentYear)
         }.addOnFailureListener { exception ->
             Toast.makeText(this, "Failed to load students: $exception", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun refreshAdapterData() {
-        loadStudentsName()  // Mengisi ulang daftar siswa
-        adapter.updateData(studentList, monthNumber)  // Memperbarui data adapter
+        adapter.updateData(studentList, monthNumber, currentYear)  // Update adapter data without re-fetching students
     }
 
     private fun previousDate() {
         currentDate = currentDate.minusMonths(1)
         monthNumber = currentDate.monthValue
-        monthText = currentDate.month.getDisplayName(TextStyle.FULL, Locale.getDefault())
+        currentYear = currentDate.year
     }
 
     private fun nextDate() {
         currentDate = currentDate.plusMonths(1)
         monthNumber = currentDate.monthValue
+        currentYear = currentDate.year
+    }
+
+    private fun updateMonthYearText() {
         monthText = currentDate.month.getDisplayName(TextStyle.FULL, Locale.getDefault())
+        binding.tvMonth.text = "$monthText, $currentYear"
     }
 }

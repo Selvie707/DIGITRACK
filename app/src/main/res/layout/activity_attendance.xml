@@ -113,7 +113,7 @@
                         app:layout_constraintEnd_toStartOf="@id/btnAdd"/>
 
                     <ImageView
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:id="@+id/btnAdd"
                         android:layout_width="50dp"
                         android:layout_height="50dp"

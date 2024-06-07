@@ -61,11 +61,11 @@
                     android:layout_weight="1"
                     android:text="@string/dk2"
                     android:textSize="18sp"
-                    android:textColor="@color/purple"
+                    android:textColor="@color/white"
                     android:fontFamily="@font/boldinter"
                     android:padding="5dp"
                     android:gravity="center_horizontal"
-                    android:background="@drawable/bg_corner_back"/>
+                    android:background="@drawable/bg_corner_backii"/>
 
                 <TextView
                     android:id="@+id/btnDK3"

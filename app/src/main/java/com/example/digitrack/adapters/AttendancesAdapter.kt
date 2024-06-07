@@ -12,10 +12,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.digitrack.R
 import com.example.digitrack.activities.DetailStudentActivity
 import com.example.digitrack.data.Students
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class AttendancesAdapter(
     private var attendancesList: List<Students>,
     private var currentMonth: Int,
+    private var currentYear: Int,
     private val onItemClick: (Int) -> Unit
 ) : RecyclerView.Adapter<AttendancesAdapter.AttendanceViewHolder>() {
 
@@ -29,33 +32,16 @@ class AttendancesAdapter(
         fun bind(attendance: Students) {
             val studentName = attendance.studentName
             val studentLevel = attendance.levelId
+            val joinDate = LocalDate.parse(attendance.studentJoinDate, DateTimeFormatter.ofPattern("dd/MM/yy"))
+            val totalAttendance = attendance.studentAttendance ?: 0
 
             tvStudentName.text = "$studentLevel - $studentName"
 
-            Log.d("CurrentMonthAdapter", currentMonth.toString())
-            if (currentMonth == 5) {  // Ganti ini dengan logika Anda
-                if (attendance.studentAttendance!! % 4 == 0) {
-                    ivWeekI.setColorFilter(ContextCompat.getColor(itemView.context, R.color.purple))
-                    ivWeekII.setColorFilter(ContextCompat.getColor(itemView.context, R.color.purple))
-                    ivWeekIII.setColorFilter(ContextCompat.getColor(itemView.context, R.color.purple))
-                    ivWeekIV.setColorFilter(ContextCompat.getColor(itemView.context, R.color.purple))
-                } else if ((attendance.studentAttendance+1) % 4 == 0) {
-                    ivWeekI.setColorFilter(ContextCompat.getColor(itemView.context, R.color.purple))
-                    ivWeekII.setColorFilter(ContextCompat.getColor(itemView.context, R.color.purple))
-                    ivWeekIII.setColorFilter(ContextCompat.getColor(itemView.context, R.color.purple))
-                    ivWeekIV.setColorFilter(ContextCompat.getColor(itemView.context, R.color.white))
-                } else if (attendance.studentAttendance!! % 2 == 0) {
-                    ivWeekI.setColorFilter(ContextCompat.getColor(itemView.context, R.color.purple))
-                    ivWeekII.setColorFilter(ContextCompat.getColor(itemView.context, R.color.purple))
-                    ivWeekIII.setColorFilter(ContextCompat.getColor(itemView.context, R.color.white))
-                    ivWeekIV.setColorFilter(ContextCompat.getColor(itemView.context, R.color.white))
-                } else {
-                    ivWeekI.setColorFilter(ContextCompat.getColor(itemView.context, R.color.purple))
-                    ivWeekII.setColorFilter(ContextCompat.getColor(itemView.context, R.color.white))
-                    ivWeekIII.setColorFilter(ContextCompat.getColor(itemView.context, R.color.white))
-                    ivWeekIV.setColorFilter(ContextCompat.getColor(itemView.context, R.color.white))
-                }
-            }
+            // Menghitung checklist yang dibutuhkan untuk bulan tertentu
+            val checklistForMonth = calculateChecklists(totalAttendance, joinDate, currentMonth, currentYear)
+
+            // Menampilkan checklist sesuai dengan perhitungan
+            setChecklists(ivWeekI, ivWeekII, ivWeekIII, ivWeekIV, checklistForMonth)
 
             itemView.setOnClickListener {
                 // Panggil fungsi onItemClick dan kirimkan posisi item serta konteks
@@ -76,6 +62,40 @@ class AttendancesAdapter(
                 context.startActivity(intent)
             }
         }
+
+        private fun calculateChecklists(totalAttendance: Int, joinDate: LocalDate, currentMonth: Int, currentYear: Int): Int {
+            var remainingAttendance = totalAttendance
+            var yearCounter = joinDate.year
+            var monthCounter = joinDate.monthValue
+            var checklistForMonth = 0
+
+            while (remainingAttendance > 0) {
+                val checklistsThisMonth = if (remainingAttendance >= 4) 4 else remainingAttendance
+                if (yearCounter == currentYear && monthCounter == currentMonth) {
+                    checklistForMonth = checklistsThisMonth
+                    break
+                }
+                remainingAttendance -= checklistsThisMonth
+                if (monthCounter == 12) {
+                    monthCounter = 1
+                    yearCounter++
+                } else {
+                    monthCounter++
+                }
+            }
+
+            return checklistForMonth
+        }
+
+        private fun setChecklists(ivWeekI: ImageView, ivWeekII: ImageView, ivWeekIII: ImageView, ivWeekIV: ImageView, checklists: Int) {
+            val colorActive = ContextCompat.getColor(itemView.context, R.color.purple)
+            val colorInactive = ContextCompat.getColor(itemView.context, R.color.white)
+
+            ivWeekI.setColorFilter(if (checklists >= 1) colorActive else colorInactive)
+            ivWeekII.setColorFilter(if (checklists >= 2) colorActive else colorInactive)
+            ivWeekIII.setColorFilter(if (checklists >= 3) colorActive else colorInactive)
+            ivWeekIV.setColorFilter(if (checklists >= 4) colorActive else colorInactive)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AttendanceViewHolder {
@@ -93,9 +113,10 @@ class AttendancesAdapter(
     }
 
     // Fungsi untuk memperbarui data dan menyegarkan tampilan
-    fun updateData(newList: List<Students>, newMonth: Int) {
+    fun updateData(newList: List<Students>, newMonth: Int, newYear: Int) {
         attendancesList = newList
         currentMonth = newMonth
+        currentYear = newYear
         notifyDataSetChanged()
     }
 }

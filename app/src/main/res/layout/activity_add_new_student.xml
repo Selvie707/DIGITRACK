@@ -47,6 +47,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
+    <EditText
+        android:id="@+id/etAgeAdd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/age"
+        android:textColorHint="@color/purple"
+        android:padding="15dp"
+        android:drawableStart="@drawable/ic_person"
+        android:drawablePadding="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_corner_stroke"
+        app:layout_constraintTop_toBottomOf="@+id/etName_Add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
     <Spinner
         android:id="@+id/spLevel_Add"
         android:layout_width="match_parent"
@@ -57,7 +72,22 @@
         android:paddingStart="38dp"
         android:padding="15dp"
         android:background="@drawable/spinner_level"
-        app:layout_constraintTop_toBottomOf="@+id/etName_Add"
+        app:layout_constraintTop_toBottomOf="@+id/etAgeAdd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <EditText
+        android:id="@+id/etJoinDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/join_date"
+        android:textColorHint="@color/purple"
+        android:layout_marginTop="10dp"
+        android:padding="15dp"
+        android:drawableStart="@drawable/ic_calendar"
+        android:drawablePadding="15dp"
+        android:background="@drawable/bg_corner_stroke"
+        app:layout_constraintTop_toBottomOf="@+id/spLevel_Add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -72,7 +102,7 @@
         android:drawableStart="@drawable/ic_calendar"
         android:drawablePadding="15dp"
         android:background="@drawable/bg_corner_stroke"
-        app:layout_constraintTop_toBottomOf="@+id/spLevel_Add"
+        app:layout_constraintTop_toBottomOf="@+id/etJoinDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 

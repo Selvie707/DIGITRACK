@@ -15,12 +15,31 @@ class LevelsAdapter(
     private val onItemClick: (Int) -> Unit
 ) : RecyclerView.Adapter<LevelsAdapter.LevelViewHolder>() {
 
+    private var selectedPosition = 0
+
     inner class LevelViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val tvLevelName: TextView = itemView.findViewById(R.id.tvLevel)
+        val tvLevelName: TextView = itemView.findViewById(R.id.tvLevel)
 
         fun bind(level: Levels) {
             tvLevelName.text = level.levelName
-            itemView.setOnClickListener { onItemClick(adapterPosition) }
+//            itemView.setOnClickListener { onItemClick(adapterPosition) }
+
+            // Set default or selected state
+            if (position == selectedPosition) {
+                tvLevelName.textSize = 23f
+                tvLevelName.setTypeface(null, android.graphics.Typeface.BOLD)
+            } else {
+                tvLevelName.textSize = 20f
+                tvLevelName.setTypeface(null, android.graphics.Typeface.NORMAL)
+            }
+
+            // Handle item click
+            itemView.setOnClickListener {
+                notifyItemChanged(selectedPosition)
+                selectedPosition = adapterPosition
+                notifyItemChanged(selectedPosition)
+                onItemClick(adapterPosition)
+            }
         }
     }
 

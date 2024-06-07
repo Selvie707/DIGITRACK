@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.digitrack.R
-import com.example.digitrack.adapters.ScheduleAdapter
+import com.example.digitrack.adapters.OuterScheduleAdapter
 import com.example.digitrack.data.Students
 import com.example.digitrack.databinding.ActivityScheduleBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -73,26 +73,31 @@ class ScheduleActivity : AppCompatActivity() {
                     }
                 }
 
-                // Filter jadwal berdasarkan tanggal yang diberikan
-                val filteredStudents = studentsWithSchedule.filter { (_, schedule) ->
-                    schedule.any { (key, _) ->
-                        val scheduleDate = key.split("|").getOrNull(0) ?: ""
-                        scheduleDate == date
-                    }
-                }
+                Log.d("ScheduleActivity1", studentsWithSchedule.toString())
 
-                // Logging hasil filter
-                filteredStudents.forEach { (student, schedule) ->
-                    schedule.forEach { (key, _) ->
-                        val scheduleDate = key.split("|").getOrNull(0) ?: ""
+                // Filter jadwal berdasarkan tanggal yang diberikan
+                val filteredSchedules = mutableListOf<Pair<Students, String>>()
+                for ((student, schedule) in studentsWithSchedule) {
+                    for ((key, value) in schedule) {
+                        println("key: $key")
+                        val scheduleDate = value.split("|").getOrNull(0) ?: ""
                         if (scheduleDate == date) {
-                            Log.d("FilteredStudent", "Student: ${student.studentName}, Date: $scheduleDate")
+                            filteredSchedules.add(Pair(student, value))
                         }
                     }
                 }
 
+                Log.d("ScheduleActivity2", filteredSchedules.toString())
+
+                // Group schedules by time
+                val groupedByTime = filteredSchedules.groupBy { (_, scheduleKey) ->
+                    scheduleKey.split("|")[1]
+                }
+
+                Log.d("ScheduleActivity3", groupedByTime.toString())
+
                 // Set adapter dengan daftar yang sudah difilter
-                rvSchedule.adapter = ScheduleAdapter(filteredStudents.map { it.first }) { position ->
+                rvSchedule.adapter = OuterScheduleAdapter(groupedByTime) { position ->
                     Toast.makeText(this, "Student clicked at position $position", Toast.LENGTH_SHORT).show()
                 }
             }

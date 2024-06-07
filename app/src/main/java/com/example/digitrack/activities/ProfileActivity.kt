@@ -52,16 +52,16 @@ class ProfileActivity : AppCompatActivity() {
             startActivity(Intent(this, HelpCenterActivity::class.java))
         }
         binding.btnLogout.setOnClickListener {
-//            val editor = sharedPref.edit()
-//
-//            editor.clear()
-//
-//            editor.apply()
-
             Firebase.auth.signOut()
 
             startActivity(Intent(this, OnBoardingActivity::class.java))
             finish()
         }
+
+        val name = sharedPref.getString("name", "")
+        val role = sharedPref.getString("role", "")
+
+        binding.tvNameProfile.text = name
+        binding.tvRoleProfile.text = role
     }
 }

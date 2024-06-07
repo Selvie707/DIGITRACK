@@ -21,10 +21,27 @@ class HelpCenterAdapter(
     inner class HelpCenterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvQuestion: TextView = itemView.findViewById(R.id.tvQuestion)
         private val tvAnswer: TextView = itemView.findViewById(R.id.tvAnswer)
+        private val vLine: View = itemView.findViewById(R.id.line)
+        private val btnExpand: ImageView = itemView.findViewById(R.id.btnExpand)
+        private val btnUnExpand: ImageView = itemView.findViewById(R.id.btnUnExpand)
 
         fun bind(helpCenter: HelpCenter) {
             tvQuestion.text = helpCenter.hcQuestion
             tvAnswer.text = helpCenter.hcAnswer
+
+            btnExpand.setOnClickListener {
+                vLine.visibility = View.VISIBLE
+                tvAnswer.visibility = View.VISIBLE
+                btnExpand.visibility = View.GONE
+                btnUnExpand.visibility = View.VISIBLE
+            }
+
+            btnUnExpand.setOnClickListener {
+                vLine.visibility = View.GONE
+                tvAnswer.visibility = View.GONE
+                btnExpand.visibility = View.VISIBLE
+                btnUnExpand.visibility = View.GONE
+            }
 
             itemView.setOnClickListener { onItemClick(adapterPosition) }
         }
