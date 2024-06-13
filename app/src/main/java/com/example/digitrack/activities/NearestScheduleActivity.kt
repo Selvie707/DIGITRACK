@@ -124,8 +124,10 @@ class NearestScheduleActivity : AppCompatActivity() {
                     Log.d("SortedStudent", "Student: ${student.studentName}, Time: ${scheduleKey.split("|").getOrNull(1)}")
                 }
 
+                println("$currentDate|$currentTime")
+
                 // Set adapter dengan daftar yang sudah diurutkan
-                rvSchedule.adapter = NearestScheduleAdapter(sortedStudents.map { it.first }) { position ->
+                rvSchedule.adapter = NearestScheduleAdapter(sortedStudents.map { it.first }, currentDate, currentTime) { position ->
                     Toast.makeText(this, "Student clicked at position $position", Toast.LENGTH_SHORT).show()
                 }
             }

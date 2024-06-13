@@ -15,10 +15,13 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class NearestScheduleAdapter(
     private val scheduleList: List<Students>,
+    private val selectedDate: String, // Tambahkan parameter ini
+    private val selectedTime: String, // Tambahkan parameter ini
     private val onItemClick: (Int) -> Unit
 ) : RecyclerView.Adapter<NearestScheduleAdapter.ScheduleViewHolder>() {
 
     private val db = FirebaseFirestore.getInstance()
+    var check = false
 
     inner class ScheduleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvStudentName: TextView = itemView.findViewById(R.id.tvNamaAnak)
@@ -29,16 +32,37 @@ class NearestScheduleAdapter(
 
         fun bind(schedule: Students) {
             val studentWeek = schedule.studentAttendanceMaterials.keys.firstOrNull().toString()
+            val keySchedule = schedule.studentSchedule.keys.find { key ->
+                schedule.studentSchedule[key] == "$selectedDate|$selectedTime"
+            }
 
             tvStudentName.text = schedule.studentName
             tvStudentLevel.text = schedule.levelId
-            tvStudentWeek.text = "Week $studentWeek"
-            tvStudentMaterial.text = schedule.studentAttendanceMaterials.values.firstOrNull().toString()
+            tvStudentWeek.text = "Week $keySchedule"
+            tvStudentMaterial.text = schedule.studentAttendanceMaterials[keySchedule] ?: "No material"
 
-            cbAttendance.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
+            cbAttendance.setOnClickListener {
+                if (cbAttendance.isChecked) {
                     // Update studentAttendance in Firestore
+                    val b = cbAttendance.isChecked
+                    println("a: $b")
+                    check = true
                     val newAttendanceCount = (schedule.studentAttendance ?: 0) + 1
+                    db.collection("student")
+                        .document(schedule.studentId)
+                        .update("studentAttendance", newAttendanceCount)
+                        .addOnSuccessListener {
+                            Log.d("NearestScheduleAdapter", "Attendance updated successfully")
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("NearestScheduleAdapter", "Error updating attendance", e)
+                        }
+                } else if (!cbAttendance.isChecked && check) {
+                    // Update studentAttendance in Firestore
+                    val a = !cbAttendance.isChecked
+                    println("$a $check")
+                    check = false
+                    val newAttendanceCount = (schedule.studentAttendance ?: 0)
                     db.collection("student")
                         .document(schedule.studentId)
                         .update("studentAttendance", newAttendanceCount)

@@ -21,11 +21,11 @@
 
     <TextView
         android:id="@+id/tvRegister_Register"
-        android:layout_width="200dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginTop="1dp"
-        android:text="@string/tv_editProfile"
+        android:text="ADD MATERIAL"
         android:fontFamily="@font/boldinter"
         android:textSize="28sp"
         android:textColor="@color/purple"
@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginStart="5dp"
-        android:text="@string/h_username"
+        android:text="Material ID"
         android:textColor="@color/purple"
         android:fontFamily="@font/boldinter"
         android:textSize="15sp"
@@ -68,7 +68,7 @@
         android:id="@+id/etName_EditProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/h_name"
+        android:hint="Material ID"
         android:textColorHint="@color/purple"
         android:layout_marginTop="5dp"
         android:padding="15dp"
@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
         android:layout_marginStart="5dp"
-        android:text="@string/h_email"
+        android:text="Material Name"
         android:textColor="@color/purple"
         android:fontFamily="@font/boldinter"
         android:textSize="15sp"
@@ -95,7 +95,7 @@
         android:id="@+id/etEmail_EditProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/h_email"
+        android:hint="Material Name"
         android:textColorHint="@color/purple"
         android:layout_marginTop="5dp"
         android:padding="15dp"
@@ -107,6 +107,7 @@
         app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/tv_Password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -119,6 +120,7 @@
         app:layout_constraintTop_toBottomOf="@id/etEmail_EditProfile"/>
 
     <EditText
+        android:visibility="gone"
         android:id="@+id/etPasswordEditProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -138,7 +140,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
         android:layout_marginStart="5dp"
-        android:text="@string/h_role"
+        android:text="Level ID"
         android:textColor="@color/purple"
         android:fontFamily="@font/boldinter"
         android:textSize="15sp"
@@ -167,7 +169,7 @@
         android:layout_marginTop="45dp"
         android:background="@drawable/bg_corner"
         android:backgroundTint="@color/purple"
-        android:text="@string/btn_update"
+        android:text="@string/btn_add"
         android:textSize="20sp"
         android:textColor="@color/white"
         android:fontFamily="@font/boldinter"

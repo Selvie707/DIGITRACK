@@ -1,5 +1,6 @@
 package com.example.digitrack.activities
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -97,7 +98,7 @@ class ScheduleActivity : AppCompatActivity() {
                 Log.d("ScheduleActivity3", groupedByTime.toString())
 
                 // Set adapter dengan daftar yang sudah difilter
-                rvSchedule.adapter = OuterScheduleAdapter(groupedByTime) { position ->
+                rvSchedule.adapter = OuterScheduleAdapter(groupedByTime, date) { position ->
                     Toast.makeText(this, "Student clicked at position $position", Toast.LENGTH_SHORT).show()
                 }
             }

@@ -99,7 +99,7 @@
                     android:layout_marginTop="3dp"
                     android:orientation="horizontal">
 
-                    <com.google.android.material.search.SearchBar
+                    <SearchView
                         android:id="@+id/svSearch"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

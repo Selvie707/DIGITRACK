@@ -28,6 +28,9 @@ class LoginActivity : AppCompatActivity() {
 
         auth = Firebase.auth
 
+        // Initialize Firebase Auth
+        auth = FirebaseAuth.getInstance()
+
         val sharedPref = applicationContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
 
         val usersCollection = db.collection("teacher")
@@ -130,6 +133,26 @@ class LoginActivity : AppCompatActivity() {
 
         binding.tvRegisterLogin.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
+        }
+
+        binding.tvForgetPassword.setOnClickListener {
+            val email = binding.etEmailLogin.text.toString().trim()
+
+            if (email.isNotEmpty()) {
+                sendPasswordResetEmail(email)
+            } else {
+                Toast.makeText(this, "Please enter your email", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun sendPasswordResetEmail(email: String) {
+        auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(this, "Reset email sent", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Error: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

@@ -18,10 +18,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.digitrack.R
 import com.example.digitrack.data.Students
 import com.google.firebase.firestore.FirebaseFirestore
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.temporal.TemporalAdjusters
 import java.util.Calendar
 
-class InnerAdapter(private val innerItemList: List<Students>) : RecyclerView.Adapter<InnerAdapter.InnerViewHolder>() {
-
+class InnerAdapter(
+    private val innerItemList: List<Students>,
+    private val selectedDate: String, // Tambahkan parameter ini
+    private val selectedTime: String // Tambahkan parameter ini
+) : RecyclerView.Adapter<InnerAdapter.InnerViewHolder>() {
     inner class InnerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvStudentName: TextView = itemView.findViewById(R.id.tvStudentName)
         val tvStudentLevel: TextView = itemView.findViewById(R.id.tvStudentLevel)
@@ -30,24 +36,41 @@ class InnerAdapter(private val innerItemList: List<Students>) : RecyclerView.Ada
         val ivTeacherColor: ImageView = itemView.findViewById(R.id.ivTeacherColor)
         val btnEdit: ImageView = itemView.findViewById(R.id.btnEdit)
 
-        fun bind(student: Students) {
+        fun bind(student: Students, position: Int) {
+
+            val context = itemView.context
+
+            // Akses SharedPreferences
+            val sharedPref = context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+            val role = sharedPref.getString("role", "")
+
+            // Ubah tampilan berdasarkan nilai role
+            if (!role.equals("Admin")) {
+                btnEdit.visibility = View.GONE
+            }
+
             tvStudentName.text = student.studentName
             tvStudentLevel.text = student.levelId
 //            tvStudentWeek.text = "Week ${student.studentSchedule.keys.firstOrNull().toString()}"
 //            tvStudentMaterial.text = student.studentAttendanceMaterials.values.firstOrNull().toString()
 
-            // Tampilkan semua jadwal untuk setiap siswa
-            val scheduleKey = student.studentSchedule.keys.joinToString(", ") // Gabungkan semua kunci menjadi satu string
-            tvStudentWeek.text = "Week $scheduleKey"
+            val keySchedule = student.studentSchedule.keys.find { key ->
+                student.studentSchedule[key] == "$selectedDate|$selectedTime"
+            }
 
-            // Menampilkan materi dari jadwal pertama
-            val studentMaterial = student.studentAttendanceMaterials.values.firstOrNull()
+            tvStudentWeek.text = "Week $keySchedule"
+
+            // Ambil materi yang sesuai dengan posisi saat ini
+            val studentMaterial = student.studentAttendanceMaterials[keySchedule] ?: "No material"
+
             tvStudentMaterial.text = studentMaterial ?: "No schedule" // Tampilkan materi atau pesan jika tidak ada jadwal
 
             // Ambil semua kunci jadwal siswa
             val scheduleKeys = student.studentSchedule.keys.toList()
 
             println(scheduleKeys)
+
+            position+1
 
             // Set color based on userId
             when (student.userId) {
@@ -57,7 +80,7 @@ class InnerAdapter(private val innerItemList: List<Students>) : RecyclerView.Ada
 
             // Handle edit button click
             btnEdit.setOnClickListener {
-                showCustomDialog(itemView.context, student.studentId, student.studentSchedule.keys.firstOrNull().toString())
+                showCustomDialog(itemView.context, student.studentId, keySchedule.toString())
             }
         }
     }
@@ -73,7 +96,7 @@ class InnerAdapter(private val innerItemList: List<Students>) : RecyclerView.Ada
         val btnCancel = dialogView.findViewById<TextView>(R.id.btnCancel)
 
         // Mengatur adapter untuk spinner
-        val options = arrayOf("10.00 WIB", "11.00 WIB", "12.00 WIB")
+        val options = arrayOf("10.00 WIB", "11.00 WIB", "13.00 WIB", "14.00 WIB", "15.00 WIB", "16.00 WIB", "17.00 WIB")
         val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, options)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerOptions.adapter = adapter
@@ -149,9 +172,15 @@ class InnerAdapter(private val innerItemList: List<Students>) : RecyclerView.Ada
             // Hapus bagian "WIB" dari opsi waktu
             val formattedTime = previousOption.substringBefore(" ")
 
-            updateThisSchedule(studentId, studentScheduleKey, "$previousDate|$formattedTime")
-
             println("$selectedRadioText, $formattedTime, $previousDate | $studentScheduleKey")
+
+            if (selectedRadioText == "This Schedule") {
+                updateThisSchedule(studentId, studentScheduleKey, "$previousDate|$formattedTime")
+            } else if (selectedRadioText == "This and following schedule") {
+                getStudentSchedule(studentId, studentScheduleKey.toInt(), previousDate, formattedTime)
+            } else {
+                println("Something went wrong")
+            }
 
             // Tutup kedua dialog
             dialog.dismiss()
@@ -171,7 +200,7 @@ class InnerAdapter(private val innerItemList: List<Students>) : RecyclerView.Ada
     }
 
     override fun onBindViewHolder(holder: InnerViewHolder, position: Int) {
-        holder.bind(innerItemList[position])
+        holder.bind(innerItemList[position], position)
     }
 
     override fun getItemCount(): Int {
@@ -180,10 +209,6 @@ class InnerAdapter(private val innerItemList: List<Students>) : RecyclerView.Ada
 
     private fun updateThisSchedule(studentId: String, studentScheduleKey: String, studentScheduleValue: String) {
         val db = FirebaseFirestore.getInstance()
-
-//        val updates = hashMapOf(
-//            oldKey to "25-05-24|11.00"
-//        )
 
         // Perbarui nilai di Firestore
         db.collection("student").document(studentId).update("studentSchedule.$studentScheduleKey", studentScheduleValue)
@@ -195,57 +220,85 @@ class InnerAdapter(private val innerItemList: List<Students>) : RecyclerView.Ada
                 // Penanganan kesalahan
                 println("Gagal memperbarui nilai: $e")
             }
+    }
 
-//        db.collection("student").document(studentId).get()
-//            .addOnSuccessListener { document ->
-//                if (document != null) {
-//                    val studentSchedule = document.get("studentSchedule") as? MutableMap<String, String>
-//
-//                    Log.d("UPDATE SCHEDULE", studentSchedule.toString())
-//
-//                    if (studentSchedule != null && studentSchedule.containsKey(oldKey)) {
-//                        val value = studentSchedule[oldKey] // Ambil nilai dari oldKey
-////                        studentSchedule.remove(oldKey) // Hapus oldKey dari map
-//
-//                        Log.d("UPDATE SCHEDULE IN", studentSchedule.toString()+value)
-//
-//                        // Pertama, hapus oldKey dari Firestore
-//                        val updates = hashMapOf<String, Any>(
-//                            "studentSchedule.$oldKey" to FieldValue.delete()
-//                        )
-//
-//                        Log.d("UPDATE SCHEDULE IN", studentSchedule.toString())
-//
-//                        db.collection("students").document(studentId)
-//                            .update(updates)
-//                            .addOnSuccessListener {
-//                                Log.d("Firestore", "Successfully deleted key from map")
-//
-//                                val newData = hashMapOf(newKey to "2")
-//
-//                                // Setelah oldKey dihapus, tambahkan newKey ke Firestore
-//                                db.collection("students").document(studentId)
-//                                    .set(mapOf("studentSchedule" to newData), /* Set options */  SetOptions.merge())
-//                                    .addOnSuccessListener {
-//                                        Log.d("CHANGE SCHEDULE", "Success")
-//                                    }
-//                                    .addOnFailureListener { e ->
-//                                        Log.d("CHANGE SCHEDULE", "Failed to add new key", e)
-//                                    }
-//                            }
-//                            .addOnFailureListener { e ->
-//                                Log.w("Firestore", "Error deleting key from map", e)
-//                            }
-//
-//                    } else {
-//                        Log.d("CHANGE SCHEDULE", "Key Not Found")
-//                    }
-//                } else {
-//                    Log.d("CHANGE SCHEDULE", "Document Not Found")
-//                }
-//            }
-//            .addOnFailureListener { e ->
-//                Log.d("CHANGE SCHEDULE", "Failed to fetch the document", e)
-//            }
+    companion object {
+        private fun getStudentSchedule(studentId: String, scheduleKey: Int, schDay: String, schTime: String) {
+            val formatter = DateTimeFormatter.ofPattern("dd-MM-yy")
+
+            val joinDate = LocalDate.parse(schDay, formatter)
+
+            val dayOfWeekName = when (joinDate.dayOfWeek) {
+                java.time.DayOfWeek.SUNDAY -> "Sunday"
+                java.time.DayOfWeek.MONDAY -> "Monday"
+                java.time.DayOfWeek.TUESDAY -> "Tuesday"
+                java.time.DayOfWeek.WEDNESDAY -> "Wednesday"
+                java.time.DayOfWeek.THURSDAY -> "Thursday"
+                java.time.DayOfWeek.FRIDAY -> "Friday"
+                java.time.DayOfWeek.SATURDAY -> "Saturday"
+            }
+
+            println("The day of the week for $schDay is $dayOfWeekName")
+
+            val startDate = LocalDate.parse(schDay, formatter)
+            val dayOfWeek = when (dayOfWeekName) {
+                "Sunday" -> java.time.DayOfWeek.SUNDAY
+                "Monday" -> java.time.DayOfWeek.MONDAY
+                "Tuesday" -> java.time.DayOfWeek.TUESDAY
+                "Wednesday" -> java.time.DayOfWeek.WEDNESDAY
+                "Thursday" -> java.time.DayOfWeek.THURSDAY
+                "Friday" -> java.time.DayOfWeek.FRIDAY
+                "Saturday" -> java.time.DayOfWeek.SATURDAY
+                else -> throw IllegalArgumentException("Invalid day of the week: $dayOfWeekName")
+            }
+
+            val firstSession = if (startDate.dayOfWeek == dayOfWeek) {
+                startDate
+            } else {
+                startDate.with(TemporalAdjusters.next(dayOfWeek))
+            }
+
+            println("Schedule Key: $scheduleKey")
+
+            val scheduleMap = hashMapOf<String, String>()
+            var j = 0
+            for (i in scheduleKey until 16) {
+                val sessionDate = firstSession.plusWeeks(j.toLong())
+                val sessionDateString = sessionDate.format(formatter)
+                scheduleMap["studentSchedule." + (i).toString()] = "$sessionDateString|$schTime"
+                j++
+            }
+
+            // Menambahkan data dengan key startKey-1
+//            scheduleMap["studentSchedule." + (scheduleKey).toString()] = "$schDay|$schTime WIB"
+
+            val db = FirebaseFirestore.getInstance()
+
+            // Perbarui nilai di Firestore
+            db.collection("student").document(studentId)
+                .update(scheduleMap as Map<String, Any>)
+                .addOnSuccessListener {
+                    // Penanganan sukses
+                    println("Jadwal berhasil diperbarui!")
+                }
+                .addOnFailureListener { e ->
+                    // Penanganan kesalahan
+                    println("Gagal memperbarui jadwal: $e")
+                }
+
+            db.collection("student").document(studentId)
+                .update("studentDayTime", "$dayOfWeekName|$schTime WIB")
+                .addOnSuccessListener {
+                    // Penanganan sukses
+                    println("Jadwal berhasil diperbarui!")
+                }
+                .addOnFailureListener { e ->
+                    // Penanganan kesalahan
+                    println("Gagal memperbarui jadwal: $e")
+                }
+
+            // Cetak hasilnya untuk pengecekan
+            println("sch map: $scheduleMap")
+        }
     }
 }

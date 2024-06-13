@@ -103,6 +103,9 @@
     <string name="question">Question</string>
     <string name="answer">Answer</string>
     <string name="cancelCaps">CANCEL</string>
+    <string name="tv_editPassword">EDIT PASSWORD</string>
+    <string name="oldPassword">Old Password</string>
+    <string name="newPassword">New Password</string>
 
     <!--    SPINNER-->
     <string-array name="spRole">

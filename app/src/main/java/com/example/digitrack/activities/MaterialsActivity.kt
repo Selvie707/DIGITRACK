@@ -1,9 +1,12 @@
 package com.example.digitrack.activities
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,6 +35,13 @@ class MaterialsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMaterialsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val sharedPref = applicationContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+        val role = sharedPref.getString("role", "")
+
+        if (!role.equals("Admin")) {
+            binding.btnAdd.visibility = View.GONE
+        }
 
         rvMaterials = binding.rvMaterials
         rvLevels = binding.rvLevels
@@ -93,6 +103,10 @@ class MaterialsActivity : AppCompatActivity() {
         rvMaterials.adapter = materialsAdapter
 
         loadLevels(selectedCurName)
+
+        binding.btnAdd.setOnClickListener {
+            startActivity(Intent(this, EditProfileActivity::class.java))
+        }
 
         binding.btnBack.setOnClickListener {
             finish()
