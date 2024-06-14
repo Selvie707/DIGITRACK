@@ -123,7 +123,7 @@ class EditDetailStudentActivity : AppCompatActivity() {
                 "studentName" to studentName,
                 "levelId" to studentLevel,
                 "studentAge" to studentAge,
-                "studentAttendance" to studentAttendance,
+                "studentAttendance" to studentAttendance!!.toInt(),
                 "studentJoinDate" to studentJoinDate,
                 "studentDayTime" to "$day|$time WIB",
                 "userId" to studentTeacher,
