@@ -1,38 +1,63 @@
 package com.example.digitrack.activities
 
+import android.Manifest
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
-import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.digitrack.NotificationReceiver
 import com.example.digitrack.R
 import com.example.digitrack.adapters.NearestScheduleAdapter
-import com.example.digitrack.adapters.ScheduleAdapter
 import com.example.digitrack.data.Students
 import com.example.digitrack.databinding.ActivityNearestScheduleBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
-import java.time.format.TextStyle
-import java.util.Locale
+import java.util.Calendar
 
 class NearestScheduleActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNearestScheduleBinding
     private lateinit var rvSchedule: RecyclerView
 
+    companion object {
+        const val REQUEST_CODE_NOTIFICATIONS = 1001
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNearestScheduleBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Meminta izin notifikasi pada Android 13+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    REQUEST_CODE_NOTIFICATIONS
+                )
+            }
+        }
+
+        // Mengatur AlarmManager untuk memanggil BroadcastReceiver setiap menit
+        setHourlyAlarm()
 
         val user = Firebase.auth.currentUser
         if (user != null) {
@@ -82,7 +107,8 @@ class NearestScheduleActivity : AppCompatActivity() {
         val currentTime = "$currentHour.$currentMinute"
         val nextTime = "$nextHour.$currentMinute"
 
-        binding.tvJam.text = "JAM $currentTime - $nextTime WIB"
+        val timeText = "JAM $currentTime - $nextTime WIB"
+        binding.tvJam.text = timeText
 
         db.collection("student")
             .get()
@@ -99,7 +125,7 @@ class NearestScheduleActivity : AppCompatActivity() {
 
                 // Filter jadwal berdasarkan tanggal dan jam sekarang
                 val filteredSchedules = studentsWithSchedule.flatMap { (student, schedule) ->
-                    schedule.filter { (key, value) ->
+                    schedule.filter { (_, value) ->
                         val scheduleDate = value.split("|").getOrNull(0) ?: ""
                         val scheduleTime = value.split("|").getOrNull(1) ?: ""
                         scheduleDate == currentDate && scheduleTime.startsWith(currentHour)
@@ -119,13 +145,6 @@ class NearestScheduleActivity : AppCompatActivity() {
                 // Mengurutkan berdasarkan waktu
                 val sortedStudents = studentsWithTimes.sortedBy { it.third }
 
-                // Logging hasil urutan
-                sortedStudents.forEach { (student, scheduleKey, _) ->
-                    Log.d("SortedStudent", "Student: ${student.studentName}, Time: ${scheduleKey.split("|").getOrNull(1)}")
-                }
-
-                println("$currentDate|$currentTime")
-
                 // Set adapter dengan daftar yang sudah diurutkan
                 rvSchedule.adapter = NearestScheduleAdapter(sortedStudents.map { it.first }, currentDate, currentTime) { position ->
                     Toast.makeText(this, "Student clicked at position $position", Toast.LENGTH_SHORT).show()
@@ -134,5 +153,49 @@ class NearestScheduleActivity : AppCompatActivity() {
             .addOnFailureListener { exception ->
                 Toast.makeText(this, "Failed to load students: $exception", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun setHourlyAlarm() {
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, NotificationReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.MINUTE, 50)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+            if (before(Calendar.getInstance())) {
+                add(Calendar.HOUR_OF_DAY, 1)
+            }
+        }
+
+        val intervalMillis = 3600000L // 1 jam dalam milidetik
+
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            pendingIntent
+        )
+        alarmManager.setRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            intervalMillis,
+            pendingIntent
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_NOTIFICATIONS) {
+            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                // Izin diberikan, atur alarm
+                setHourlyAlarm()
+            }
+        }
     }
 }

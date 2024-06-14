@@ -18,7 +18,7 @@
 
     <TextView
         android:id="@+id/tvHaiUser"
-        android:layout_width="200dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:layout_marginStart="20dp"
@@ -33,7 +33,7 @@
 
     <TextView
         android:id="@+id/tvReady"
-        android:layout_width="200dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:layout_marginStart="20dp"
@@ -49,20 +49,19 @@
         android:id="@+id/clWelcome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="20dp"
         android:layout_marginTop="30dp"
-        android:layout_marginStart="20dp"
         android:layout_marginEnd="32dp"
+        android:layout_marginStart="20dp"
         android:background="@drawable/bg_corner_stroke_text"
         app:layout_constraintTop_toBottomOf="@id/tvReady"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
         <TextView
             android:id="@+id/welcome"
-            android:layout_width="90dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
-            android:paddingTop="20dp"
             android:text="@string/tv_welcome"
             android:fontFamily="@font/boldinter"
             android:textSize="18sp"
@@ -72,11 +71,10 @@
 
         <TextView
             android:id="@+id/lets"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
-            android:paddingBottom="20dp"
+            android:maxEms="9"
             android:text="@string/tv_lets"
             android:fontFamily="@font/regularinter"
             android:textSize="16sp"
@@ -87,11 +85,10 @@
         <ImageView
             android:layout_width="130dp"
             android:layout_height="70dp"
-            android:layout_marginTop="33dp"
-            android:layout_marginEnd="12dp"
             android:src="@drawable/maskot"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView

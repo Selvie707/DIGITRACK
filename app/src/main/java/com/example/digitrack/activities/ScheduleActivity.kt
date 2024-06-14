@@ -1,13 +1,10 @@
 package com.example.digitrack.activities
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.digitrack.R
 import com.example.digitrack.adapters.OuterScheduleAdapter
 import com.example.digitrack.data.Students
 import com.example.digitrack.databinding.ActivityScheduleBinding
@@ -23,7 +20,6 @@ class ScheduleActivity : AppCompatActivity() {
     private lateinit var rvSchedule: RecyclerView
     private var currentDate: LocalDate = LocalDate.now()
     private val dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yy")
-    private val scheduleList = mutableListOf<Students>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,13 +70,10 @@ class ScheduleActivity : AppCompatActivity() {
                     }
                 }
 
-                Log.d("ScheduleActivity1", studentsWithSchedule.toString())
-
                 // Filter jadwal berdasarkan tanggal yang diberikan
                 val filteredSchedules = mutableListOf<Pair<Students, String>>()
                 for ((student, schedule) in studentsWithSchedule) {
-                    for ((key, value) in schedule) {
-                        println("key: $key")
+                    for ((_, value) in schedule) {
                         val scheduleDate = value.split("|").getOrNull(0) ?: ""
                         if (scheduleDate == date) {
                             filteredSchedules.add(Pair(student, value))
@@ -88,19 +81,13 @@ class ScheduleActivity : AppCompatActivity() {
                     }
                 }
 
-                Log.d("ScheduleActivity2", filteredSchedules.toString())
-
                 // Group schedules by time
                 val groupedByTime = filteredSchedules.groupBy { (_, scheduleKey) ->
                     scheduleKey.split("|")[1]
                 }
 
-                Log.d("ScheduleActivity3", groupedByTime.toString())
-
                 // Set adapter dengan daftar yang sudah difilter
-                rvSchedule.adapter = OuterScheduleAdapter(groupedByTime, date) { position ->
-                    Toast.makeText(this, "Student clicked at position $position", Toast.LENGTH_SHORT).show()
-                }
+                rvSchedule.adapter = OuterScheduleAdapter(groupedByTime, date)
             }
             .addOnFailureListener { exception ->
                 Toast.makeText(this, "Failed to load students: $exception", Toast.LENGTH_SHORT).show()

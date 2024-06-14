@@ -3,7 +3,6 @@ package com.example.digitrack.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.SearchView
 import android.widget.Toast
@@ -15,7 +14,6 @@ import com.example.digitrack.data.Students
 import com.example.digitrack.databinding.ActivityAttendanceBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -30,7 +28,6 @@ class AttendanceActivity : AppCompatActivity() {
     private var monthText: String? = ""
     private var monthNumber: Int = currentDate.monthValue
     private var currentYear: Int = currentDate.year
-//    private val dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yy") // Mengubah format ke dd-MM-yy
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,11 +93,8 @@ class AttendanceActivity : AppCompatActivity() {
             studentList.clear() // Clear the list before adding new data
             for (document in querySnapshot) {
                 val student = document.toObject(Students::class.java)
-                if (student != null) {
-                    studentList.add(student)
-                }
+                studentList.add(student)
             }
-            Log.d("MonthNumber", monthNumber.toString())
             filter("") // Filter with empty text to show all data initially
         }.addOnFailureListener { exception ->
             Toast.makeText(this, "Failed to load students: $exception", Toast.LENGTH_SHORT).show()
@@ -143,6 +137,8 @@ class AttendanceActivity : AppCompatActivity() {
 
     private fun updateMonthYearText() {
         monthText = currentDate.month.getDisplayName(TextStyle.FULL, Locale.getDefault())
-        binding.tvMonth.text = "$monthText, $currentYear"
+
+        val monthTvText = "$monthText, $currentYear"
+        binding.tvMonth.text = monthTvText
     }
 }

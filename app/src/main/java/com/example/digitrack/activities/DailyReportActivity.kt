@@ -56,9 +56,7 @@ class DailyReportActivity : AppCompatActivity() {
             dailyReportList.clear()
             for (document in querySnapshot) {
                 val student = document.toObject(Students::class.java)
-                if (student != null) {
-                    dailyReportList.add(student)
-                }
+                dailyReportList.add(student)
             }
             filter("") // Filter with empty text to show all data initially
         }.addOnFailureListener { exception ->

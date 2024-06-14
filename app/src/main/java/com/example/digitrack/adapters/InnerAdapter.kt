@@ -1,7 +1,11 @@
 package com.example.digitrack.adapters
 
+import android.Manifest
 import android.app.DatePickerDialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
+import android.content.pm.PackageManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +17,9 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.digitrack.R
@@ -29,12 +36,12 @@ class InnerAdapter(
     private val selectedTime: String // Tambahkan parameter ini
 ) : RecyclerView.Adapter<InnerAdapter.InnerViewHolder>() {
     inner class InnerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvStudentName: TextView = itemView.findViewById(R.id.tvStudentName)
-        val tvStudentLevel: TextView = itemView.findViewById(R.id.tvStudentLevel)
-        val tvStudentWeek: TextView = itemView.findViewById(R.id.tvStudentWeek)
-        val tvStudentMaterial: TextView = itemView.findViewById(R.id.tvStudentMaterial)
-        val ivTeacherColor: ImageView = itemView.findViewById(R.id.ivTeacherColor)
-        val btnEdit: ImageView = itemView.findViewById(R.id.btnEdit)
+        private val tvStudentName: TextView = itemView.findViewById(R.id.tvStudentName)
+        private val tvStudentLevel: TextView = itemView.findViewById(R.id.tvStudentLevel)
+        private val tvStudentWeek: TextView = itemView.findViewById(R.id.tvStudentWeek)
+        private val tvStudentMaterial: TextView = itemView.findViewById(R.id.tvStudentMaterial)
+        private val ivTeacherColor: ImageView = itemView.findViewById(R.id.ivTeacherColor)
+        private val btnEdit: ImageView = itemView.findViewById(R.id.btnEdit)
 
         fun bind(student: Students, position: Int) {
 
@@ -51,24 +58,21 @@ class InnerAdapter(
 
             tvStudentName.text = student.studentName
             tvStudentLevel.text = student.levelId
-//            tvStudentWeek.text = "Week ${student.studentSchedule.keys.firstOrNull().toString()}"
-//            tvStudentMaterial.text = student.studentAttendanceMaterials.values.firstOrNull().toString()
 
             val keySchedule = student.studentSchedule.keys.find { key ->
                 student.studentSchedule[key] == "$selectedDate|$selectedTime"
             }
 
-            tvStudentWeek.text = "Week $keySchedule"
+            val studentWeekText = "Week $keySchedule"
+            tvStudentWeek.text = studentWeekText
 
             // Ambil materi yang sesuai dengan posisi saat ini
             val studentMaterial = student.studentAttendanceMaterials[keySchedule] ?: "No material"
 
-            tvStudentMaterial.text = studentMaterial ?: "No schedule" // Tampilkan materi atau pesan jika tidak ada jadwal
+            tvStudentMaterial.text = studentMaterial
 
             // Ambil semua kunci jadwal siswa
             val scheduleKeys = student.studentSchedule.keys.toList()
-
-            println(scheduleKeys)
 
             position+1
 
@@ -80,12 +84,12 @@ class InnerAdapter(
 
             // Handle edit button click
             btnEdit.setOnClickListener {
-                showCustomDialog(itemView.context, student.studentId, keySchedule.toString())
+                showCustomDialog(itemView.context, student.studentId, keySchedule.toString(), student.studentName)
             }
         }
     }
 
-    private fun showCustomDialog(context: Context, studentId: String, studentScheduleKey: String) {
+    private fun showCustomDialog(context: Context, studentId: String, studentScheduleKey: String, studentName: String) {
         // Gunakan LayoutInflater untuk memasukkan layout dialog kustom
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_change_schedule, null)
 
@@ -96,7 +100,7 @@ class InnerAdapter(
         val btnCancel = dialogView.findViewById<TextView>(R.id.btnCancel)
 
         // Mengatur adapter untuk spinner
-        val options = arrayOf("10.00 WIB", "11.00 WIB", "13.00 WIB", "14.00 WIB", "15.00 WIB", "16.00 WIB", "17.00 WIB")
+        val options = arrayOf("10.00 WIB", "11.00 WIB", "12.00 WIB", "13.00 WIB", "14.00 WIB", "15.00 WIB", "16.00 WIB", "17.00 WIB")
         val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, options)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerOptions.adapter = adapter
@@ -118,7 +122,7 @@ class InnerAdapter(
             val selectedOption = spinnerOptions.selectedItem.toString()
             val dateTime = tvDateTime.text.toString()
             Toast.makeText(context, "$selectedOption $dateTime", Toast.LENGTH_SHORT).show()
-            showAnotherDialog(context, selectedOption, dateTime, studentId, studentScheduleKey)
+            showAnotherDialog(context, selectedOption, dateTime, studentId, studentScheduleKey, studentName)
             dialog.dismiss()
         }
 
@@ -147,7 +151,7 @@ class InnerAdapter(
         datePickerDialog.show()
     }
 
-    private fun showAnotherDialog(context: Context, previousOption: String, previousDate: String, studentId: String, studentScheduleKey: String) {
+    private fun showAnotherDialog(context: Context, previousOption: String, previousDate: String, studentId: String, studentScheduleKey: String, studentName: String) {
         // Inflate layout dialog kedua
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_edit_schedule, null)
 
@@ -172,14 +176,30 @@ class InnerAdapter(
             // Hapus bagian "WIB" dari opsi waktu
             val formattedTime = previousOption.substringBefore(" ")
 
-            println("$selectedRadioText, $formattedTime, $previousDate | $studentScheduleKey")
+            when (selectedRadioText) {
+                "This Schedule" -> {
+                    updateThisSchedule(studentId, studentScheduleKey, "$previousDate|$formattedTime")
+                    showNotification(context, "Schedule changed", "$studentName move to $previousDate|$formattedTime")
+                }
+                "This and following schedule" -> {
+                    getStudentSchedule(studentId, studentScheduleKey.toInt(), previousDate, formattedTime)
+                    val formatter = DateTimeFormatter.ofPattern("dd-MM-yy")
+                    val joinDate = LocalDate.parse(previousDate, formatter)
 
-            if (selectedRadioText == "This Schedule") {
-                updateThisSchedule(studentId, studentScheduleKey, "$previousDate|$formattedTime")
-            } else if (selectedRadioText == "This and following schedule") {
-                getStudentSchedule(studentId, studentScheduleKey.toInt(), previousDate, formattedTime)
-            } else {
-                println("Something went wrong")
+                    val dayOfWeekName = when (joinDate.dayOfWeek) {
+                        java.time.DayOfWeek.SUNDAY -> "Sunday"
+                        java.time.DayOfWeek.MONDAY -> "Monday"
+                        java.time.DayOfWeek.TUESDAY -> "Tuesday"
+                        java.time.DayOfWeek.WEDNESDAY -> "Wednesday"
+                        java.time.DayOfWeek.THURSDAY -> "Thursday"
+                        java.time.DayOfWeek.FRIDAY -> "Friday"
+                        java.time.DayOfWeek.SATURDAY -> "Saturday"
+                    }
+                    showNotification(context, "Notification", "$studentName change day to $dayOfWeekName at $formattedTime")
+                }
+                else -> {
+                    println("Something went wrong")
+                }
             }
 
             // Tutup kedua dialog
@@ -225,7 +245,6 @@ class InnerAdapter(
     companion object {
         private fun getStudentSchedule(studentId: String, scheduleKey: Int, schDay: String, schTime: String) {
             val formatter = DateTimeFormatter.ofPattern("dd-MM-yy")
-
             val joinDate = LocalDate.parse(schDay, formatter)
 
             val dayOfWeekName = when (joinDate.dayOfWeek) {
@@ -237,8 +256,6 @@ class InnerAdapter(
                 java.time.DayOfWeek.FRIDAY -> "Friday"
                 java.time.DayOfWeek.SATURDAY -> "Saturday"
             }
-
-            println("The day of the week for $schDay is $dayOfWeekName")
 
             val startDate = LocalDate.parse(schDay, formatter)
             val dayOfWeek = when (dayOfWeekName) {
@@ -258,8 +275,6 @@ class InnerAdapter(
                 startDate.with(TemporalAdjusters.next(dayOfWeek))
             }
 
-            println("Schedule Key: $scheduleKey")
-
             val scheduleMap = hashMapOf<String, String>()
             var j = 0
             for (i in scheduleKey until 16) {
@@ -268,9 +283,6 @@ class InnerAdapter(
                 scheduleMap["studentSchedule." + (i).toString()] = "$sessionDateString|$schTime"
                 j++
             }
-
-            // Menambahkan data dengan key startKey-1
-//            scheduleMap["studentSchedule." + (scheduleKey).toString()] = "$schDay|$schTime WIB"
 
             val db = FirebaseFirestore.getInstance()
 
@@ -296,9 +308,41 @@ class InnerAdapter(
                     // Penanganan kesalahan
                     println("Gagal memperbarui jadwal: $e")
                 }
+        }
+    }
 
-            // Cetak hasilnya untuk pengecekan
-            println("sch map: $scheduleMap")
+    private fun showNotification(context: Context, title: String, message: String) {
+        val channelId = "schedule_change_channel"
+        val channelName = "Schedule Change Notification"
+
+        // Buat NotificationChannel (untuk Android Oreo ke atas)
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(channelId, channelName, importance).apply {
+            description = "Notifikasi perubahan jadwal"
+        }
+
+        // Daftarkan channel dengan sistem
+        val notificationManager: NotificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+
+        // Bangun notifikasi
+        val builder = NotificationCompat.Builder(context, channelId)
+            .setSmallIcon(R.drawable.ic_calendar) // Ganti dengan ikon notifikasi Anda
+            .setContentTitle(title)
+            .setContentText(message)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        // Tampilkan notifikasi
+        with(NotificationManagerCompat.from(context)) {
+            if (ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                return
+            }
+            notify(1, builder.build())
         }
     }
 }

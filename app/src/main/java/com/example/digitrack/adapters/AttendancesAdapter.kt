@@ -1,18 +1,17 @@
 package com.example.digitrack.adapters
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.digitrack.R
 import com.example.digitrack.activities.DetailStudentActivity
 import com.example.digitrack.data.Students
+import com.google.firebase.firestore.FirebaseFirestore
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -38,12 +37,16 @@ class AttendancesAdapter(
         private var weekIV: Boolean = false
 
         fun bind(attendance: Students) {
+            val studentId = attendance.studentId
             val studentName = attendance.studentName
             val studentLevel = attendance.levelId
             val joinDate = LocalDate.parse(attendance.studentJoinDate, DateTimeFormatter.ofPattern("dd-MM-yy"))
+            val studentLevelUp = attendance.studentLevelUp
             val totalAttendance = attendance.studentAttendance ?: 0
+            val currentLevel = studentLevelUp(studentLevelUp!!, studentId, studentLevel)
 
-            tvStudentName.text = "$studentLevel - $studentName"
+            val studentDetailText = "$studentLevel - $studentName"
+            tvStudentName.text = studentDetailText
 
             // Reset the visibility of tvMaterial and booleans
             tvMaterial.visibility = View.GONE
@@ -123,13 +126,14 @@ class AttendancesAdapter(
                 val intent = Intent(context, DetailStudentActivity::class.java).apply {
                     putExtra("studentId", attendance.studentId)
                     putExtra("studentName", attendance.studentName)
-                    putExtra("studentLevel", attendance.levelId)
+                    putExtra("studentLevel", currentLevel)
                     putExtra("studentAge", attendance.studentAge)
                     putExtra("studentDayTime", attendance.studentDayTime)
                     putExtra("studentAttendance", attendance.studentAttendance.toString())
                     putExtra("studentTeacher", attendance.userId)
                     putExtra("studentDailyReport", attendance.studentDailyReportLink)
                     putExtra("studentJoinDate", attendance.studentJoinDate)
+                    putExtra("studentLevelUp", attendance.studentLevelUp)
                 }
                 context.startActivity(intent)
             }
@@ -206,5 +210,57 @@ class AttendancesAdapter(
         currentMonth = newMonth
         currentYear = newYear
         notifyDataSetChanged()
+    }
+
+    private fun studentLevelUp(levelUpDate: String, studentId: String, currentLevel: String): String {
+        // Ubah format tanggal yang diinput ke LocalDate
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yy")
+        val parsedInputDate = LocalDate.parse(levelUpDate, formatter)
+        val nextLevel: String
+
+        // Tanggal hari ini
+        val currentDate = LocalDate.now()
+
+        // Periksa apakah tanggal yang diinput lebih kecil atau sama dengan tanggal hari ini
+        if (parsedInputDate.isBefore(currentDate) || parsedInputDate.isEqual(currentDate)) {
+            println("Tanggal yang diinput lebih kecil atau sama dengan tanggal hari ini.")
+            // Lakukan tindakan yang sesuai di sini
+
+            val db = FirebaseFirestore.getInstance()
+
+            nextLevel = when (currentLevel) {
+                "LC1L1" -> "LC1L2"
+                "J1" -> "J2"
+                "J2" -> "T1"
+                // Tambahkan kasus lain jika diperlukan
+                else -> {
+                    // Tambahkan tindakan yang sesuai jika level tidak cocok dengan kasus yang ada
+                    println("Level tidak dikenali.")
+                    ""
+                }
+            }
+
+            val updates = hashMapOf(
+                "levelId" to nextLevel,
+                "studentJoinDate" to levelUpDate
+            )
+
+            // Perbarui nilai di Firestore
+            db.collection("student").document(studentId).update(updates as Map<String, Any>)
+                .addOnSuccessListener {
+                    // Penanganan sukses
+                    println("Nilai berhasil diperbarui!")
+                }
+                .addOnFailureListener { e ->
+                    // Penanganan kesalahan
+                    println("Gagal memperbarui nilai: $e")
+                }
+        } else {
+            nextLevel = currentLevel
+            println("Tanggal yang diinput lebih besar dari tanggal hari ini.")
+            // Lakukan tindakan yang sesuai di sini
+        }
+
+        return nextLevel
     }
 }

@@ -23,7 +23,7 @@
         android:id="@+id/tv_jam"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:paddingStart="20dp"

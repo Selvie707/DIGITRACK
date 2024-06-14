@@ -68,4 +68,6 @@ dependencies {
 
     // SeacrhView
     implementation("com.google.android.material:material:1.4.0")
+
+    implementation("androidx.work:work-runtime-ktx:2.7.1")
 }

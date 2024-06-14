@@ -42,16 +42,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <ImageView
-        android:id="@+id/btnEditPhoto"
-        android:layout_width="27dp"
-        android:layout_height="27dp"
-        android:layout_marginTop="130dp"
-        android:src="@drawable/ic_edit"
-        app:tint="@color/purple"
-        app:layout_constraintTop_toBottomOf="@id/btnBack"
-        app:layout_constraintStart_toEndOf="@+id/ivProfile_EditProfile"/>
-
     <TextView
         android:id="@+id/tv_username"
         android:layout_width="match_parent"
@@ -62,7 +52,7 @@
         android:textColor="@color/purple"
         android:fontFamily="@font/boldinter"
         android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@id/btnEditPhoto"/>
+        app:layout_constraintTop_toBottomOf="@id/ivProfile_EditProfile"/>
 
     <EditText
         android:id="@+id/etName_EditProfile"

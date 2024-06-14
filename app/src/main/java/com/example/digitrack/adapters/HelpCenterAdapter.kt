@@ -5,13 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.digitrack.R
 import com.example.digitrack.data.HelpCenter
-import com.example.digitrack.data.Levels
-import com.example.digitrack.data.Materials
-import com.example.digitrack.data.Students
 
 class HelpCenterAdapter(
     private val hcList: List<HelpCenter>,

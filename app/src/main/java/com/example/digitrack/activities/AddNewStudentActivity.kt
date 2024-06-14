@@ -1,6 +1,7 @@
 package com.example.digitrack.activities
 
-import android.content.Intent
+import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
@@ -10,8 +11,8 @@ import com.example.digitrack.databinding.ActivityAddNewStudentBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalAdjusters
+import java.util.Calendar
 
 class AddNewStudentActivity : AppCompatActivity() {
 
@@ -74,6 +75,20 @@ class AddNewStudentActivity : AppCompatActivity() {
                 Toast.makeText(this, "Failed to load levels: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
 
+        // Menangani pemilihan tanggal ketika TextView diklik
+        binding.etDay.setOnClickListener {
+            showDatePickerDialog(this) { selectedDate ->
+                binding.etDay.text = selectedDate
+            }
+        }
+
+        // Menangani pemilihan tanggal ketika TextView diklik
+        binding.etJoinDate.setOnClickListener {
+            showDatePickerDialog(this) { selectedDate ->
+                binding.etJoinDate.text = selectedDate
+            }
+        }
+
         // Mengatur adapter untuk spinner
         val optionTimes = arrayOf("10.00 WIB", "11.00 WIB", "12.00 WIB", "13.00 WIB", "14.00 WIB", "15.00 WIB", "16.00 WIB", "17.00 WIB")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, optionTimes)
@@ -102,6 +117,7 @@ class AddNewStudentActivity : AppCompatActivity() {
                 binding.etDailyReportAdd.error = "Please fill up this field"
             } else {
                 val userId = usersCollection.document().id
+                val studentLevelUp = joinDate?.let { levelUpDate(it) }
 
                 getMaterialsForLevel(level) { materialsMap ->
                     val userMap = hashMapOf(
@@ -115,7 +131,8 @@ class AddNewStudentActivity : AppCompatActivity() {
                         "studentDailyReportLink" to dailyReportLink,
                         "studentAge" to age,
                         "studentJoinDate" to joinDate,
-                        "studentDayTime" to dayTime
+                        "studentDayTime" to dayTime,
+                        "studentLevelUp" to studentLevelUp
                     )
 
                     usersCollection.document(userId).set(userMap).addOnSuccessListener {
@@ -129,23 +146,6 @@ class AddNewStudentActivity : AppCompatActivity() {
                         }
                 }
             }
-
-//            usersCollection
-//                .get()
-//                .addOnSuccessListener { result ->
-//                    for (document in result) {
-//                        // Mendapatkan data dari setiap dokumen
-//                        val name = document.getString("name")
-//                        val email = document.getString("email")
-//                        // Lakukan sesuatu dengan data yang didapatkan
-//                        Log.d("Firestore", "$name: $email")
-//
-//                        startActivity(Intent(this, AttendanceActivity::class.java))
-//                    }
-//                }
-//                .addOnFailureListener { exception ->
-//                    Log.w("Firestore", "Error getting documents: ", exception)
-//                }
         }
 
         binding.btnBack.setOnClickListener {
@@ -176,8 +176,6 @@ class AddNewStudentActivity : AppCompatActivity() {
                     materialsMap[(index + 1).toString()] = pair.second
                 }
 
-                // Cetak hasilnya untuk pengecekan
-                println(materialsMap)
                 callback(materialsMap)  // Panggil callback setelah data selesai diambil
             }
             .addOnFailureListener { exception ->
@@ -213,8 +211,39 @@ class AddNewStudentActivity : AppCompatActivity() {
             scheduleMap[(i + 1).toString()] = "$sessionDateString|$schTime"
         }
 
-        // Cetak hasilnya untuk pengecekan
-        println(scheduleMap)
         return scheduleMap
+    }
+
+    private fun showDatePickerDialog(context: Context, onDateSelected: (String) -> Unit) {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(context, { _, selectedYear, selectedMonth, selectedDay ->
+            // Mengonversi tahun ke format dua digit (contoh: 2024 -> 24)
+            val formattedYear = (selectedYear % 100).toString().padStart(2, '0')
+
+            // Format tanggal menjadi "dd-MM-yy"
+            val formattedDate = "${selectedDay.toString().padStart(2, '0')}-${(selectedMonth + 1).toString().padStart(2, '0')}-$formattedYear"
+            onDateSelected(formattedDate)
+        }, year, month, day)
+
+        datePickerDialog.show()
+    }
+
+    private fun levelUpDate(date: String): String {
+        // Format tanggal
+        val dateFormatter =
+            DateTimeFormatter.ofPattern("dd-MM-yy")
+
+        // Parse input date
+        val theDate = LocalDate.parse(date, dateFormatter)
+
+        // Tambah 6 bulan
+        val newDate = theDate.plusMonths(6)
+
+        // Cetak hasil
+        return newDate.format(dateFormatter)
     }
 }

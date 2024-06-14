@@ -1,7 +1,6 @@
 package com.example.digitrack.activities
 
 import android.R
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -35,7 +34,7 @@ class EditProfileActivity : AppCompatActivity() {
                 }
                 // Set the adapter to Spinner
                 val adapter = ArrayAdapter(this, R.layout.simple_spinner_item, levelNames)
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
                 binding.spRoleEditProfile.adapter = adapter
             }
             .addOnFailureListener { exception ->

@@ -1,15 +1,12 @@
 package com.example.digitrack.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.digitrack.adapters.AttendancesAdapter
 import com.example.digitrack.adapters.HelpCenterAdapter
 import com.example.digitrack.data.HelpCenter
-import com.example.digitrack.data.Students
 import com.example.digitrack.databinding.ActivityHelpCenterBinding
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -39,10 +36,6 @@ class HelpCenterActivity : AppCompatActivity() {
         db.collection("helpcenters").get().addOnSuccessListener { querySnapshot ->
             for (document in querySnapshot) {
                 val helpCenter = document.toObject(HelpCenter::class.java)
-                if (helpCenter != null) {
-                    println("Question: ${helpCenter.hcQuestion}")
-                    println("Answer: ${helpCenter.hcAnswer}")
-                }
                 helpCenterList.add(helpCenter)
             }
 

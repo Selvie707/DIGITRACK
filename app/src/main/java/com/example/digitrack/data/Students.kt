@@ -13,7 +13,8 @@ data class Students(
     val studentJoinDate: String? = "",
     val studentDayTime: String? = "",
     val studentCreatedAt: String? = "",
-    val studentUpdatedAt: String? = ""
+    val studentUpdatedAt: String? = "",
+    val studentLevelUp: String? = ""
 ) {
     // No-argument constructor required by Firestore
     constructor() : this(
@@ -29,6 +30,7 @@ data class Students(
         studentJoinDate = "",
         studentDayTime = "",
         studentCreatedAt = "",
-        studentUpdatedAt = ""
+        studentUpdatedAt = "",
+        studentLevelUp = ""
     )
 }

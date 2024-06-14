@@ -22,7 +22,6 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var role: String
     private var db = FirebaseFirestore.getInstance()
     private lateinit var auth: FirebaseAuth
-    private val TAG = RegisterActivity::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +66,6 @@ class RegisterActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
 
-                        Log.d(TAG, "createUserWithEmail:success")
                         val user = auth.currentUser
 
                         val userId = user?.uid
@@ -98,7 +96,6 @@ class RegisterActivity : AppCompatActivity() {
 
                     } else {
                         // If sign in fails, display a message to the user.
-                        Log.w(TAG, "createUserWithEmail:failure", task.exception)
                         Toast.makeText(
                             baseContext,
                             "Authentication failed.",
@@ -106,35 +103,7 @@ class RegisterActivity : AppCompatActivity() {
                         ).show()
                     }
                 }
-
             }
-
-            usersCollection
-                .get()
-                .addOnSuccessListener { result ->
-                    for (document in result) {
-                        // Mendapatkan data dari setiap dokumen
-                        val name = document.getString("name")
-                        val email = document.getString("email")
-                        // Lakukan sesuatu dengan data yang didapatkan
-                        Log.d("Firestore", "$name: $email")
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    Log.w("Firestore", "Error getting documents: ", exception)
-                }
-
-//            db.collection("student").document("abc").set(userMap)
-//                .addOnSuccessListener {
-//
-//                }
-//                .addOnFailureListener {
-//                    Toast.makeText(this, "Failed!!!", Toast.LENGTH_SHORT).show()
-//                    Log.d("bbb", "bbb")
-//                }
-//
-//            val intent = Intent(this, LoginActivity::class.java)
-//            startActivity(intent)
         }
 
         binding.tvLoginRegister.setOnClickListener {

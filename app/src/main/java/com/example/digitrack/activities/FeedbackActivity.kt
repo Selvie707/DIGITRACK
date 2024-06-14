@@ -1,17 +1,12 @@
 package com.example.digitrack.activities
 
 import android.content.Context
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.example.digitrack.MailSender
+import androidx.appcompat.app.AppCompatActivity
 import com.example.digitrack.databinding.ActivityFeedbackBinding
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class FeedbackActivity : AppCompatActivity() {
 
@@ -47,7 +42,6 @@ class FeedbackActivity : AppCompatActivity() {
 
         binding.btnSave.setOnClickListener {
             val comment = binding.etCriticsugges.text.toString()
-            println("$checkedStars $comment")
             val name = sharedPref.getString("name", "")
 
             val userId = usersCollection.document().id
@@ -59,7 +53,7 @@ class FeedbackActivity : AppCompatActivity() {
                 "feedbackText" to comment,
             )
 
-            usersCollection.document(userId!!).set(userMap).addOnSuccessListener {
+            usersCollection.document(userId).set(userMap).addOnSuccessListener {
                 Toast.makeText(this, "Successfully Added!!!", Toast.LENGTH_SHORT).show()
                 finish()
             }
@@ -67,23 +61,6 @@ class FeedbackActivity : AppCompatActivity() {
                     Toast.makeText(this, "There's something wrong", Toast.LENGTH_SHORT).show()
                     Log.d("RegisterActivity", "Error: ${e.message}")
                 }
-
-//            val recipient = "recipient@example.com"
-//            val subject = "Subject of the Email"
-//            val body = "Body of the Email"
-//
-//            CoroutineScope(Dispatchers.IO).launch {
-//                try {
-//                    MailSender.sendMail(recipient, subject, body)
-//                    runOnUiThread {
-//                        Toast.makeText(this@FeedbackActivity, "Email Sent Successfully", Toast.LENGTH_LONG).show()
-//                    }
-//                } catch (e: Exception) {
-//                    runOnUiThread {
-//                        println("Failed to Send Email: ${e.message}")
-//                    }
-//                }
-//            }
         }
 
         binding.btnBack.setOnClickListener {

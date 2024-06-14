@@ -1,5 +1,6 @@
 package com.example.digitrack.adapters
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
@@ -15,8 +16,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class NearestScheduleAdapter(
     private val scheduleList: List<Students>,
-    private val selectedDate: String, // Tambahkan parameter ini
-    private val selectedTime: String, // Tambahkan parameter ini
+    private val selectedDate: String,
+    private val selectedTime: String,
     private val onItemClick: (Int) -> Unit
 ) : RecyclerView.Adapter<NearestScheduleAdapter.ScheduleViewHolder>() {
 
@@ -31,21 +32,31 @@ class NearestScheduleAdapter(
         private val cbAttendance: CheckBox = itemView.findViewById(R.id.cbNearestSchedule)
 
         fun bind(schedule: Students) {
-            val studentWeek = schedule.studentAttendanceMaterials.keys.firstOrNull().toString()
+            val context = itemView.context
+
+            // Akses SharedPreferences
+            val sharedPref = context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+            val role = sharedPref.getString("role", "")
+
+            // Ubah tampilan berdasarkan nilai role
+            if (!role.equals("Teacher")) {
+                cbAttendance.visibility = View.GONE
+            }
+
             val keySchedule = schedule.studentSchedule.keys.find { key ->
                 schedule.studentSchedule[key] == "$selectedDate|$selectedTime"
             }
 
+            val studentWeekText = "Week $keySchedule"
+
             tvStudentName.text = schedule.studentName
             tvStudentLevel.text = schedule.levelId
-            tvStudentWeek.text = "Week $keySchedule"
+            tvStudentWeek.text = studentWeekText
             tvStudentMaterial.text = schedule.studentAttendanceMaterials[keySchedule] ?: "No material"
 
             cbAttendance.setOnClickListener {
                 if (cbAttendance.isChecked) {
-                    // Update studentAttendance in Firestore
                     val b = cbAttendance.isChecked
-                    println("a: $b")
                     check = true
                     val newAttendanceCount = (schedule.studentAttendance ?: 0) + 1
                     db.collection("student")
@@ -60,7 +71,6 @@ class NearestScheduleAdapter(
                 } else if (!cbAttendance.isChecked && check) {
                     // Update studentAttendance in Firestore
                     val a = !cbAttendance.isChecked
-                    println("$a $check")
                     check = false
                     val newAttendanceCount = (schedule.studentAttendance ?: 0)
                     db.collection("student")

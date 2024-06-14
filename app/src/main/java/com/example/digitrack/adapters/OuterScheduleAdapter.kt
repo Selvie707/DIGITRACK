@@ -11,8 +11,7 @@ import com.example.digitrack.data.Students
 
 class OuterScheduleAdapter(
     private val groupedSchedules: Map<String, List<Pair<Students, String>>>,
-    private val selectedDate: String, // Tambahkan parameter ini
-    private val onItemClick: (Int) -> Unit
+    private val selectedDate: String
 ) : RecyclerView.Adapter<OuterScheduleAdapter.OuterScheduleViewHolder>() {
 
     inner class OuterScheduleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -20,7 +19,8 @@ class OuterScheduleAdapter(
         private val innerRecyclerView: RecyclerView = itemView.findViewById(R.id.rvInner)
 
         fun bind(time: String, schedules: List<Pair<Students, String>>) {
-            tvTime.text = "JAM $time WIB"
+            val timeText = "JAM $time WIB"
+            tvTime.text = timeText
 
             innerRecyclerView.layoutManager = LinearLayoutManager(itemView.context)
             innerRecyclerView.adapter = InnerAdapter(schedules.map { it.first }, selectedDate, time) // Pass date and time to InnerAdapter

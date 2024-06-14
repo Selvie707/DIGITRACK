@@ -43,7 +43,7 @@
     <string name="tv_pleaseComplete">Please complate the documtent to help us improve this app in the future</string>
     <string name="tv_Rate">Rate this App</string>
     <string name="tv_criticssugges">Critics or Suggestion</string>
-    <string name="tv_pleaseWrite">Please write critics or suggestion in here</string>
+    <string name="tv_pleaseWrite">Please write critics or suggestion here...</string>
 
     <!--    HINT-->
     <string name="h_search">Search</string>
@@ -106,6 +106,9 @@
     <string name="tv_editPassword">EDIT PASSWORD</string>
     <string name="oldPassword">Old Password</string>
     <string name="newPassword">New Password</string>
+    <string name="age_proper_case">Age</string>
+    <string name="attendance">Attendance</string>
+    <string name="join_date_proper">Join Date</string>
 
     <!--    SPINNER-->
     <string-array name="spRole">

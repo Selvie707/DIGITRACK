@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.digitrack.R
 import com.example.digitrack.data.Levels
-import com.example.digitrack.data.Materials
 
 class LevelsAdapter(
     private val levelsList: List<Levels>,
@@ -18,7 +17,7 @@ class LevelsAdapter(
     private var selectedPosition = 0
 
     inner class LevelViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvLevelName: TextView = itemView.findViewById(R.id.tvLevel)
+        private val tvLevelName: TextView = itemView.findViewById(R.id.tvLevel)
 
         fun bind(level: Levels) {
             tvLevelName.text = level.levelName

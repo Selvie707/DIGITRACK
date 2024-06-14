@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -61,7 +60,6 @@ class MaterialsActivity : AppCompatActivity() {
 
             selectedCurName = binding.btnDK2.text.toString()
             selectedLevelId = "K1"
-            Log.d("Cek ID Level8", "$selectedCurName - $selectedLevelId")
             loadLevels(selectedCurName)
             loadMaterials(selectedCurName+selectedLevelId)
         }
@@ -76,7 +74,6 @@ class MaterialsActivity : AppCompatActivity() {
 
             selectedCurName = binding.btnDK3.text.toString()
             selectedLevelId = "LC1L1"
-            Log.d("Cek ID Level3", "$selectedCurName - $selectedLevelId")
             loadLevels(selectedCurName)
             loadMaterials(selectedCurName+selectedLevelId)
         }
@@ -91,14 +88,12 @@ class MaterialsActivity : AppCompatActivity() {
 
             selectedCurName = binding.btnACD.text.toString()
             selectedLevelId = "J1"
-            Log.d("Cek ID Level2", "$selectedCurName - $selectedLevelId")
             loadLevels(selectedCurName)
             loadMaterials(selectedCurName+selectedLevelId)
         }
 
-        materialsAdapter = MaterialsAdapter(materialsList) { position ->
+        materialsAdapter = MaterialsAdapter(materialsList) {
             // Handle click event for materials
-            Toast.makeText(this, "Material clicked at position $position", Toast.LENGTH_SHORT).show()
         }
         rvMaterials.adapter = materialsAdapter
 
@@ -115,7 +110,6 @@ class MaterialsActivity : AppCompatActivity() {
 
     private fun loadMaterials(levelId: String) {
         val db = FirebaseFirestore.getInstance()
-        Log.d("Cek ID Level7", levelId)
         db.collection("materials")
             .whereEqualTo("levelId", levelId)
             .get()
@@ -139,16 +133,11 @@ class MaterialsActivity : AppCompatActivity() {
                 val level = document.toObject(Levels::class.java)
                 levelsList.add(level)
             }
-                Log.d("Cek ID Level1", "$selectedCurName - $selectedLevelId")
                 loadMaterials(selectedCurName+selectedLevelId)
             rvLevels.adapter = LevelsAdapter(levelsList) { position ->
                 var levelId = levelsList[position].levelId
                 levelId = levelId.substring(3)
-                Log.d("Cek ID Level6", levelId)
-                selectedLevelId = selectedLevelId
-                Log.d("Cek ID Level", levelId)
                 loadMaterials(selectedCurName+levelId)
-                Toast.makeText(this, "Level clicked at position $position", Toast.LENGTH_SHORT).show()
             }
         }.addOnFailureListener { exception ->
             Toast.makeText(this, "Failed to load levels: $exception", Toast.LENGTH_SHORT).show()

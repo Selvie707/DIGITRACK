@@ -33,22 +33,6 @@
         app:layout_constraintStart_toEndOf="@id/btnBack"
         app:layout_constraintBottom_toBottomOf="@id/btnBack"/>
 
-    <ImageView
-        android:visibility="visible"
-        android:id="@+id/btnAdd"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginEnd="4dp"
-        android:padding="8dp"
-        android:src="@drawable/ic_add"
-        app:tint="@color/purple"
-        android:background="@drawable/bg_corner_back"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnBack"
-        app:layout_constraintStart_toEndOf="@id/tvHeader"
-        app:layout_constraintBottom_toBottomOf="@id/btnBack"/>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -103,12 +87,29 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/acd"
+                    android:padding="5dp"
                     android:textSize="18sp"
+                    android:layout_marginRight="16dp"
                     android:textColor="@color/purple"
                     android:fontFamily="@font/boldinter"
-                    android:padding="5dp"
                     android:gravity="center_horizontal"
                     android:background="@drawable/bg_corner_back"/>
+
+                <ImageView
+                    android:visibility="visible"
+                    android:id="@+id/btnAdd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginEnd="4dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_add"
+                    app:tint="@color/purple"
+                    android:background="@drawable/bg_corner_back"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/btnBack"
+                    app:layout_constraintStart_toEndOf="@id/tvHeader"
+                    app:layout_constraintBottom_toBottomOf="@id/btnBack"/>
             </LinearLayout>
 
             <LinearLayout
