@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.digitrack.NotificationReceiver
 import com.example.digitrack.R
 import com.example.digitrack.adapters.NearestScheduleAdapter
 import com.example.digitrack.data.Students
@@ -25,7 +24,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
-import java.util.Calendar
 
 class NearestScheduleActivity : AppCompatActivity() {
 
@@ -56,12 +54,9 @@ class NearestScheduleActivity : AppCompatActivity() {
             }
         }
 
-        // Mengatur AlarmManager untuk memanggil BroadcastReceiver setiap menit
-        setHourlyAlarm()
-
         val user = Firebase.auth.currentUser
         if (user != null) {
-            Toast.makeText(this, "Login Berhasil!!!", Toast.LENGTH_SHORT).show()
+            println("Login Successfully")
         } else {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
@@ -153,49 +148,5 @@ class NearestScheduleActivity : AppCompatActivity() {
             .addOnFailureListener { exception ->
                 Toast.makeText(this, "Failed to load students: $exception", Toast.LENGTH_SHORT).show()
             }
-    }
-
-    private fun setHourlyAlarm() {
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(this, NotificationReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        val calendar = Calendar.getInstance().apply {
-            timeInMillis = System.currentTimeMillis()
-            set(Calendar.MINUTE, 50)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-            if (before(Calendar.getInstance())) {
-                add(Calendar.HOUR_OF_DAY, 1)
-            }
-        }
-
-        val intervalMillis = 3600000L // 1 jam dalam milidetik
-
-        alarmManager.setExactAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP,
-            calendar.timeInMillis,
-            pendingIntent
-        )
-        alarmManager.setRepeating(
-            AlarmManager.RTC_WAKEUP,
-            calendar.timeInMillis,
-            intervalMillis,
-            pendingIntent
-        )
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CODE_NOTIFICATIONS) {
-            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                // Izin diberikan, atur alarm
-                setHourlyAlarm()
-            }
-        }
     }
 }

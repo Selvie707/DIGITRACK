@@ -93,7 +93,6 @@
             android:name=".activities.NearestScheduleActivity"
             android:exported="true"
             android:screenOrientation="portrait"></activity>
-        <receiver android:name=".NotificationReceiver" />
     </application>
 
 </manifest>

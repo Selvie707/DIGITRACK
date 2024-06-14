@@ -19,7 +19,7 @@ class EditProfileActivity : AppCompatActivity() {
         binding = ActivityEditProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val usersCollection = db.collection("materials")
+        val usersCollection = db.collection("levels")
 
         // Fetch data from Firestore
         db.collection("levels")
@@ -41,10 +41,18 @@ class EditProfileActivity : AppCompatActivity() {
                 Toast.makeText(this, "Failed to load levels: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
 
+//        val curName = arrayOf("DK3", "ACD", "DK2")
+
+        // Set the adapter to Spinner
+//        val adapter = ArrayAdapter(this, R.layout.simple_spinner_item, curName)
+//        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+//        binding.spRoleEditProfile.adapter = adapter
+
         binding.btnUpdate.setOnClickListener {
             val levelId = binding.spRoleEditProfile.selectedItem.toString().trim()
-            val materialId = binding.etNameEditProfile.text.toString().trim()
             val materialName = binding.etEmailEditProfile.text.toString().trim()
+//            val materialId = levelId+materialName
+            val materialId = binding.etNameEditProfile.text.toString().trim()
 
             val userMap = hashMapOf(
                 "levelId" to levelId,
@@ -52,7 +60,7 @@ class EditProfileActivity : AppCompatActivity() {
                 "materialName" to materialName
             )
 
-            usersCollection.document().set(userMap).addOnSuccessListener {
+            usersCollection.document(materialId).set(userMap).addOnSuccessListener {
                 Toast.makeText(this, "Successfully Added!!!", Toast.LENGTH_SHORT).show()
 
                 finish()
