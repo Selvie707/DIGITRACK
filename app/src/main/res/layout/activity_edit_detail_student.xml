@@ -52,6 +52,7 @@
                 android:id="@+id/ivEditDetailStudent"
                 android:layout_width="132dp"
                 android:layout_height="132dp"
+                android:visibility="gone"
                 android:layout_marginTop="35dp"
                 android:src="@drawable/photo"
                 android:layout_gravity="center_horizontal"/>
@@ -135,20 +136,15 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
 
-            <TextView
-                android:id="@+id/etDayEdit"
+            <Spinner
+                android:id="@+id/spDayEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/h_day"
                 android:textColorHint="@color/purple"
                 android:layout_marginTop="10dp"
+                android:paddingStart="38dp"
                 android:padding="15dp"
-                android:drawableStart="@drawable/ic_calendar"
-                android:drawablePadding="15dp"
-                android:background="@drawable/bg_corner_stroke"
-                app:layout_constraintTop_toBottomOf="@+id/spLevelEdit"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                android:background="@drawable/spinner_day"/>
 
             <Spinner
                 android:id="@+id/spTimeEdit"

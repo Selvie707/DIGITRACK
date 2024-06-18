@@ -59,7 +59,8 @@
             android:hint="@string/age_proper_case"
             android:textColorHint="@color/purple"
             android:padding="15dp"
-            android:drawableStart="@drawable/ic_person"
+            app:drawableTint="@color/purple"
+            android:drawableStart="@drawable/ic_circle"
             android:drawablePadding="15dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/bg_corner_stroke"
@@ -96,17 +97,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
-        <TextView
-            android:id="@+id/etDay"
+        <Spinner
+            android:id="@+id/spDay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/h_day"
             android:textColorHint="@color/purple"
             android:layout_marginTop="10dp"
             android:padding="15dp"
             android:drawableStart="@drawable/ic_calendar"
+            android:paddingStart="38dp"
             android:drawablePadding="15dp"
-            android:background="@drawable/bg_corner_stroke"
+            android:background="@drawable/spinner_day"
             app:layout_constraintTop_toBottomOf="@+id/etJoinDate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -115,14 +116,13 @@
             android:id="@+id/spTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/h_time"
             android:textColorHint="@color/purple"
             android:layout_marginTop="10dp"
             android:paddingStart="38dp"
             android:padding="15dp"
             android:drawablePadding="15dp"
             android:background="@drawable/spinner_time"
-            app:layout_constraintTop_toBottomOf="@+id/etDay"
+            app:layout_constraintTop_toBottomOf="@+id/spDay"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 

@@ -1,5 +1,6 @@
 package com.example.digitrack.activities
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -7,6 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +21,7 @@ import com.example.digitrack.data.Levels
 import com.example.digitrack.data.Materials
 import com.example.digitrack.databinding.ActivityMaterialsBinding
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
 class MaterialsActivity : AppCompatActivity() {
 
@@ -30,6 +35,21 @@ class MaterialsActivity : AppCompatActivity() {
     private var selectedLevelId: String = "K1"
     private var selectedCurName: String = "DK2"
 
+//    private val intentToAddActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), ActivityResultCallback { result: ActivityResult ->
+//        if (result.resultCode == Activity.RESULT_OK) {
+//            // Hasil sukses, lakukan sesuatu dengan data dari intent
+//            val data: Intent? = result.data
+//            // Misalnya, ambil data dari intent
+//            val someData = data?.getStringExtra("key")
+//            // Lakukan sesuatu dengan data yang diambil
+//            if (someData != null) {
+//                loadMaterials(someData)
+//            }
+//            Toast.makeText(this, "Data: $someData", Toast.LENGTH_SHORT).show()
+//        } else {
+//            // Hasil gagal, mungkin tampilkan pesan atau lakukan hal lain
+//            Toast.makeText(this, "Action canceled or failed", Toast.LENGTH_SHORT).show()
+//        }})
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMaterialsBinding.inflate(layoutInflater)
@@ -87,7 +107,7 @@ class MaterialsActivity : AppCompatActivity() {
             binding.btnDK2.setTextColor(purpleColor)
 
             selectedCurName = binding.btnACD.text.toString()
-            selectedLevelId = "J1"
+            selectedLevelId = "J"
             loadLevels(selectedCurName)
             loadMaterials(selectedCurName+selectedLevelId)
         }
@@ -100,7 +120,16 @@ class MaterialsActivity : AppCompatActivity() {
         loadLevels(selectedCurName)
 
         binding.btnAdd.setOnClickListener {
-            startActivity(Intent(this, EditProfileActivity::class.java))
+            val cur = "AKD"
+//            startActivity(Intent(this, EditProfileActivity::class.java))
+            // Membuat intent ke Activity tujuan
+            val intent = Intent(this, EditProfileActivity::class.java)
+            intent.putExtra("curriculum", cur)
+            startActivity(intent)
+
+//            Meluncurkan Activity dan menunggu hasilnya
+//            intentToAddActivity.launch(intent)
+//            finish()
         }
 
         binding.btnBack.setOnClickListener {
@@ -112,35 +141,49 @@ class MaterialsActivity : AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
         db.collection("materials")
             .whereEqualTo("levelId", levelId)
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                materialsList.clear()
-                for (document in querySnapshot) {
-                    val material = document.toObject(Materials::class.java)
-                    materialsList.add(material)
+            .addSnapshotListener { querySnapshot, exception ->
+                if (exception != null) {
+                    Toast.makeText(this, "Failed to load students: $exception", Toast.LENGTH_SHORT).show()
+                    return@addSnapshotListener
                 }
-                materialsAdapter.notifyDataSetChanged()
-            }.addOnFailureListener { exception ->
-                Toast.makeText(this, "Failed to load materials: $exception", Toast.LENGTH_SHORT).show()
+
+                if (querySnapshot != null) {
+                    materialsList.clear()
+                    for (document in querySnapshot) {
+                        val material = document.toObject(Materials::class.java)
+                        materialsList.add(material)
+                    }
+                    // Mengurutkan materialsList berdasarkan materialId secara ascending
+                    materialsList.sortBy { it.materialId }
+                    materialsAdapter.notifyDataSetChanged()
+                }
             }
     }
 
     private fun loadLevels(curName: String) {
         val db = FirebaseFirestore.getInstance()
-        db.collection("levels").whereEqualTo("curName", curName).get().addOnSuccessListener { querySnapshot ->
-            levelsList.clear()
-            for (document in querySnapshot) {
-                val level = document.toObject(Levels::class.java)
-                levelsList.add(level)
+        db.collection("levels").whereEqualTo("curName", curName).addSnapshotListener { querySnapshot, exception ->
+            if (exception != null) {
+                Toast.makeText(this, "Failed to load students: $exception", Toast.LENGTH_SHORT).show()
+                return@addSnapshotListener
             }
+
+            if (querySnapshot != null) {
+                levelsList.clear()
+                for (document in querySnapshot) {
+                    val level = document.toObject(Levels::class.java)
+                    levelsList.add(level)
+                }
+
+                levelsList.sortBy { it.levelSeq }
+
                 loadMaterials(selectedCurName+selectedLevelId)
-            rvLevels.adapter = LevelsAdapter(levelsList) { position ->
-                var levelId = levelsList[position].levelId
-                levelId = levelId.substring(3)
-                loadMaterials(selectedCurName+levelId)
+                rvLevels.adapter = LevelsAdapter(levelsList) { position ->
+                    var levelId = levelsList[position].levelId
+                    levelId = levelId.substring(3)
+                    loadMaterials(selectedCurName + levelId)
+                }
             }
-        }.addOnFailureListener { exception ->
-            Toast.makeText(this, "Failed to load levels: $exception", Toast.LENGTH_SHORT).show()
         }
     }
 }

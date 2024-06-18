@@ -1,6 +1,7 @@
 package com.example.digitrack.activities
 
 import android.R
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -19,7 +20,7 @@ class EditProfileActivity : AppCompatActivity() {
         binding = ActivityEditProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val usersCollection = db.collection("levels")
+        val usersCollection = db.collection("materials")
 
         // Fetch data from Firestore
         db.collection("levels")
@@ -56,14 +57,22 @@ class EditProfileActivity : AppCompatActivity() {
 
             val userMap = hashMapOf(
                 "levelId" to levelId,
-                "materialId" to materialId,
+                "materialId" to materialId.toInt(),
                 "materialName" to materialName
             )
 
-            usersCollection.document(materialId).set(userMap).addOnSuccessListener {
+            usersCollection.document().set(userMap).addOnSuccessListener {
                 Toast.makeText(this, "Successfully Added!!!", Toast.LENGTH_SHORT).show()
 
+//                startActivity(Intent(this, MaterialsActivity::class.java))
                 finish()
+
+//                val level = "ACDJ"
+//
+//                val intent = Intent()
+//                intent.putExtra("level", level)
+//                setResult(RESULT_OK, intent)
+//                finish()
             }
                 .addOnFailureListener { e ->
                     Toast.makeText(this, "There's something wrong", Toast.LENGTH_SHORT).show()
@@ -72,6 +81,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
 
         binding.btnBack.setOnClickListener {
+            startActivity(Intent(this, MaterialsActivity::class.java))
             finish()
         }
     }

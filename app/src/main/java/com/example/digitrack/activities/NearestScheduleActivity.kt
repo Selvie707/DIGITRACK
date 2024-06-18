@@ -1,11 +1,9 @@
 package com.example.digitrack.activities
 
 import android.Manifest
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
@@ -13,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.digitrack.BuildConfig
 import com.example.digitrack.R
 import com.example.digitrack.adapters.NearestScheduleAdapter
 import com.example.digitrack.data.Students
@@ -21,6 +20,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.google.firebase.storage.FirebaseStorage
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -38,6 +39,38 @@ class NearestScheduleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityNearestScheduleBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("AppVersion")
+            .orderBy("avId", Query.Direction.DESCENDING)
+            .limit(1)
+            .get()
+            .addOnSuccessListener {
+                // TODO
+                for (document in it) {
+                    val avId = document.getLong("avId")
+                    val source = document.get("avSource")
+                    println("avID: $avId")
+
+                    val x = BuildConfig.VERSION_CODE
+
+                    println(x)
+                    if (x < avId!!) {
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.data = Uri.parse(source.toString())
+                        startActivity(intent)
+                    }
+                }
+
+                // TODO: Alert dialog deskripsi fitur
+
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(this, "Failed to load students: $exception", Toast.LENGTH_SHORT).show()
+            }
+
+        // TODO: Bikin di dalam else semua kode jika versi app normal
 
         // Meminta izin notifikasi pada Android 13+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -148,5 +181,17 @@ class NearestScheduleActivity : AppCompatActivity() {
             .addOnFailureListener { exception ->
                 Toast.makeText(this, "Failed to load students: $exception", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    // Firebase Storage
+    private fun getApkDownloadUrl(onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
+        val storage = FirebaseStorage.getInstance()
+        val storageRef = storage.reference.child("apk/your_apk_file_name.apk")
+
+        storageRef.downloadUrl.addOnSuccessListener { uri ->
+            onSuccess(uri.toString())
+        }.addOnFailureListener { exception ->
+            onFailure(exception)
+        }
     }
 }

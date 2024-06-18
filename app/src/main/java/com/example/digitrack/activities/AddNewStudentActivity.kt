@@ -1,5 +1,6 @@
 package com.example.digitrack.activities
 
+import android.R
 import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
@@ -42,14 +43,14 @@ class AddNewStudentActivity : AppCompatActivity() {
             .addOnSuccessListener { querySnapshot ->
                 val levelNames = mutableListOf<String>()
                 for (document in querySnapshot) {
-                    val levelName = document.getString("levelName")
+                    val levelName = document.getString("levelId")
                     if (levelName != null) {
                         levelNames.add(levelName)
                     }
                 }
                 // Set the adapter to Spinner
-                val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, levelNames)
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                val adapter = ArrayAdapter(this, R.layout.simple_spinner_item, levelNames)
+                adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
                 binding.spLevelAdd.adapter = adapter
             }
             .addOnFailureListener { exception ->
@@ -67,20 +68,13 @@ class AddNewStudentActivity : AppCompatActivity() {
                         teacherNames.add(teacherName)
                     }
                 }
-                val adapterTeacher = ArrayAdapter(this, android.R.layout.simple_spinner_item, teacherNames)
-                adapterTeacher.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                val adapterTeacher = ArrayAdapter(this, R.layout.simple_spinner_item, teacherNames)
+                adapterTeacher.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
                 binding.spTeacher.adapter = adapterTeacher
             }
             .addOnFailureListener { exception ->
                 Toast.makeText(this, "Failed to load levels: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
-
-        // Menangani pemilihan tanggal ketika TextView diklik
-        binding.etDay.setOnClickListener {
-            showDatePickerDialog(this) { selectedDate ->
-                binding.etDay.text = selectedDate
-            }
-        }
 
         // Menangani pemilihan tanggal ketika TextView diklik
         binding.etJoinDate.setOnClickListener {
@@ -91,15 +85,21 @@ class AddNewStudentActivity : AppCompatActivity() {
 
         // Mengatur adapter untuk spinner
         val optionTimes = arrayOf("10.00 WIB", "11.00 WIB", "12.00 WIB", "13.00 WIB", "14.00 WIB", "15.00 WIB", "16.00 WIB", "17.00 WIB")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, optionTimes)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val adapter = ArrayAdapter(this, R.layout.simple_spinner_item, optionTimes)
+        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
         binding.spTime.adapter = adapter
+
+        // Mengatur adapter untuk spinner
+        val optionDays = arrayOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+        val adapterDay = ArrayAdapter(this, R.layout.simple_spinner_item, optionDays)
+        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        binding.spDay.adapter = adapterDay
 
         binding.btnAddAddStudent.setOnClickListener {
             name = binding.etNameAdd.text.toString().trim()
             level = binding.spLevelAdd.selectedItem.toString().trim()
             joinDate = binding.etJoinDate.text.toString().trim()
-            schDay = binding.etDay.text.toString().trim()
+            schDay = binding.spDay.selectedItem.toString().trim()
             schTime = binding.spTime.selectedItem.toString().trim()
             teacher = binding.spTeacher.selectedItem.toString().trim()
             dailyReportLink = binding.etDailyReportAdd.text.toString().trim()
@@ -111,19 +111,21 @@ class AddNewStudentActivity : AppCompatActivity() {
                 binding.etNameAdd.error = "Please fill up this field"
             } else if (joinDate.isBlank()) {
                 binding.etJoinDate.error = "Please fill up this field"
-            } else if (schDay.isBlank()) {
-                binding.etDay.error = "Please fill up this field"
             } else if (dailyReportLink.isBlank()) {
                 binding.etDailyReportAdd.error = "Please fill up this field"
             } else {
-                val userId = usersCollection.document().id
-                val studentLevelUp = joinDate?.let { levelUpDate(it) }
+                val studentId = usersCollection.document().id
+                val curriculum = level.substring(0, 3)
+                val studentLevelUp = levelUpDate(curriculum, joinDate)
+
+                schTime = schTime.split(" ").getOrNull(0).toString()
+                println(schTime)
 
                 getMaterialsForLevel(level) { materialsMap ->
                     val userMap = hashMapOf(
-                        "studentId" to userId,
+                        "studentId" to studentId,
                         "levelId" to level,
-                        "userId" to teacher,
+                        "teacherName" to teacher,
                         "studentName" to name,
                         "studentAttendance" to attendance,
                         "studentAttendanceMaterials" to materialsMap,
@@ -135,7 +137,7 @@ class AddNewStudentActivity : AppCompatActivity() {
                         "studentLevelUp" to studentLevelUp
                     )
 
-                    usersCollection.document(userId).set(userMap).addOnSuccessListener {
+                    usersCollection.document(studentId).set(userMap).addOnSuccessListener {
                         Toast.makeText(this, "Successfully Added!!!", Toast.LENGTH_SHORT).show()
 
                         finish()
@@ -160,9 +162,9 @@ class AddNewStudentActivity : AppCompatActivity() {
             .whereEqualTo("levelId", levelId)
             .get()
             .addOnSuccessListener { querySnapshot ->
-                val materialsList = mutableListOf<Pair<String, String>>()
+                val materialsList = mutableListOf<Pair<Long, String>>()
                 for (document in querySnapshot) {
-                    val materialId = document.getString("materialId")
+                    val materialId = document.getLong("materialId")
                     val materialName = document.getString("materialName")
                     if (materialId != null && materialName != null) {
                         materialsList.add(Pair(materialId, materialName))
@@ -232,16 +234,20 @@ class AddNewStudentActivity : AppCompatActivity() {
         datePickerDialog.show()
     }
 
-    private fun levelUpDate(date: String): String {
+    private fun levelUpDate(curriculum: String, date: String): String {
         // Format tanggal
         val dateFormatter =
             DateTimeFormatter.ofPattern("dd-MM-yy")
 
         // Parse input date
         val theDate = LocalDate.parse(date, dateFormatter)
+        var newDate: LocalDate = theDate
 
-        // Tambah 6 bulan
-        val newDate = theDate.plusMonths(6)
+        newDate = if (curriculum == "DK3") {
+            theDate.plusMonths(3)
+        } else {
+            theDate.plusMonths(11)
+        }
 
         // Cetak hasil
         return newDate.format(dateFormatter)

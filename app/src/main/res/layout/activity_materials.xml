@@ -33,99 +33,100 @@
         app:layout_constraintStart_toEndOf="@id/btnBack"
         app:layout_constraintBottom_toBottomOf="@id/btnBack"/>
 
+    <LinearLayout
+        android:id="@+id/llCurriculum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginHorizontal="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvHeader">
+
+        <TextView
+            android:id="@+id/btnDK2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/dk2"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/boldinter"
+            android:padding="5dp"
+            android:gravity="center_horizontal"
+            android:background="@drawable/bg_corner_backii"/>
+
+        <TextView
+            android:id="@+id/btnDK3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/dk3"
+            android:textSize="18sp"
+            android:textColor="@color/purple"
+            android:fontFamily="@font/boldinter"
+            android:padding="5dp"
+            android:gravity="center_horizontal"
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/bg_corner_back"/>
+
+        <TextView
+            android:id="@+id/btnACD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/acd"
+            android:padding="5dp"
+            android:textSize="18sp"
+            android:layout_marginRight="16dp"
+            android:textColor="@color/purple"
+            android:fontFamily="@font/boldinter"
+            android:gravity="center_horizontal"
+            android:background="@drawable/bg_corner_back"/>
+
+        <ImageView
+            android:visibility="visible"
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            android:layout_marginEnd="4dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_add"
+            app:tint="@color/purple"
+            android:background="@drawable/bg_corner_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnBack"
+            app:layout_constraintStart_toEndOf="@id/tvHeader"
+            app:layout_constraintBottom_toBottomOf="@id/btnBack"/>
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="32dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvHeader">
+        app:layout_constraintTop_toBottomOf="@id/llCurriculum">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/llCurriculum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="30dp"
-                android:layout_marginHorizontal="32dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
-                <TextView
-                    android:id="@+id/btnDK2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/dk2"
-                    android:textSize="18sp"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/boldinter"
-                    android:padding="5dp"
-                    android:gravity="center_horizontal"
-                    android:background="@drawable/bg_corner_backii"/>
-
-                <TextView
-                    android:id="@+id/btnDK3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/dk3"
-                    android:textSize="18sp"
-                    android:textColor="@color/purple"
-                    android:fontFamily="@font/boldinter"
-                    android:padding="5dp"
-                    android:gravity="center_horizontal"
-                    android:layout_marginHorizontal="16dp"
-                    android:background="@drawable/bg_corner_back"/>
-
-                <TextView
-                    android:id="@+id/btnACD"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/acd"
-                    android:padding="5dp"
-                    android:textSize="18sp"
-                    android:layout_marginRight="16dp"
-                    android:textColor="@color/purple"
-                    android:fontFamily="@font/boldinter"
-                    android:gravity="center_horizontal"
-                    android:background="@drawable/bg_corner_back"/>
-
-                <ImageView
-                    android:visibility="visible"
-                    android:id="@+id/btnAdd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="12dp"
-                    android:layout_marginEnd="4dp"
-                    android:padding="5dp"
-                    android:src="@drawable/ic_add"
-                    app:tint="@color/purple"
-                    android:background="@drawable/bg_corner_back"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/btnBack"
-                    app:layout_constraintStart_toEndOf="@id/tvHeader"
-                    app:layout_constraintBottom_toBottomOf="@id/btnBack"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/llCurriculum">
-
                 <LinearLayout
                     android:id="@+id/llLevel"
-                    android:layout_width="wrap_content"
+                    android:layout_width="102dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="12dp"
+                    android:padding="8dp"
                     android:orientation="vertical"
                     android:layout_marginRight="12dp"
                     android:background="@drawable/bg_corner_radius">
@@ -134,6 +135,7 @@
                         android:id="@+id/rvLevels"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         tools:listitem="@layout/item_list_level"/>
 
                 </LinearLayout>

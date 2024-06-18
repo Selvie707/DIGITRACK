@@ -76,10 +76,10 @@ class InnerAdapter(
 
             position+1
 
-            // Set color based on userId
-            when (student.userId) {
-                "01" -> ivTeacherColor.setColorFilter(ContextCompat.getColor(itemView.context, R.color.yellow))
-                "02" -> ivTeacherColor.setColorFilter(ContextCompat.getColor(itemView.context, R.color.purple))
+            // Set color based on teacher name
+            when (student.teacherName) {
+                "Abc" -> ivTeacherColor.setColorFilter(ContextCompat.getColor(itemView.context, R.color.yellow))
+                "Via" -> ivTeacherColor.setColorFilter(ContextCompat.getColor(itemView.context, R.color.purple))
             }
 
             // Handle edit button click

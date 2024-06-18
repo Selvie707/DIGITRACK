@@ -45,7 +45,7 @@ class AttendanceActivity : AppCompatActivity() {
         rvStudentName.layoutManager = LinearLayoutManager(this)
 
         adapter = AttendancesAdapter(filteredStudentList, monthNumber, currentYear) { position ->
-            Toast.makeText(this, "Student clicked at position $position", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "Student clicked at position $position", Toast.LENGTH_SHORT).show()
         }
         rvStudentName.adapter = adapter
 
@@ -89,15 +89,20 @@ class AttendanceActivity : AppCompatActivity() {
 
     private fun loadStudentsName() {
         val db = FirebaseFirestore.getInstance()
-        db.collection("student").get().addOnSuccessListener { querySnapshot ->
-            studentList.clear() // Clear the list before adding new data
-            for (document in querySnapshot) {
-                val student = document.toObject(Students::class.java)
-                studentList.add(student)
+        db.collection("student").addSnapshotListener { querySnapshot, exception ->
+            if (exception != null) {
+                Toast.makeText(this, "Failed to load students: $exception", Toast.LENGTH_SHORT).show()
+                return@addSnapshotListener
             }
-            filter("") // Filter with empty text to show all data initially
-        }.addOnFailureListener { exception ->
-            Toast.makeText(this, "Failed to load students: $exception", Toast.LENGTH_SHORT).show()
+
+            if (querySnapshot != null) {
+                studentList.clear() // Clear the list before adding new data
+                for (document in querySnapshot) {
+                    val student = document.toObject(Students::class.java)
+                    studentList.add(student)
+                }
+                filter("") // Filter with empty text to show all data initially
+            }
         }
     }
 

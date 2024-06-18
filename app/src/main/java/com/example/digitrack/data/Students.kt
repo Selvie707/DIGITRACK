@@ -3,7 +3,7 @@ package com.example.digitrack.data
 data class Students(
     val studentId: String = "",
     val levelId: String = "",
-    val userId: String = "",
+    val teacherName: String = "",
     val studentName: String = "",
     val studentAttendance: Int? = 0,
     val studentAttendanceMaterials: Map<String, String> = emptyMap(), // <pertemuan ke, materialsId>
@@ -20,7 +20,7 @@ data class Students(
     constructor() : this(
         studentId = "",
         levelId = "",
-        userId = "",
+        teacherName = "",
         studentName = "",
         studentAttendance = 0,
         studentAttendanceMaterials = emptyMap(),

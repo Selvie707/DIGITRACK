@@ -37,6 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/h_email"
+        android:inputType="textEmailAddress"
         android:textColorHint="@color/purple"
         android:layout_marginTop="15dp"
         android:padding="15dp"
@@ -96,25 +97,26 @@
         android:id="@+id/btnLogin_onboarding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="130dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/bg_corner"
         android:backgroundTint="@color/purple"
         android:text="@string/btn_register"
         android:textSize="20sp"
         android:textColor="@color/white"
         android:fontFamily="@font/boldinter"
-        app:layout_constraintTop_toBottomOf="@id/spRole"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/llGoToLogin"/>
 
     <LinearLayout
+        android:id="@+id/llGoToLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/btnLogin_onboarding"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

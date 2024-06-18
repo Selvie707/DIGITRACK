@@ -58,39 +58,42 @@ class ScheduleActivity : AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
 
         db.collection("student")
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                val studentsWithSchedule = mutableListOf<Pair<Students, Map<String, String>>>()
-
-                for (document in querySnapshot) {
-                    val student = document.toObject(Students::class.java)
-                    val studentSchedule = document.get("studentSchedule") as? Map<String, String>
-                    if (studentSchedule != null) {
-                        studentsWithSchedule.add(Pair(student, studentSchedule))
-                    }
+            .addSnapshotListener { querySnapshot, exception ->
+                if (exception != null) {
+                    Toast.makeText(this, "Failed to load students: $exception", Toast.LENGTH_SHORT).show()
+                    return@addSnapshotListener
                 }
 
-                // Filter jadwal berdasarkan tanggal yang diberikan
-                val filteredSchedules = mutableListOf<Pair<Students, String>>()
-                for ((student, schedule) in studentsWithSchedule) {
-                    for ((_, value) in schedule) {
-                        val scheduleDate = value.split("|").getOrNull(0) ?: ""
-                        if (scheduleDate == date) {
-                            filteredSchedules.add(Pair(student, value))
+                if (querySnapshot != null) {
+                    val studentsWithSchedule = mutableListOf<Pair<Students, Map<String, String>>>()
+
+                    for (document in querySnapshot) {
+                        val student = document.toObject(Students::class.java)
+                        val studentSchedule = document.get("studentSchedule") as? Map<String, String>
+                        if (studentSchedule != null) {
+                            studentsWithSchedule.add(Pair(student, studentSchedule))
                         }
                     }
-                }
 
-                // Group schedules by time
-                val groupedByTime = filteredSchedules.groupBy { (_, scheduleKey) ->
-                    scheduleKey.split("|")[1]
-                }
+                    // Filter jadwal berdasarkan tanggal yang diberikan
+                    val filteredSchedules = mutableListOf<Pair<Students, String>>()
+                    for ((student, schedule) in studentsWithSchedule) {
+                        for ((_, value) in schedule) {
+                            val scheduleDate = value.split("|").getOrNull(0) ?: ""
+                            if (scheduleDate == date) {
+                                filteredSchedules.add(Pair(student, value))
+                            }
+                        }
+                    }
 
-                // Set adapter dengan daftar yang sudah difilter
-                rvSchedule.adapter = OuterScheduleAdapter(groupedByTime, date)
-            }
-            .addOnFailureListener { exception ->
-                Toast.makeText(this, "Failed to load students: $exception", Toast.LENGTH_SHORT).show()
+                    // Group schedules by time
+                    val groupedByTime = filteredSchedules.groupBy { (_, scheduleKey) ->
+                        scheduleKey.split("|")[1]
+                    }
+
+                    // Set adapter dengan daftar yang sudah difilter
+                    rvSchedule.adapter = OuterScheduleAdapter(groupedByTime, date)
+                }
             }
     }
 

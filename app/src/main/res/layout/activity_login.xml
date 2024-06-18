@@ -35,6 +35,7 @@
         android:textColorHint="@color/purple"
         android:layout_marginTop="32dp"
         android:padding="15dp"
+        android:inputType="textEmailAddress"
         android:drawableStart="@drawable/ic_email"
         android:drawablePadding="15dp"
         android:background="@drawable/bg_corner_stroke"

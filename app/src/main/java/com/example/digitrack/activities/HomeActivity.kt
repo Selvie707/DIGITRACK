@@ -3,6 +3,7 @@ package com.example.digitrack.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.digitrack.R
 import com.example.digitrack.databinding.ActivityHomeBinding
@@ -18,6 +19,16 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val sharedPref = applicationContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+
+        val role = sharedPref.getString("role", "")
+        val name = sharedPref.getString("name", "")
+
+        val hiUserText = "Hi, $name"
+        binding.tvHaiUser.text = hiUserText
+
+        if (!role.equals("Teacher")) {
+            binding.tvReady.text = "Admin tasks at your service!"
+        }
 
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNavigation.selectedItemId = R.id.btn_home
@@ -52,10 +63,5 @@ class HomeActivity : AppCompatActivity() {
         binding.llDailyReport.setOnClickListener {
             startActivity(Intent(this, DailyReportActivity::class.java))
         }
-
-        val name = sharedPref.getString("name", "")
-
-        val hiUserText = "Hi, $name"
-        binding.tvHaiUser.text = hiUserText
     }
 }

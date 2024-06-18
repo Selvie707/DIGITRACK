@@ -43,9 +43,13 @@ class NearestScheduleAdapter(
                 cbAttendance.visibility = View.GONE
             }
 
+            println("$selectedDate|$selectedTime")
+
             val keySchedule = schedule.studentSchedule.keys.find { key ->
                 schedule.studentSchedule[key] == "$selectedDate|$selectedTime"
             }
+
+            println(keySchedule)
 
             val studentWeekText = "Week $keySchedule"
 
