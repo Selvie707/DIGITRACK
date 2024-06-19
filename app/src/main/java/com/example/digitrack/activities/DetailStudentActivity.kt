@@ -2,12 +2,22 @@ package com.example.digitrack.activities
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.digitrack.BuildConfig
+import com.example.digitrack.R
+import com.example.digitrack.adapters.SomethingNewAdapter
 import com.example.digitrack.databinding.ActivityDetailStudentBinding
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
 class DetailStudentActivity : AppCompatActivity() {
 
@@ -34,7 +44,7 @@ class DetailStudentActivity : AppCompatActivity() {
                     val studentDayTime = document.getString("studentDayTime")
                     val studentAttendance = document.getLong("studentAttendance")?.toString()
                     val studentTeacher = document.getString("teacherName")
-                    val studentDailyReport = document.getString("studentDailyReport")
+                    val studentDailyReport = document.getString("studentDailyReportLink")
                     val studentJoinDate = document.getString("studentJoinDate")
                     val studentLevelUp = document.getString("studentLevelUp")
 
@@ -78,7 +88,7 @@ class DetailStudentActivity : AppCompatActivity() {
         val studentDayTime = intent.getStringExtra("studentDayTime")
         val studentAttendance = intent.getStringExtra("studentAttendance")
         val studentTeacher = intent.getStringExtra("studentTeacher")
-        val studentDailyReport = intent.getStringExtra("studentDailyReport")
+        val studentDailyReport = intent.getStringExtra("studentDailyReportLink")
         val studentJoinDate = intent.getStringExtra("studentJoinDate")
         val studentLevelUp = intent.getStringExtra("studentLevelUp")
 
@@ -103,15 +113,14 @@ class DetailStudentActivity : AppCompatActivity() {
                 putExtra("studentDayTime", studentDayTime)
                 putExtra("studentAttendance", studentAttendance)
                 putExtra("studentTeacher", studentTeacher)
-                putExtra("studentDailyReport", studentDailyReport)
+                putExtra("studentDailyReportLink", studentDailyReport)
                 putExtra("studentJoinDate", studentJoinDate)
             }
             startActivityForResult(intent, EDIT_STUDENT_REQUEST_CODE)
         }
 
         binding.btnDelete.setOnClickListener {
-            deleteDocumentById(studentId!!)
-            finish()
+            showCustomDialog(studentId!!)
         }
 
         binding.btnBack.setOnClickListener {
@@ -129,5 +138,32 @@ class DetailStudentActivity : AppCompatActivity() {
             .addOnFailureListener { e ->
                 println("Error deleting document: $e")
             }
+    }
+
+    private fun showCustomDialog(studentId: String) {
+        // Gunakan LayoutInflater untuk memasukkan layout dialog kustom
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_detele_student, null)
+
+        val btnUpdate = dialogView.findViewById<TextView>(R.id.btnYes)
+        val btnCancel = dialogView.findViewById<TextView>(R.id.btnNo)
+
+        val dialogBuilder = AlertDialog.Builder(this)
+            .setView(dialogView)
+
+        // Tampilkan dialog
+        val dialog = dialogBuilder.create()
+
+        btnUpdate.setOnClickListener {
+            deleteDocumentById(studentId!!)
+            finish()
+
+            dialog.dismiss()
+        }
+
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }

@@ -52,6 +52,7 @@ class NearestScheduleAdapter(
             println(keySchedule)
 
             val studentWeekText = "Week $keySchedule"
+            val studentAttendance = schedule.studentAttendance
 
             tvStudentName.text = schedule.studentName
             tvStudentLevel.text = schedule.levelId
@@ -60,23 +61,21 @@ class NearestScheduleAdapter(
 
             cbAttendance.setOnClickListener {
                 if (cbAttendance.isChecked) {
-                    val b = cbAttendance.isChecked
                     check = true
-                    val newAttendanceCount = (schedule.studentAttendance ?: 0) + 1
                     db.collection("student")
                         .document(schedule.studentId)
-                        .update("studentAttendance", newAttendanceCount)
+                        .update("studentAttendance", keySchedule!!.toInt())
                         .addOnSuccessListener {
                             Log.d("NearestScheduleAdapter", "Attendance updated successfully")
                         }
                         .addOnFailureListener { e ->
                             Log.e("NearestScheduleAdapter", "Error updating attendance", e)
                         }
-                } else if (!cbAttendance.isChecked && check) {
-                    // Update studentAttendance in Firestore
-                    val a = !cbAttendance.isChecked
+                }
+                else if (!cbAttendance.isChecked) {
                     check = false
-                    val newAttendanceCount = (schedule.studentAttendance ?: 0)
+                    val newAttendanceCount = keySchedule!!.toInt() - 1
+                    println("attendance: " + schedule.studentAttendance)
                     db.collection("student")
                         .document(schedule.studentId)
                         .update("studentAttendance", newAttendanceCount)
@@ -87,6 +86,14 @@ class NearestScheduleAdapter(
                             Log.e("NearestScheduleAdapter", "Error updating attendance", e)
                         }
                 }
+                println(!cbAttendance.isChecked)
+                println(check)
+            }
+
+            println("$keySchedule >= $studentAttendance")
+
+            if (studentAttendance!! >= keySchedule!!.toInt()) {
+                cbAttendance.isChecked = true
             }
 
             itemView.setOnClickListener {

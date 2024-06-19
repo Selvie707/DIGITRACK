@@ -38,7 +38,7 @@ class EditDetailStudentActivity : AppCompatActivity() {
         val studentDayTime = intent.getStringExtra("studentDayTime")
         var studentAttendance = intent.getStringExtra("studentAttendance")
         var studentTeacher = intent.getStringExtra("studentTeacher")
-        var studentDailyReport = intent.getStringExtra("studentDailyReport")
+        var studentDailyReport = intent.getStringExtra("studentDailyReportLink")
         var studentJoinDate = intent.getStringExtra("studentJoinDate")
 
         // Menangani pemilihan tanggal ketika TextView diklik
@@ -129,6 +129,7 @@ class EditDetailStudentActivity : AppCompatActivity() {
 
         println(day)
 
+        binding.tvJudulStudent.text = studentName
         binding.etNameEdit.setText(studentName)
         binding.etAge.setText(studentAge)
         binding.etAttendance.setText(studentAttendance)
@@ -142,11 +143,15 @@ class EditDetailStudentActivity : AppCompatActivity() {
             studentAge = binding.etAge.text.toString()
             studentAttendance = binding.etAttendance.text.toString()
             studentJoinDate = binding.etJoinDate.text.toString()
-            studentDailyReport = binding.etDailyReportEdit.text.toString()
+            studentDailyReport = binding.etDailyReportEdit.text.toString().trim()
             studentLevel = binding.spLevelEdit.selectedItem.toString().trim()
             day = binding.spDayEdit.selectedItem.toString().trim()
             time = binding.spTimeEdit.selectedItem.toString().trim()
             studentTeacher = binding.spTeacherEdit.selectedItem.toString().trim()
+
+            if (studentDailyReport!!.isEmpty()) {
+                studentDailyReport = "No daily report"
+            }
 
             getStudentSchedule(studentId!!, studentAttendance!!.toInt(), day,
                 time.split(" ")[0], studentJoinDate!!

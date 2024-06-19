@@ -59,6 +59,7 @@
             android:hint="@string/age_proper_case"
             android:textColorHint="@color/purple"
             android:padding="15dp"
+            android:inputType="number"
             app:drawableTint="@color/purple"
             android:drawableStart="@drawable/ic_circle"
             android:drawablePadding="15dp"

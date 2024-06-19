@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="32dp"
+    android:gravity="center"
+    android:layout_marginHorizontal="16dp"
+    android:background="@drawable/dialog_background">
+
+    <TextView
+        android:id="@+id/tvTitleChangeSchedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/purple"
+        android:text="@string/update_version"
+        android:textSize="22sp"
+        android:fontFamily="@font/boldinter"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:text="@string/whats_new"
+        android:textSize="20sp"
+        android:fontFamily="@font/regularinter"
+        android:drawablePadding="8dp"
+        android:textColor="@color/purple"
+        android:drawableTint="@color/purple"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvNewUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/item_list_new"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="22dp">
+
+        <TextView
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:layout_marginRight="16dp"
+            android:text="@string/cancelCaps"
+            android:textColor="@color/purple"
+            android:textAlignment="center"
+            android:fontFamily="@font/boldinter"
+            android:background="@drawable/bg_corner_stroke"/>
+
+        <TextView
+            android:id="@+id/btnUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:text="@string/btn_update"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:fontFamily="@font/boldinter"
+            android:background="@drawable/bottom_bg_purple"/>
+
+    </LinearLayout>
+
+</LinearLayout>

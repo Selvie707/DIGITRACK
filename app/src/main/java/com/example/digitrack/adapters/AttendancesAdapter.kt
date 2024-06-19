@@ -136,7 +136,7 @@ class AttendancesAdapter(
                     putExtra("studentDayTime", attendance.studentDayTime)
                     putExtra("studentAttendance", attendance.studentAttendance.toString())
                     putExtra("studentTeacher", attendance.teacherName)
-                    putExtra("studentDailyReport", attendance.studentDailyReportLink)
+                    putExtra("studentDailyReportLink", attendance.studentDailyReportLink)
                     putExtra("studentJoinDate", attendance.studentJoinDate)
                     putExtra("studentLevelUp", attendance.studentLevelUp)
                 }

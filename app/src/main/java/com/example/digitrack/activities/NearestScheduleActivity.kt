@@ -1,12 +1,18 @@
 package com.example.digitrack.activities
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.digitrack.BuildConfig
 import com.example.digitrack.R
 import com.example.digitrack.adapters.NearestScheduleAdapter
+import com.example.digitrack.adapters.SomethingNewAdapter
 import com.example.digitrack.data.Students
 import com.example.digitrack.databinding.ActivityNearestScheduleBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -40,35 +47,7 @@ class NearestScheduleActivity : AppCompatActivity() {
         binding = ActivityNearestScheduleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val db = FirebaseFirestore.getInstance()
-
-        db.collection("AppVersion")
-            .orderBy("avId", Query.Direction.DESCENDING)
-            .limit(1)
-            .get()
-            .addOnSuccessListener {
-                // TODO
-                for (document in it) {
-                    val avId = document.getLong("avId")
-                    val source = document.get("avSource")
-                    println("avID: $avId")
-
-                    val x = BuildConfig.VERSION_CODE
-
-                    println(x)
-                    if (x < avId!!) {
-                        val intent = Intent(Intent.ACTION_VIEW)
-                        intent.data = Uri.parse(source.toString())
-                        startActivity(intent)
-                    }
-                }
-
-                // TODO: Alert dialog deskripsi fitur
-
-            }
-            .addOnFailureListener { exception ->
-                Toast.makeText(this, "Failed to load students: $exception", Toast.LENGTH_SHORT).show()
-            }
+        showCustomDialog()
 
         // TODO: Bikin di dalam else semua kode jika versi app normal
 
@@ -138,9 +117,14 @@ class NearestScheduleActivity : AppCompatActivity() {
         val timeText = "JAM $currentTime - $nextTime WIB"
         binding.tvJam.text = timeText
 
-        db.collection("student")
-            .get()
-            .addOnSuccessListener { querySnapshot ->
+        db.collection("student").addSnapshotListener { querySnapshot, exception ->
+            if (exception != null) {
+                Toast.makeText(this, "Failed to load students: $exception", Toast.LENGTH_SHORT)
+                    .show()
+                return@addSnapshotListener
+            }
+
+            if (querySnapshot != null) {
                 val studentsWithSchedule = mutableListOf<Pair<Students, Map<String, String>>>()
 
                 for (document in querySnapshot) {
@@ -174,13 +158,19 @@ class NearestScheduleActivity : AppCompatActivity() {
                 val sortedStudents = studentsWithTimes.sortedBy { it.third }
 
                 // Set adapter dengan daftar yang sudah diurutkan
-                rvSchedule.adapter = NearestScheduleAdapter(sortedStudents.map { it.first }, currentDate, currentTime) { position ->
-                    Toast.makeText(this, "Student clicked at position $position", Toast.LENGTH_SHORT).show()
+                rvSchedule.adapter = NearestScheduleAdapter(
+                    sortedStudents.map { it.first },
+                    currentDate,
+                    currentTime
+                ) { position ->
+                    Toast.makeText(
+                        this,
+                        "Student clicked at position $position",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
-            .addOnFailureListener { exception ->
-                Toast.makeText(this, "Failed to load students: $exception", Toast.LENGTH_SHORT).show()
-            }
+        }
     }
 
     // Firebase Storage
@@ -193,5 +183,90 @@ class NearestScheduleActivity : AppCompatActivity() {
         }.addOnFailureListener { exception ->
             onFailure(exception)
         }
+    }
+
+    private fun showCustomDialog() {
+        // Gunakan LayoutInflater untuk memasukkan layout dialog kustom
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_update_version, null)
+
+        // Inisialisasi elemen UI dalam layout dialog
+        val rvSomethingNew = dialogView.findViewById<RecyclerView>(R.id.rvNewUpdate)
+        val btnUpdate = dialogView.findViewById<TextView>(R.id.btnUpdate)
+        val btnCancel = dialogView.findViewById<TextView>(R.id.btnCancel)
+
+        // Setup RecyclerView
+        rvSomethingNew.layoutManager = LinearLayoutManager(this)
+
+        // Ambil data dari Firestore
+        val db = FirebaseFirestore.getInstance()
+        db.collection("AppVersion")
+            .orderBy("avId", Query.Direction.DESCENDING)
+            .limit(1)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                if (querySnapshot != null) {
+                    for (document in querySnapshot) {
+                        val avDescription = document.getString("avDescription")
+                        if (avDescription != null) {
+                            val items = avDescription.split("|")
+                            // Set adapter ke RecyclerView
+                            rvSomethingNew.adapter = SomethingNewAdapter(items)
+                        } else {
+                            println("avDescription is empty")
+                        }
+                    }
+                } else {
+                    println("No documents found")
+                }
+            }
+            .addOnFailureListener { exception ->
+                println("Error getting documents: ${exception.message}")
+            }
+
+        val dialogBuilder = AlertDialog.Builder(this)
+            .setView(dialogView)
+
+        // Tampilkan dialog
+        val dialog = dialogBuilder.create()
+
+        btnUpdate.setOnClickListener {
+            val db = FirebaseFirestore.getInstance()
+
+            db.collection("AppVersion")
+                .orderBy("avId", Query.Direction.DESCENDING)
+                .limit(1)
+                .get()
+                .addOnSuccessListener {
+                    // TODO
+                    for (document in it) {
+                        val avId = document.getLong("avId")
+                        val source = document.get("avSource")
+                        println("avID: $avId")
+
+                        val x = BuildConfig.VERSION_CODE
+
+                        println(x)
+                        if (x < avId!!) {
+                            val intent = Intent(Intent.ACTION_VIEW)
+                            intent.data = Uri.parse(source.toString())
+                            startActivity(intent)
+                        }
+                    }
+
+                    // TODO: Alert dialog deskripsi fitur
+
+                }
+                .addOnFailureListener { exception ->
+                    Toast.makeText(this, "Failed to load students: $exception", Toast.LENGTH_SHORT).show()
+                }
+
+            dialog.dismiss()
+        }
+
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }

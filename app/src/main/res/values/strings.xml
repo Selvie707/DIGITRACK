@@ -94,6 +94,7 @@
     <string name="level_up">LEVEL UP</string>
     <string name="edit_profile">EDIT PROFILE</string>
     <string name="change_schedule">CHANGE SCHEDULE</string>
+    <string name="update_version">UPDATE APP VERSION</string>
     <string name="change">CHANGE</string>
     <string name="edit_schedule">EDIT SCHEDULE</string>
     <string name="this_schedule">This Schedule</string>
@@ -109,6 +110,11 @@
     <string name="age_proper_case">Age</string>
     <string name="attendance">Attendance</string>
     <string name="join_date_proper">Join Date</string>
+    <string name="whats_new">What\'s new:</string>
+    <string name="something_new">Something new</string>
+    <string name="detele_this_student">Detele this student?</string>
+    <string name="no">NO</string>
+    <string name="yes">YES</string>
 
     <!--    SPINNER-->
     <string-array name="spRole">

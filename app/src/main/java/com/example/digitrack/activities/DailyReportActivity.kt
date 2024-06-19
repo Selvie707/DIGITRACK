@@ -56,7 +56,9 @@ class DailyReportActivity : AppCompatActivity() {
             dailyReportList.clear()
             for (document in querySnapshot) {
                 val student = document.toObject(Students::class.java)
-                dailyReportList.add(student)
+                if (student.studentDailyReportLink != "No daily report") {
+                    dailyReportList.add(student)
+                }
             }
             filter("") // Filter with empty text to show all data initially
         }.addOnFailureListener { exception ->

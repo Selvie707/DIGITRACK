@@ -5,6 +5,8 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -38,7 +40,7 @@ class AddNewStudentActivity : AppCompatActivity() {
 
         // Fetch data from Firestore
         db.collection("levels")
-            .whereEqualTo("curName", "DK3")
+//            .whereEqualTo("curName", "DK3")
             .get()
             .addOnSuccessListener { querySnapshot ->
                 val levelNames = mutableListOf<String>()
@@ -56,6 +58,24 @@ class AddNewStudentActivity : AppCompatActivity() {
             .addOnFailureListener { exception ->
                 Toast.makeText(this, "Failed to load levels: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
+
+        // Mengatur OnItemSelectedListener untuk Spinner
+        binding.spLevelAdd.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                val selectedItem = parent.getItemAtPosition(position).toString().substring(0,3)
+                if (selectedItem == "DK3") {
+                    // Menyembunyikan EditText jika item yang dipilih adalah "DK3"
+                    binding.etDailyReportAdd.visibility = View.GONE
+                } else {
+                    // Menampilkan EditText untuk item lainnya
+                    binding.etDailyReportAdd.visibility = View.VISIBLE
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Tidak melakukan apa-apa
+            }
+        }
 
         db.collection("teacher")
             .whereEqualTo("userRole", "Teacher")
@@ -107,8 +127,14 @@ class AddNewStudentActivity : AppCompatActivity() {
             val attendance = 0
             age = binding.etAgeAdd.text.toString().trim()
 
+            if (dailyReportLink.isEmpty()) {
+                dailyReportLink = "No daily report"
+            }
+
             if (name.isBlank()) {
                 binding.etNameAdd.error = "Please fill up this field"
+            } else if (age.isBlank()) {
+                binding.etAgeAdd.error = "Please fill up this field"
             } else if (joinDate.isBlank()) {
                 binding.etJoinDate.error = "Please fill up this field"
             } else if (dailyReportLink.isBlank()) {
