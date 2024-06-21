@@ -36,6 +36,11 @@ class AddNewStudentActivity : AppCompatActivity() {
         binding = ActivityAddNewStudentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.ivLevelAlert.visibility = View.GONE
+        binding.ivTeacherAlert.visibility = View.GONE
+        binding.ivDayAlert.visibility = View.GONE
+        binding.ivTimeAlert.visibility = View.GONE
+
         val usersCollection = db.collection("student")
 
         // Fetch data from Firestore
@@ -44,6 +49,9 @@ class AddNewStudentActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener { querySnapshot ->
                 val levelNames = mutableListOf<String>()
+
+                levelNames.add("Level")
+
                 for (document in querySnapshot) {
                     val levelName = document.getString("levelId")
                     if (levelName != null) {
@@ -82,6 +90,9 @@ class AddNewStudentActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener { querySnapshot ->
                 val teacherNames = mutableListOf<String>()
+
+                teacherNames.add("Teacher")
+
                 for (document in querySnapshot) {
                     val teacherName = document.getString("userName")
                     if (teacherName != null) {
@@ -104,13 +115,13 @@ class AddNewStudentActivity : AppCompatActivity() {
         }
 
         // Mengatur adapter untuk spinner
-        val optionTimes = arrayOf("10.00 WIB", "11.00 WIB", "12.00 WIB", "13.00 WIB", "14.00 WIB", "15.00 WIB", "16.00 WIB", "17.00 WIB")
+        val optionTimes = arrayOf("Time", "10.00 WIB", "11.00 WIB", "12.00 WIB", "13.00 WIB", "14.00 WIB", "15.00 WIB", "16.00 WIB", "17.00 WIB")
         val adapter = ArrayAdapter(this, R.layout.simple_spinner_item, optionTimes)
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
         binding.spTime.adapter = adapter
 
         // Mengatur adapter untuk spinner
-        val optionDays = arrayOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+        val optionDays = arrayOf("Day", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
         val adapterDay = ArrayAdapter(this, R.layout.simple_spinner_item, optionDays)
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
         binding.spDay.adapter = adapterDay
@@ -140,38 +151,64 @@ class AddNewStudentActivity : AppCompatActivity() {
             } else if (dailyReportLink.isBlank()) {
                 binding.etDailyReportAdd.error = "Please fill up this field"
             } else {
-                val studentId = usersCollection.document().id
-                val curriculum = level.substring(0, 3)
-                val studentLevelUp = levelUpDate(curriculum, joinDate)
-
-                schTime = schTime.split(" ").getOrNull(0).toString()
-                println(schTime)
-
-                getMaterialsForLevel(level) { materialsMap ->
-                    val userMap = hashMapOf(
-                        "studentId" to studentId,
-                        "levelId" to level,
-                        "teacherName" to teacher,
-                        "studentName" to name,
-                        "studentAttendance" to attendance,
-                        "studentAttendanceMaterials" to materialsMap,
-                        "studentSchedule" to getStudentSchedule(joinDate, schDay, schTime),
-                        "studentDailyReportLink" to dailyReportLink,
-                        "studentAge" to age,
-                        "studentJoinDate" to joinDate,
-                        "studentDayTime" to dayTime,
-                        "studentLevelUp" to studentLevelUp
-                    )
-
-                    usersCollection.document(studentId).set(userMap).addOnSuccessListener {
-                        Toast.makeText(this, "Successfully Added!!!", Toast.LENGTH_SHORT).show()
-
-                        finish()
+                if (teacher == "Teacher" || level == "Level" || schDay == "Day" || schTime == "Time") {
+                    if (level == "Level") {
+                        binding.ivLevelAlert.visibility = View.VISIBLE
+                    } else {
+                        binding.ivLevelAlert.visibility = View.GONE
                     }
-                        .addOnFailureListener { e ->
-                            Toast.makeText(this, "There's something wrong", Toast.LENGTH_SHORT).show()
-                            Log.d("RegisterActivity", "Error: ${e.message}")
+
+                    if (teacher == "Teacher") {
+                        binding.ivTeacherAlert.visibility = View.VISIBLE
+                    } else {
+                        binding.ivTeacherAlert.visibility = View.GONE
+                    }
+
+                    if (schDay == "Day") {
+                        binding.ivDayAlert.visibility = View.VISIBLE
+                    } else {
+                        binding.ivDayAlert.visibility = View.GONE
+                    }
+
+                    if (schTime == "Time") {
+                        binding.ivTimeAlert.visibility = View.VISIBLE
+                    } else {
+                        binding.ivTimeAlert.visibility = View.GONE
+                    }
+                } else {
+                    val studentId = usersCollection.document().id
+                    val curriculum = level.substring(0, 3)
+                    val studentLevelUp = levelUpDate(curriculum, joinDate)
+
+                    schTime = schTime.split(" ").getOrNull(0).toString()
+                    println(schTime)
+
+                    getMaterialsForLevel(level) { materialsMap ->
+                        val userMap = hashMapOf(
+                            "studentId" to studentId,
+                            "levelId" to level,
+                            "teacherName" to teacher,
+                            "studentName" to name,
+                            "studentAttendance" to attendance,
+                            "studentAttendanceMaterials" to materialsMap,
+                            "studentSchedule" to getStudentSchedule(joinDate, schDay, schTime),
+                            "studentDailyReportLink" to dailyReportLink,
+                            "studentAge" to age,
+                            "studentJoinDate" to joinDate,
+                            "studentDayTime" to dayTime,
+                            "studentLevelUp" to studentLevelUp
+                        )
+
+                        usersCollection.document(studentId).set(userMap).addOnSuccessListener {
+                            Toast.makeText(this, "Successfully Added!!!", Toast.LENGTH_SHORT).show()
+
+                            finish()
                         }
+                            .addOnFailureListener { e ->
+                                Toast.makeText(this, "There's something wrong", Toast.LENGTH_SHORT).show()
+                                Log.d("RegisterActivity", "Error: ${e.message}")
+                            }
+                    }
                 }
             }
         }

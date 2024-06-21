@@ -78,7 +78,7 @@ class InnerAdapter(
 
             // Set color based on teacher name
             when (student.teacherName) {
-                "Abc" -> ivTeacherColor.setColorFilter(ContextCompat.getColor(itemView.context, R.color.yellow))
+                "Axel" -> ivTeacherColor.setColorFilter(ContextCompat.getColor(itemView.context, R.color.yellow))
                 "Via" -> ivTeacherColor.setColorFilter(ContextCompat.getColor(itemView.context, R.color.purple))
             }
 
@@ -100,7 +100,7 @@ class InnerAdapter(
         val btnCancel = dialogView.findViewById<TextView>(R.id.btnCancel)
 
         // Mengatur adapter untuk spinner
-        val options = arrayOf("10.00 WIB", "11.00 WIB", "12.00 WIB", "13.00 WIB", "14.00 WIB", "15.00 WIB", "16.00 WIB", "17.00 WIB")
+        val options = arrayOf("Time", "10.00 WIB", "11.00 WIB", "12.00 WIB", "13.00 WIB", "14.00 WIB", "15.00 WIB", "16.00 WIB", "17.00 WIB")
         val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, options)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerOptions.adapter = adapter
@@ -119,11 +119,19 @@ class InnerAdapter(
         }
 
         btnChange.setOnClickListener {
-            val selectedOption = spinnerOptions.selectedItem.toString()
-            val dateTime = tvDateTime.text.toString()
-            Toast.makeText(context, "$selectedOption $dateTime", Toast.LENGTH_SHORT).show()
-            showAnotherDialog(context, selectedOption, dateTime, studentId, studentScheduleKey, studentName)
-            dialog.dismiss()
+            val selectedOption = spinnerOptions.selectedItem.toString().trim()
+            val dateTime = tvDateTime.text.toString().trim()
+
+            println("DateTime: $dateTime")
+
+            if (dateTime == "DAY" || dateTime.isEmpty()) {
+                tvDateTime.error = "Pick the date"
+            } else if (selectedOption == "Time") {
+                Toast.makeText(context, "Pick the time", Toast.LENGTH_SHORT).show()
+            } else {
+                showAnotherDialog(context, selectedOption, dateTime, studentId, studentScheduleKey, studentName)
+                dialog.dismiss()
+            }
         }
 
         btnCancel.setOnClickListener {
@@ -157,8 +165,11 @@ class InnerAdapter(
 
         // Inisialisasi komponen UI dalam dialog
         val radioGroup = dialogView.findViewById<RadioGroup>(R.id.rgOption)
+        val rbThis = dialogView.findViewById<RadioButton>(R.id.rbThisSchedule)
         val btnSave = dialogView.findViewById<TextView>(R.id.tvSave)
         val btnCancel = dialogView.findViewById<TextView>(R.id.tvCancel)
+
+        rbThis.isChecked = true
 
         // Bangun AlertDialog dengan layout dialog kedua
         val dialogBuilder = AlertDialog.Builder(context, R.style.CustomAlertDialog)
@@ -170,40 +181,47 @@ class InnerAdapter(
         // Atur aksi untuk tombol "Save"
         btnSave.setOnClickListener {
             // Dapatkan radio button yang dipilih
-            val selectedRadioButton = dialogView.findViewById<RadioButton>(radioGroup.checkedRadioButtonId)
-            val selectedRadioText = selectedRadioButton.text.toString()
+            val selectedRadioButtonId = radioGroup.checkedRadioButtonId
 
-            // Hapus bagian "WIB" dari opsi waktu
-            val formattedTime = previousOption.substringBefore(" ")
+            if (selectedRadioButtonId == -1) {
+                // Jika tidak ada radio button yang dipilih
+                Toast.makeText(context, "Please select one option", Toast.LENGTH_SHORT).show()
+            } else {
+                val selectedRadioButton = dialogView.findViewById<RadioButton>(selectedRadioButtonId)
+                val selectedRadioText = selectedRadioButton.text.toString().trim()
 
-            when (selectedRadioText) {
-                "This Schedule" -> {
-                    updateThisSchedule(studentId, studentScheduleKey, "$previousDate|$formattedTime")
-                    showNotification(context, "Schedule changed", "$studentName move to $previousDate|$formattedTime")
-                }
-                "This and following schedule" -> {
-                    getStudentSchedule(studentId, studentScheduleKey.toInt(), previousDate, formattedTime)
-                    val formatter = DateTimeFormatter.ofPattern("dd-MM-yy")
-                    val joinDate = LocalDate.parse(previousDate, formatter)
+                // Hapus bagian "WIB" dari opsi waktu
+                val formattedTime = previousOption.substringBefore(" ")
 
-                    val dayOfWeekName = when (joinDate.dayOfWeek) {
-                        java.time.DayOfWeek.SUNDAY -> "Sunday"
-                        java.time.DayOfWeek.MONDAY -> "Monday"
-                        java.time.DayOfWeek.TUESDAY -> "Tuesday"
-                        java.time.DayOfWeek.WEDNESDAY -> "Wednesday"
-                        java.time.DayOfWeek.THURSDAY -> "Thursday"
-                        java.time.DayOfWeek.FRIDAY -> "Friday"
-                        java.time.DayOfWeek.SATURDAY -> "Saturday"
+                when (selectedRadioText) {
+                    "This Schedule" -> {
+                        updateThisSchedule(studentId, studentScheduleKey, "$previousDate|$formattedTime")
+                        showNotification(context, "Schedule changed", "$studentName moved to $previousDate|$formattedTime")
                     }
-                    showNotification(context, "Notification", "$studentName change day to $dayOfWeekName at $formattedTime")
-                }
-                else -> {
-                    println("Something went wrong")
-                }
-            }
+                    "This and following schedule" -> {
+                        getStudentSchedule(studentId, studentScheduleKey.toInt(), previousDate, formattedTime)
+                        val formatter = DateTimeFormatter.ofPattern("dd-MM-yy")
+                        val joinDate = LocalDate.parse(previousDate, formatter)
 
-            // Tutup kedua dialog
-            dialog.dismiss()
+                        val dayOfWeekName = when (joinDate.dayOfWeek) {
+                            java.time.DayOfWeek.SUNDAY -> "Sunday"
+                            java.time.DayOfWeek.MONDAY -> "Monday"
+                            java.time.DayOfWeek.TUESDAY -> "Tuesday"
+                            java.time.DayOfWeek.WEDNESDAY -> "Wednesday"
+                            java.time.DayOfWeek.THURSDAY -> "Thursday"
+                            java.time.DayOfWeek.FRIDAY -> "Friday"
+                            java.time.DayOfWeek.SATURDAY -> "Saturday"
+                        }
+                        showNotification(context, "Notification", "$studentName changed day to $dayOfWeekName at $formattedTime")
+                    }
+                    else -> {
+                        println("Something went wrong")
+                    }
+                }
+
+                // Tutup kedua dialog
+                dialog.dismiss()
+            }
         }
 
         // Atur aksi untuk tombol "Cancel"
@@ -211,6 +229,7 @@ class InnerAdapter(
             // Tutup dialog kedua
             dialog.dismiss()
         }
+
         dialog.show()
     }
 

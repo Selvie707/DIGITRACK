@@ -14,26 +14,26 @@
 
         <ImageView
             android:id="@+id/btnBack"
-            android:layout_width="37dp"
-            android:layout_height="37dp"
-            android:layout_marginTop="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:padding="5dp"
-            android:src="@drawable/ic_back"
             app:tint="@color/purple"
+            android:layout_marginTop="3dp"
+            android:src="@drawable/ic_back"
             android:background="@drawable/bg_corner_back"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
             android:id="@+id/tvAddNewStudent"
-            android:layout_width="250dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="1dp"
-            android:text="@string/btn_new"
-            android:fontFamily="@font/boldinter"
             android:textSize="28sp"
+            android:text="@string/btn_new"
+            android:layout_marginTop="1dp"
+            android:layout_marginStart="25dp"
             android:textColor="@color/purple"
+            android:fontFamily="@font/boldinter"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/btnBack"/>
 
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/h_name"
             android:textColorHint="@color/purple"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="38dp"
             android:padding="15dp"
             android:drawableStart="@drawable/ic_person"
             android:drawablePadding="15dp"
@@ -69,19 +69,41 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
-        <Spinner
-            android:id="@+id/spLevel_Add"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/llSpinnerLevel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/h_level"
-            android:textColorHint="@color/purple"
-            android:layout_marginTop="10dp"
-            android:paddingStart="38dp"
-            android:padding="15dp"
-            android:background="@drawable/spinner_level"
+            android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@+id/etAgeAdd"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Spinner
+                android:id="@+id/spLevel_Add"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/h_level"
+                android:textColorHint="@color/purple"
+                android:layout_marginTop="10dp"
+                android:paddingStart="38dp"
+                android:padding="15dp"
+                android:background="@drawable/spinner_level"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/ivLevelAlert"/>
+
+            <ImageView
+                android:id="@+id/ivLevelAlert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                app:tint="@color/red"
+                android:src="@drawable/ic_error"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/etJoinDate"
@@ -91,56 +113,124 @@
             android:textColorHint="@color/purple"
             android:layout_marginTop="10dp"
             android:padding="15dp"
+            android:textSize="15sp"
+            android:gravity="center_vertical"
             android:drawableStart="@drawable/ic_calendar"
             android:drawablePadding="15dp"
             android:background="@drawable/bg_corner_stroke"
-            app:layout_constraintTop_toBottomOf="@+id/spLevel_Add"
+            app:layout_constraintTop_toBottomOf="@+id/llSpinnerLevel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
-        <Spinner
-            android:id="@+id/spDay"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/llSpinnerDay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="@color/purple"
-            android:layout_marginTop="10dp"
-            android:padding="15dp"
-            android:drawableStart="@drawable/ic_calendar"
-            android:paddingStart="38dp"
-            android:drawablePadding="15dp"
-            android:background="@drawable/spinner_day"
+            android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@+id/etJoinDate"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent">
 
-        <Spinner
-            android:id="@+id/spTime"
+            <Spinner
+                android:id="@+id/spDay"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/purple"
+                android:layout_marginTop="10dp"
+                android:padding="15dp"
+                android:drawableStart="@drawable/ic_calendar"
+                android:paddingStart="38dp"
+                android:drawablePadding="15dp"
+                android:background="@drawable/spinner_day"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/ivDayAlert"/>
+
+            <ImageView
+                android:id="@+id/ivDayAlert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                app:tint="@color/red"
+                android:src="@drawable/ic_error"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/llSpinnerTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="@color/purple"
-            android:layout_marginTop="10dp"
-            android:paddingStart="38dp"
-            android:padding="15dp"
-            android:drawablePadding="15dp"
-            android:background="@drawable/spinner_time"
-            app:layout_constraintTop_toBottomOf="@+id/spDay"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/llSpinnerDay"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent">
 
-        <Spinner
-            android:id="@+id/spTeacher"
+            <Spinner
+                android:id="@+id/spTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/purple"
+                android:layout_marginTop="10dp"
+                android:paddingStart="38dp"
+                android:padding="15dp"
+                android:drawablePadding="15dp"
+                android:background="@drawable/spinner_time"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/ivTimeAlert"/>
+
+            <ImageView
+                android:id="@+id/ivTimeAlert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                app:tint="@color/red"
+                android:src="@drawable/ic_error"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/llSpinnerTeacher"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/h_teacher"
-            android:textColorHint="@color/purple"
-            android:layout_marginTop="10dp"
-            android:paddingStart="38dp"
-            android:padding="15dp"
-            android:drawablePadding="15dp"
-            android:background="@drawable/spinner_teacher"
-            app:layout_constraintTop_toBottomOf="@+id/spTime"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/llSpinnerTime"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Spinner
+                android:id="@+id/spTeacher"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/h_teacher"
+                android:textColorHint="@color/purple"
+                android:layout_marginTop="10dp"
+                android:paddingStart="38dp"
+                android:padding="15dp"
+                android:drawablePadding="15dp"
+                android:background="@drawable/spinner_teacher"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/ivTeacherAlert"/>
+
+            <ImageView
+                android:id="@+id/ivTeacherAlert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                app:tint="@color/red"
+                android:src="@drawable/ic_error"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <EditText
             android:id="@+id/etDailyReport_Add"
@@ -153,7 +243,7 @@
             android:drawableStart="@drawable/ic_link"
             android:drawablePadding="15dp"
             android:background="@drawable/bg_corner_stroke"
-            app:layout_constraintTop_toBottomOf="@+id/spTeacher"
+            app:layout_constraintTop_toBottomOf="@+id/llSpinnerTeacher"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 

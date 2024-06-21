@@ -81,64 +81,78 @@
         app:layout_constraintTop_toBottomOf="@id/clThankyou"/>
 
     <LinearLayout
-        android:id="@+id/ll_rate"
+        android:id="@+id/llStar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/tvRate"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:gravity="center"
-        android:orientation="horizontal">
+        app:layout_constraintStart_toStartOf="parent">
 
-        <CheckBox
-            android:id="@+id/cb_rate_one"
+        <LinearLayout
+            android:id="@+id/ll_rate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/cb_rate_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/selector_rate"
+                app:useMaterialThemeColors="false"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <CheckBox
+                android:id="@+id/cb_rate_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/selector_rate"
+                app:useMaterialThemeColors="false"
+                android:layout_marginLeft="12dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cb_rate_one"/>
+
+            <CheckBox
+                android:id="@+id/cb_rate_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/selector_rate"
+                app:useMaterialThemeColors="false"
+                android:layout_marginLeft="12dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cb_rate_two"/>
+
+            <CheckBox
+                android:id="@+id/cb_rate_four"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/selector_rate"
+                app:useMaterialThemeColors="false"
+                android:layout_marginLeft="12dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cb_rate_three"/>
+
+            <CheckBox
+                android:id="@+id/cb_rate_five"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/selector_rate"
+                app:useMaterialThemeColors="false"
+                android:layout_marginLeft="12dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cb_rate_four"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvRateError"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:button="@drawable/selector_rate"
-            app:useMaterialThemeColors="false"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <CheckBox
-            android:id="@+id/cb_rate_two"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@drawable/selector_rate"
-            app:useMaterialThemeColors="false"
-            android:layout_marginLeft="12dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cb_rate_one"/>
-
-        <CheckBox
-            android:id="@+id/cb_rate_three"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@drawable/selector_rate"
-            app:useMaterialThemeColors="false"
-            android:layout_marginLeft="12dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cb_rate_two"/>
-
-        <CheckBox
-            android:id="@+id/cb_rate_four"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@drawable/selector_rate"
-            app:useMaterialThemeColors="false"
-            android:layout_marginLeft="12dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cb_rate_three"/>
-
-        <CheckBox
-            android:id="@+id/cb_rate_five"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@drawable/selector_rate"
-            app:useMaterialThemeColors="false"
-            android:layout_marginLeft="12dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cb_rate_four"/>
+            android:textColor="@color/red"
+            android:text="Select the star"/>
     </LinearLayout>
 
     <TextView
@@ -150,7 +164,7 @@
         android:fontFamily="@font/boldinter"
         android:textSize="15sp"
         android:textColor="@color/purple"
-        app:layout_constraintTop_toBottomOf="@id/ll_rate"/>
+        app:layout_constraintTop_toBottomOf="@id/llStar"/>
 
     <EditText
         android:id="@+id/etCriticsugges"

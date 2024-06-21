@@ -3,6 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="blacks2">#61000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="red">#FF0000</color>
     <color name="purple">#472088</color>
     <color name="yellow">#FFC107</color>
     <color name="bluewhite">#FAF7FF</color>

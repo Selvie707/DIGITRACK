@@ -53,6 +53,7 @@ class EditDetailStudentActivity : AppCompatActivity() {
             .whereEqualTo("curName", "DK3")
             .get()
             .addOnSuccessListener { querySnapshot ->
+                levelNames.add("Level")
                 for (document in querySnapshot) {
                     val levelName = document.getString("levelId")
                     if (levelName != null) {
@@ -92,6 +93,7 @@ class EditDetailStudentActivity : AppCompatActivity() {
             .whereEqualTo("userRole", "Teacher")
             .get()
             .addOnSuccessListener { querySnapshot ->
+                teacherNames.add("Teacher")
                 for (document in querySnapshot) {
                     val teacherName = document.getString("userName")
                     if (teacherName != null) {
@@ -109,13 +111,13 @@ class EditDetailStudentActivity : AppCompatActivity() {
             }
 
         // Mengatur adapter untuk spinner
-        val optionTimes = arrayOf("10.00 WIB", "11.00 WIB", "12.00 WIB", "13.00 WIB", "14.00 WIB", "15.00 WIB", "16.00 WIB", "17.00 WIB")
+        val optionTimes = arrayOf("Time", "10.00 WIB", "11.00 WIB", "12.00 WIB", "13.00 WIB", "14.00 WIB", "15.00 WIB", "16.00 WIB", "17.00 WIB")
         val adapter = ArrayAdapter(this, R.layout.simple_spinner_item, optionTimes)
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
         binding.spTimeEdit.adapter = adapter
 
         // Mengatur adapter untuk spinner
-        val optionDays = arrayOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+        val optionDays = arrayOf("Day", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
         val adapterDay = ArrayAdapter(this, R.layout.simple_spinner_item, optionDays)
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
         binding.spDayEdit.adapter = adapterDay

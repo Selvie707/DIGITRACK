@@ -47,7 +47,7 @@ class NearestScheduleActivity : AppCompatActivity() {
         binding = ActivityNearestScheduleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        showCustomDialog()
+//        showCustomDialog()
 
         // TODO: Bikin di dalam else semua kode jika versi app normal
 

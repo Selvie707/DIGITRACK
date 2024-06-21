@@ -3,6 +3,7 @@ package com.example.digitrack.activities
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.digitrack.databinding.ActivityFeedbackBinding
@@ -17,6 +18,8 @@ class FeedbackActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityFeedbackBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.tvRateError.visibility = View.GONE
 
         val usersCollection = db.collection("feedback")
         val sharedPref = applicationContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
@@ -41,26 +44,32 @@ class FeedbackActivity : AppCompatActivity() {
         }
 
         binding.btnSave.setOnClickListener {
-            val comment = binding.etCriticsugges.text.toString()
+            val comment = binding.etCriticsugges.text.toString().trim()
             val name = sharedPref.getString("name", "")
 
             val userId = usersCollection.document().id
 
-            val userMap = hashMapOf(
-                "feedbackId" to userId,
-                "userName" to name,
-                "feedbackStarRate" to checkedStars,
-                "feedbackText" to comment,
-            )
+            if (checkedStars == 0) {
+                binding.tvRateError.visibility = View.VISIBLE
+            } else if (comment.isEmpty()) {
+                binding.etCriticsugges.error = "Write your comment"
+            } else {
+                val userMap = hashMapOf(
+                    "feedbackId" to userId,
+                    "userName" to name,
+                    "feedbackStarRate" to checkedStars,
+                    "feedbackText" to comment,
+                )
 
-            usersCollection.document(userId).set(userMap).addOnSuccessListener {
-                Toast.makeText(this, "Successfully Added!!!", Toast.LENGTH_SHORT).show()
-                finish()
-            }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, "There's something wrong", Toast.LENGTH_SHORT).show()
-                    Log.d("RegisterActivity", "Error: ${e.message}")
+                usersCollection.document(userId).set(userMap).addOnSuccessListener {
+                    Toast.makeText(this, "Successfully Added!!!", Toast.LENGTH_SHORT).show()
+                    finish()
                 }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "There's something wrong", Toast.LENGTH_SHORT).show()
+                        Log.d("RegisterActivity", "Error: ${e.message}")
+                    }
+            }
         }
 
         binding.btnBack.setOnClickListener {
