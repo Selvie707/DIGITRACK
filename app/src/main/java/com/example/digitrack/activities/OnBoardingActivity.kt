@@ -15,14 +15,6 @@ class OnBoardingActivity : AppCompatActivity() {
         binding = ActivityOnBoardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val sharedPref = applicationContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
-
-        val hasName = sharedPref.contains("name")
-
-        if (hasName) {
-            startActivity(Intent(this, NearestScheduleActivity::class.java))
-        }
-
         binding.btnLoginOnboarding.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
         }

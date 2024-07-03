@@ -22,7 +22,6 @@ class EditProfileActivity : AppCompatActivity() {
 
         val usersCollection = db.collection("materials")
 
-        // Fetch data from Firestore
         db.collection("levels")
             .get()
             .addOnSuccessListener { querySnapshot ->
@@ -33,7 +32,6 @@ class EditProfileActivity : AppCompatActivity() {
                         levelNames.add(levelName)
                     }
                 }
-                // Set the adapter to Spinner
                 val adapter = ArrayAdapter(this, R.layout.simple_spinner_item, levelNames)
                 adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
                 binding.spRoleEditProfile.adapter = adapter
@@ -42,17 +40,9 @@ class EditProfileActivity : AppCompatActivity() {
                 Toast.makeText(this, "Failed to load levels: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
 
-//        val curName = arrayOf("DK3", "ACD", "DK2")
-
-        // Set the adapter to Spinner
-//        val adapter = ArrayAdapter(this, R.layout.simple_spinner_item, curName)
-//        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
-//        binding.spRoleEditProfile.adapter = adapter
-
         binding.btnUpdate.setOnClickListener {
             val levelId = binding.spRoleEditProfile.selectedItem.toString().trim()
             val materialName = binding.etEmailEditProfile.text.toString().trim()
-//            val materialId = levelId+materialName
             val materialId = binding.etNameEditProfile.text.toString().trim()
 
             val userMap = hashMapOf(
@@ -63,16 +53,7 @@ class EditProfileActivity : AppCompatActivity() {
 
             usersCollection.document().set(userMap).addOnSuccessListener {
                 Toast.makeText(this, "Successfully Added!!!", Toast.LENGTH_SHORT).show()
-
-//                startActivity(Intent(this, MaterialsActivity::class.java))
                 finish()
-
-//                val level = "ACDJ"
-//
-//                val intent = Intent()
-//                intent.putExtra("level", level)
-//                setResult(RESULT_OK, intent)
-//                finish()
             }
                 .addOnFailureListener { e ->
                     Toast.makeText(this, "There's something wrong", Toast.LENGTH_SHORT).show()

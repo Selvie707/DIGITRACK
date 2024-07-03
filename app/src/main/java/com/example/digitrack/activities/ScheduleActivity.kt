@@ -75,7 +75,6 @@ class ScheduleActivity : AppCompatActivity() {
                         }
                     }
 
-                    // Filter jadwal berdasarkan tanggal yang diberikan
                     val filteredSchedules = mutableListOf<Pair<Students, String>>()
                     for ((student, schedule) in studentsWithSchedule) {
                         for ((_, value) in schedule) {
@@ -86,12 +85,16 @@ class ScheduleActivity : AppCompatActivity() {
                         }
                     }
 
-                    // Group schedules by time
-                    val groupedByTime = filteredSchedules.groupBy { (_, scheduleKey) ->
+                    // Sort the schedules by time (ascending)
+                    val sortedSchedules = filteredSchedules.sortedBy { (_, scheduleKey) ->
+                        scheduleKey.split("|")[1] // Extract the time part
+                    }
+
+                    // Group the schedules by time
+                    val groupedByTime = sortedSchedules.groupBy { (_, scheduleKey) ->
                         scheduleKey.split("|")[1]
                     }
 
-                    // Set adapter dengan daftar yang sudah difilter
                     rvSchedule.adapter = OuterScheduleAdapter(groupedByTime, date)
                 }
             }
@@ -99,7 +102,7 @@ class ScheduleActivity : AppCompatActivity() {
 
     private fun getDayOfWeekText(date: LocalDate): String {
         val dayOfWeek = date.dayOfWeek
-        return dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
+        return dayOfWeek.getDisplayName(TextStyle.FULL, Locale.ENGLISH)
     }
 
     private fun previousDate() {

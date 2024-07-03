@@ -26,8 +26,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         auth = Firebase.auth
-
-        // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
 
         val sharedPref = applicationContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
@@ -45,7 +43,6 @@ class LoginActivity : AppCompatActivity() {
             } else {
                 auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
                         val query = usersCollection.whereEqualTo("userEmail", email)
                         query.get()
                             .addOnSuccessListener { result ->
@@ -75,7 +72,6 @@ class LoginActivity : AppCompatActivity() {
                                 Toast.makeText(this, "There's something wrong", Toast.LENGTH_SHORT).show()
                             }
                     } else {
-                        // If sign in fails, display a message to the user.
                         Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
                     }
                 }

@@ -34,7 +34,6 @@ class AttendancesAdapter(
         private val ivWeekIII: ImageView = itemView.findViewById(R.id.ivWeekIII)
         private val ivWeekIV: ImageView = itemView.findViewById(R.id.ivWeekIV)
 
-        // Variabel boolean untuk menyimpan status minggu
         private var weekI: Boolean = false
         private var weekII: Boolean = false
         private var weekIII: Boolean = false
@@ -53,20 +52,16 @@ class AttendancesAdapter(
             val studentDetailText = "$studentLevel - $studentName"
             tvStudentName.text = studentDetailText
 
-            // Reset the visibility of tvMaterial and booleans
             tvMaterial.visibility = View.GONE
             weekI = false
             weekII = false
             weekIII = false
             weekIV = false
 
-            // Menghitung checklist yang dibutuhkan untuk bulan tertentu
             val (checklistForMonth, meetingMap) = calculateChecklistsII(totalAttendance, joinDate, currentMonth, currentYear)
 
-            // Menampilkan checklist sesuai dengan perhitungan
             setChecklists(ivWeekI, ivWeekII, ivWeekIII, ivWeekIV, checklistForMonth)
 
-            // Mengatur OnClickListener untuk ivWeekI
             ivWeekI.setOnClickListener {
                 weekI = !weekI
                 if (weekI) {
@@ -80,7 +75,6 @@ class AttendancesAdapter(
                 }
             }
 
-            // Mengatur OnClickListener untuk ivWeekII
             ivWeekII.setOnClickListener {
                 weekII = !weekII
                 if (weekII) {
@@ -94,7 +88,6 @@ class AttendancesAdapter(
                 }
             }
 
-            // Mengatur OnClickListener untuk ivWeekIII
             ivWeekIII.setOnClickListener {
                 weekIII = !weekIII
                 if (weekIII) {
@@ -108,7 +101,6 @@ class AttendancesAdapter(
                 }
             }
 
-            // Mengatur OnClickListener untuk ivWeekIV
             ivWeekIV.setOnClickListener {
                 weekIV = !weekIV
                 if (weekIV) {
@@ -123,10 +115,8 @@ class AttendancesAdapter(
             }
 
             tvStudentName.setOnClickListener {
-                // Panggil fungsi onItemClick dan kirimkan posisi item serta konteks
                 onItemClick(adapterPosition)
 
-                // Intent ke Activity lain
                 val context = tvStudentName.context
                 val intent = Intent(context, DetailStudentActivity::class.java).apply {
                     putExtra("studentId", attendance.studentId)
@@ -209,7 +199,6 @@ class AttendancesAdapter(
         holder.bind(attendancesList[position])
     }
 
-    // Fungsi untuk memperbarui data dan menyegarkan tampilan
     fun updateData(newList: List<Students>, newMonth: Int, newYear: Int) {
         attendancesList = newList
         currentMonth = newMonth
@@ -218,43 +207,32 @@ class AttendancesAdapter(
     }
 
     private fun studentLevelUp(levelUpDate: String, studentId: String, currentLevel: String, dayTime: String): String {
-        // Ubah format tanggal yang diinput ke LocalDate
         val formatter = DateTimeFormatter.ofPattern("dd-MM-yy")
         val parsedInputDate = LocalDate.parse(levelUpDate, formatter)
         val nextLevel: String
         val day = dayTime.split("|")[0]
         val time = dayTime.split("|")[1].split(" ")[0]
 
-        // Tanggal hari ini
         val currentDate = LocalDate.now()
 
-        // Periksa apakah tanggal yang diinput lebih kecil atau sama dengan tanggal hari ini
         if (parsedInputDate.isBefore(currentDate) || parsedInputDate.isEqual(currentDate)) {
-            println("Tanggal yang diinput lebih kecil atau sama dengan tanggal hari ini.")
-            // Lakukan tindakan yang sesuai di sini
-
             nextLevel = when (currentLevel) {
                 "DK3LC1L1" -> "DK3LC1L2"
                 "DK2J1" -> "DK2J2"
                 "DK2J2" -> "DK2T1"
-                // Tambahkan kasus lain jika diperlukan
                 else -> {
-                    // Tambahkan tindakan yang sesuai jika level tidak cocok dengan kasus yang ada
-                    println("Level tidak dikenali.")
-                    ""
+                    "Level unknown"
                 }
             }
 
             println("nexLev: $nextLevel")
 
-            // Format tanggal
             val dateFormatter =
                 DateTimeFormatter.ofPattern("dd-MM-yy")
 
-            // Parse input date
             val theDate = LocalDate.parse(levelUpDate, dateFormatter)
 
-            var newDate = theDate.plusMonths(1)
+            val newDate = theDate.plusMonths(1)
 
             getMaterialsForLevel(nextLevel) { materialMap ->
                 val curriculum = nextLevel.substring(0,3)
@@ -267,21 +245,16 @@ class AttendancesAdapter(
                     "studentSchedule" to getStudentSchedule(newDate.format(dateFormatter), day, time)
                 )
 
-                // Perbarui nilai di Firestore
                 db.collection("student").document(studentId).update(updates as Map<String, Any>)
                     .addOnSuccessListener {
-                        // Penanganan sukses
-                        println("Nilai berhasil diperbarui!")
+                        println("Value updated sucessfully!")
                     }
                     .addOnFailureListener { e ->
-                        // Penanganan kesalahan
-                        println("Gagal memperbarui nilai: $e")
+                        println("Value update failed: $e")
                     }
             }
         } else {
             nextLevel = currentLevel
-            println("Tanggal yang diinput lebih besar dari tanggal hari ini.")
-            // Lakukan tindakan yang sesuai di sini
         }
 
         return nextLevel
@@ -302,38 +275,32 @@ class AttendancesAdapter(
                         materialsList.add(Pair(materialId, materialName))
                     }
                 }
-                // Mengurutkan berdasarkan materialId
                 materialsList.sortBy { it.first }
 
-                // Memasukkan ke dalam HashMap dengan urutan yang sesuai
                 materialsList.forEachIndexed { index, pair ->
                     materialsMap[(index + 1).toString()] = pair.second
                 }
 
-                callback(materialsMap)  // Panggil callback setelah data selesai diambil
+                callback(materialsMap)
             }
             .addOnFailureListener { exception ->
                 Log.w("Firestore", "Error getting materials: ", exception)
 
-                callback(materialsMap)  // Panggil callback setelah data selesai diambil
+                callback(materialsMap)
             }
     }
 
     private fun levelUpDate(curriculum: String, date: String): String {
-        // Format tanggal
-        val dateFormatter =
-            DateTimeFormatter.ofPattern("dd-MM-yy")
+        val dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yy")
 
-        // Parse input date
         val theDate = LocalDate.parse(date, dateFormatter)
 
-        var newDate: LocalDate = if (curriculum == "DK3") {
+        val newDate: LocalDate = if (curriculum == "DK3") {
             theDate.plusMonths(3)
         } else {
             theDate.plusMonths(11)
         }
 
-        // Cetak hasil
         return newDate.format(dateFormatter)
     }
 

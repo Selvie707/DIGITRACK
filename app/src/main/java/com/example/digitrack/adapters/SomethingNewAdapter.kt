@@ -10,7 +10,7 @@ import com.example.digitrack.R
 class SomethingNewAdapter(private val items: List<String>) : RecyclerView.Adapter<SomethingNewAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = view.findViewById(R.id.tvSomethingNew)  // Ganti dengan ID TextView Anda
+        val textView: TextView = view.findViewById(R.id.tvSomethingNew)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

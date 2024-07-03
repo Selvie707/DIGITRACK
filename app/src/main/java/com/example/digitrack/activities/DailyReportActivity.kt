@@ -28,7 +28,7 @@ class DailyReportActivity : AppCompatActivity() {
         rvDailyReport.layoutManager = LinearLayoutManager(this)
 
         adapter = DailyReportAdapter(filteredDailyReportList) { position ->
-            Toast.makeText(this, "Student clicked at position $position", Toast.LENGTH_SHORT).show()
+            println("Student clicked at position $position")
         }
         rvDailyReport.adapter = adapter
 
@@ -60,7 +60,7 @@ class DailyReportActivity : AppCompatActivity() {
                     dailyReportList.add(student)
                 }
             }
-            filter("") // Filter with empty text to show all data initially
+            filter("")
         }.addOnFailureListener { exception ->
             Toast.makeText(this, "Failed to load students: $exception", Toast.LENGTH_SHORT).show()
         }

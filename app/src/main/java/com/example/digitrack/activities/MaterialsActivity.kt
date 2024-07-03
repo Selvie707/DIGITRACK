@@ -1,27 +1,22 @@
 package com.example.digitrack.activities
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultCallback
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.digitrack.R
-import com.example.digitrack.adapters.MaterialsAdapter
 import com.example.digitrack.adapters.LevelsAdapter
+import com.example.digitrack.adapters.MaterialsAdapter
 import com.example.digitrack.data.Levels
 import com.example.digitrack.data.Materials
 import com.example.digitrack.databinding.ActivityMaterialsBinding
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 
 class MaterialsActivity : AppCompatActivity() {
 
@@ -35,32 +30,10 @@ class MaterialsActivity : AppCompatActivity() {
     private var selectedLevelId: String = "K1"
     private var selectedCurName: String = "DK2"
 
-//    private val intentToAddActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), ActivityResultCallback { result: ActivityResult ->
-//        if (result.resultCode == Activity.RESULT_OK) {
-//            // Hasil sukses, lakukan sesuatu dengan data dari intent
-//            val data: Intent? = result.data
-//            // Misalnya, ambil data dari intent
-//            val someData = data?.getStringExtra("key")
-//            // Lakukan sesuatu dengan data yang diambil
-//            if (someData != null) {
-//                loadMaterials(someData)
-//            }
-//            Toast.makeText(this, "Data: $someData", Toast.LENGTH_SHORT).show()
-//        } else {
-//            // Hasil gagal, mungkin tampilkan pesan atau lakukan hal lain
-//            Toast.makeText(this, "Action canceled or failed", Toast.LENGTH_SHORT).show()
-//        }})
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMaterialsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val sharedPref = applicationContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
-        val role = sharedPref.getString("role", "")
-
-        if (!role.equals("Admin")) {
-            binding.btnAdd.visibility = View.GONE
-        }
 
         rvMaterials = binding.rvMaterials
         rvLevels = binding.rvLevels
@@ -112,24 +85,16 @@ class MaterialsActivity : AppCompatActivity() {
             loadMaterials(selectedCurName+selectedLevelId)
         }
 
-        materialsAdapter = MaterialsAdapter(materialsList) {
-            // Handle click event for materials
-        }
+        materialsAdapter = MaterialsAdapter(materialsList) {}
         rvMaterials.adapter = materialsAdapter
 
         loadLevels(selectedCurName)
 
         binding.btnAdd.setOnClickListener {
             val cur = "AKD"
-//            startActivity(Intent(this, EditProfileActivity::class.java))
-            // Membuat intent ke Activity tujuan
             val intent = Intent(this, EditProfileActivity::class.java)
             intent.putExtra("curriculum", cur)
             startActivity(intent)
-
-//            Meluncurkan Activity dan menunggu hasilnya
-//            intentToAddActivity.launch(intent)
-//            finish()
         }
 
         binding.btnBack.setOnClickListener {
@@ -153,7 +118,6 @@ class MaterialsActivity : AppCompatActivity() {
                         val material = document.toObject(Materials::class.java)
                         materialsList.add(material)
                     }
-                    // Mengurutkan materialsList berdasarkan materialId secara ascending
                     materialsList.sortBy { it.materialId }
                     materialsAdapter.notifyDataSetChanged()
                 }
@@ -167,14 +131,12 @@ class MaterialsActivity : AppCompatActivity() {
                 Toast.makeText(this, "Failed to load students: $exception", Toast.LENGTH_SHORT).show()
                 return@addSnapshotListener
             }
-
             if (querySnapshot != null) {
                 levelsList.clear()
                 for (document in querySnapshot) {
                     val level = document.toObject(Levels::class.java)
                     levelsList.add(level)
                 }
-
                 levelsList.sortBy { it.levelSeq }
 
                 loadMaterials(selectedCurName+selectedLevelId)

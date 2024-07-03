@@ -3,7 +3,6 @@ package com.example.digitrack.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.digitrack.R
 import com.example.digitrack.databinding.ActivityHomeBinding

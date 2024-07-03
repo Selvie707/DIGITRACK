@@ -41,11 +41,39 @@ class AddNewStudentActivity : AppCompatActivity() {
         binding.ivDayAlert.visibility = View.GONE
         binding.ivTimeAlert.visibility = View.GONE
 
-        val usersCollection = db.collection("student")
+        getLevel()
+        getTeacher()
+        setDaySpinner()
+        setTimeSpinner()
+        btnAddSetOnClick()
 
-        // Fetch data from Firestore
+        binding.etJoinDate.setOnClickListener {
+            showDatePickerDialog(this) { selectedDate ->
+                binding.etJoinDate.text = selectedDate
+            }
+        }
+
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
+    }
+
+    private fun setTimeSpinner() {
+        val optionTimes = arrayOf("Time", "10.00 WIB", "11.00 WIB", "12.00 WIB", "13.00 WIB", "14.00 WIB", "15.00 WIB", "16.00 WIB", "17.00 WIB")
+        val adapter = ArrayAdapter(this, R.layout.simple_spinner_item, optionTimes)
+        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        binding.spTime.adapter = adapter
+    }
+
+    private fun setDaySpinner() {
+        val optionDays = arrayOf("Day", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+        val adapterDay = ArrayAdapter(this, R.layout.simple_spinner_item, optionDays)
+        adapterDay.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        binding.spDay.adapter = adapterDay
+    }
+
+    private fun getLevel() {
         db.collection("levels")
-//            .whereEqualTo("curName", "DK3")
             .get()
             .addOnSuccessListener { querySnapshot ->
                 val levelNames = mutableListOf<String>()
@@ -58,7 +86,6 @@ class AddNewStudentActivity : AppCompatActivity() {
                         levelNames.add(levelName)
                     }
                 }
-                // Set the adapter to Spinner
                 val adapter = ArrayAdapter(this, R.layout.simple_spinner_item, levelNames)
                 adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
                 binding.spLevelAdd.adapter = adapter
@@ -67,24 +94,21 @@ class AddNewStudentActivity : AppCompatActivity() {
                 Toast.makeText(this, "Failed to load levels: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
 
-        // Mengatur OnItemSelectedListener untuk Spinner
         binding.spLevelAdd.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val selectedItem = parent.getItemAtPosition(position).toString().substring(0,3)
                 if (selectedItem == "DK3") {
-                    // Menyembunyikan EditText jika item yang dipilih adalah "DK3"
                     binding.etDailyReportAdd.visibility = View.GONE
                 } else {
-                    // Menampilkan EditText untuk item lainnya
                     binding.etDailyReportAdd.visibility = View.VISIBLE
                 }
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // Tidak melakukan apa-apa
-            }
+            override fun onNothingSelected(parent: AdapterView<*>) {}
         }
+    }
 
+    private fun getTeacher() {
         db.collection("teacher")
             .whereEqualTo("userRole", "Teacher")
             .get()
@@ -106,25 +130,10 @@ class AddNewStudentActivity : AppCompatActivity() {
             .addOnFailureListener { exception ->
                 Toast.makeText(this, "Failed to load levels: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
+    }
 
-        // Menangani pemilihan tanggal ketika TextView diklik
-        binding.etJoinDate.setOnClickListener {
-            showDatePickerDialog(this) { selectedDate ->
-                binding.etJoinDate.text = selectedDate
-            }
-        }
-
-        // Mengatur adapter untuk spinner
-        val optionTimes = arrayOf("Time", "10.00 WIB", "11.00 WIB", "12.00 WIB", "13.00 WIB", "14.00 WIB", "15.00 WIB", "16.00 WIB", "17.00 WIB")
-        val adapter = ArrayAdapter(this, R.layout.simple_spinner_item, optionTimes)
-        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
-        binding.spTime.adapter = adapter
-
-        // Mengatur adapter untuk spinner
-        val optionDays = arrayOf("Day", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
-        val adapterDay = ArrayAdapter(this, R.layout.simple_spinner_item, optionDays)
-        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
-        binding.spDay.adapter = adapterDay
+    private fun btnAddSetOnClick() {
+        val usersCollection = db.collection("student")
 
         binding.btnAddAddStudent.setOnClickListener {
             name = binding.etNameAdd.text.toString().trim()
@@ -141,7 +150,6 @@ class AddNewStudentActivity : AppCompatActivity() {
             if (dailyReportLink.isEmpty()) {
                 dailyReportLink = "No daily report"
             }
-
             if (name.isBlank()) {
                 binding.etNameAdd.error = "Please fill up this field"
             } else if (age.isBlank()) {
@@ -157,19 +165,16 @@ class AddNewStudentActivity : AppCompatActivity() {
                     } else {
                         binding.ivLevelAlert.visibility = View.GONE
                     }
-
                     if (teacher == "Teacher") {
                         binding.ivTeacherAlert.visibility = View.VISIBLE
                     } else {
                         binding.ivTeacherAlert.visibility = View.GONE
                     }
-
                     if (schDay == "Day") {
                         binding.ivDayAlert.visibility = View.VISIBLE
                     } else {
                         binding.ivDayAlert.visibility = View.GONE
                     }
-
                     if (schTime == "Time") {
                         binding.ivTimeAlert.visibility = View.VISIBLE
                     } else {
@@ -212,10 +217,6 @@ class AddNewStudentActivity : AppCompatActivity() {
                 }
             }
         }
-
-        binding.btnBack.setOnClickListener {
-            finish()
-        }
     }
 
     private fun getMaterialsForLevel(levelId: String, callback: (HashMap<String, String>) -> Unit) {
@@ -233,19 +234,17 @@ class AddNewStudentActivity : AppCompatActivity() {
                         materialsList.add(Pair(materialId, materialName))
                     }
                 }
-                // Mengurutkan berdasarkan materialId
                 materialsList.sortBy { it.first }
 
-                // Memasukkan ke dalam HashMap dengan urutan yang sesuai
                 materialsList.forEachIndexed { index, pair ->
                     materialsMap[(index + 1).toString()] = pair.second
                 }
 
-                callback(materialsMap)  // Panggil callback setelah data selesai diambil
+                callback(materialsMap)
             }
             .addOnFailureListener { exception ->
                 Log.w("Firestore", "Error getting materials: ", exception)
-                callback(materialsMap)  // Tetap panggil callback meskipun ada kegagalan
+                callback(materialsMap)
             }
     }
 
@@ -286,10 +285,8 @@ class AddNewStudentActivity : AppCompatActivity() {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         val datePickerDialog = DatePickerDialog(context, { _, selectedYear, selectedMonth, selectedDay ->
-            // Mengonversi tahun ke format dua digit (contoh: 2024 -> 24)
             val formattedYear = (selectedYear % 100).toString().padStart(2, '0')
 
-            // Format tanggal menjadi "dd-MM-yy"
             val formattedDate = "${selectedDay.toString().padStart(2, '0')}-${(selectedMonth + 1).toString().padStart(2, '0')}-$formattedYear"
             onDateSelected(formattedDate)
         }, year, month, day)
@@ -298,21 +295,17 @@ class AddNewStudentActivity : AppCompatActivity() {
     }
 
     private fun levelUpDate(curriculum: String, date: String): String {
-        // Format tanggal
         val dateFormatter =
             DateTimeFormatter.ofPattern("dd-MM-yy")
 
-        // Parse input date
         val theDate = LocalDate.parse(date, dateFormatter)
-        var newDate: LocalDate = theDate
 
-        newDate = if (curriculum == "DK3") {
+        val newDate: LocalDate = if (curriculum == "DK3") {
             theDate.plusMonths(3)
         } else {
             theDate.plusMonths(11)
         }
 
-        // Cetak hasil
         return newDate.format(dateFormatter)
     }
 }

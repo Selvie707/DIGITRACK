@@ -5,6 +5,5 @@ data class Materials (
     val levelId: String = "",
     val materialName: String = ""
 ) {
-    // No-argument constructor required by Firestore
     constructor() : this(0, "", "")
 }

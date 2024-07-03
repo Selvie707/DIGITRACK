@@ -4,18 +4,17 @@ import android.R
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.digitrack.databinding.ActivityEditDetailStudentBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalAdjusters
 import java.util.Calendar
 
@@ -41,91 +40,27 @@ class EditDetailStudentActivity : AppCompatActivity() {
         var studentDailyReport = intent.getStringExtra("studentDailyReportLink")
         var studentJoinDate = intent.getStringExtra("studentJoinDate")
 
-        // Menangani pemilihan tanggal ketika TextView diklik
+        getLevel(studentLevel!!)
+        getTeacher(studentTeacher!!)
+
         binding.etJoinDate.setOnClickListener {
             showDatePickerDialog(this) { selectedDate ->
                 binding.etJoinDate.text = selectedDate
             }
         }
 
-        // Fetch data from Firestore
-        db.collection("levels")
-            .whereEqualTo("curName", "DK3")
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                levelNames.add("Level")
-                for (document in querySnapshot) {
-                    val levelName = document.getString("levelId")
-                    if (levelName != null) {
-                        levelNames.add(levelName)
-                    }
-                }
-                // Set the adapter to Spinner
-                val adapter = ArrayAdapter(this, R.layout.simple_spinner_item, levelNames)
-                adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
-                binding.spLevelEdit.adapter = adapter
-
-                binding.spLevelEdit.setSelection(levelNames.indexOf(studentLevel))
-            }
-            .addOnFailureListener { exception ->
-                Toast.makeText(this, "Failed to load levels: ${exception.message}", Toast.LENGTH_SHORT).show()
-            }
-
-        // Mengatur OnItemSelectedListener untuk Spinner
-        binding.spLevelEdit.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                val selectedItem = parent.getItemAtPosition(position).toString().substring(0,3)
-                if (selectedItem == "DK3") {
-                    // Menyembunyikan EditText jika item yang dipilih adalah "DK3"
-                    binding.etDailyReportEdit.visibility = View.GONE
-                } else {
-                    // Menampilkan EditText untuk item lainnya
-                    binding.etDailyReportEdit.visibility = View.VISIBLE
-                }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // Tidak melakukan apa-apa
-            }
-        }
-
-        db.collection("teacher")
-            .whereEqualTo("userRole", "Teacher")
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                teacherNames.add("Teacher")
-                for (document in querySnapshot) {
-                    val teacherName = document.getString("userName")
-                    if (teacherName != null) {
-                        teacherNames.add(teacherName)
-                    }
-                }
-                val adapterTeacher = ArrayAdapter(this, R.layout.simple_spinner_item, teacherNames)
-                adapterTeacher.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
-                binding.spTeacherEdit.adapter = adapterTeacher
-
-                binding.spTeacherEdit.setSelection(teacherNames.indexOf(studentTeacher))
-            }
-            .addOnFailureListener { exception ->
-                Toast.makeText(this, "Failed to load levels: ${exception.message}", Toast.LENGTH_SHORT).show()
-            }
-
-        // Mengatur adapter untuk spinner
         val optionTimes = arrayOf("Time", "10.00 WIB", "11.00 WIB", "12.00 WIB", "13.00 WIB", "14.00 WIB", "15.00 WIB", "16.00 WIB", "17.00 WIB")
         val adapter = ArrayAdapter(this, R.layout.simple_spinner_item, optionTimes)
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
         binding.spTimeEdit.adapter = adapter
 
-        // Mengatur adapter untuk spinner
         val optionDays = arrayOf("Day", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
         val adapterDay = ArrayAdapter(this, R.layout.simple_spinner_item, optionDays)
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
         binding.spDayEdit.adapter = adapterDay
 
-        // Memisahkan data menjadi tanggal dan waktu
         val separatedData = studentDayTime!!.split("|")
 
-        // Mendapatkan tanggal dan waktu terpisah
         var day = separatedData[0]
         var time = separatedData[1]
 
@@ -170,10 +105,8 @@ class EditDetailStudentActivity : AppCompatActivity() {
                 "studentDailyReportLink" to studentDailyReport
             )
 
-            // Perbarui nilai di Firestore
             db.collection("student").document(studentId).update(updates as Map<String, Any>)
                 .addOnSuccessListener {
-                    // Set result untuk memberitahu bahwa data telah diperbarui
                     val resultIntent = Intent().apply {
                         putExtra("studentId", studentId)
                     }
@@ -181,14 +114,71 @@ class EditDetailStudentActivity : AppCompatActivity() {
                     finish()
                 }
                 .addOnFailureListener { e ->
-                    // Penanganan kesalahan
-                    println("Gagal memperbarui nilai: $e")
+                    println("Update value failed: $e")
                 }
         }
 
         binding.btnBack.setOnClickListener {
             finish()
         }
+    }
+
+    private fun getLevel(studentLevel: String) {
+        db.collection("levels")
+//            .whereEqualTo("curName", "DK3")
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                levelNames.add("Level")
+                for (document in querySnapshot) {
+                    val levelName = document.getString("levelId")
+                    if (levelName != null) {
+                        levelNames.add(levelName)
+                    }
+                }
+                val adapter = ArrayAdapter(this, R.layout.simple_spinner_item, levelNames)
+                adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+                binding.spLevelEdit.adapter = adapter
+                binding.spLevelEdit.setSelection(levelNames.indexOf(studentLevel))
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(this, "Failed to load levels: ${exception.message}", Toast.LENGTH_SHORT).show()
+            }
+
+        binding.spLevelEdit.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                val selectedItem = parent.getItemAtPosition(position).toString().substring(0,3)
+                if (selectedItem == "DK3") {
+                    binding.etDailyReportEdit.visibility = View.GONE
+                } else {
+                    binding.etDailyReportEdit.visibility = View.VISIBLE
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+    }
+
+    private fun getTeacher(studentTeacher: String) {
+        db.collection("teacher")
+            .whereEqualTo("userRole", "Teacher")
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                teacherNames.add("Teacher")
+                for (document in querySnapshot) {
+                    val teacherName = document.getString("userName")
+                    if (teacherName != null) {
+                        teacherNames.add(teacherName)
+                    }
+                }
+                val adapterTeacher = ArrayAdapter(this, R.layout.simple_spinner_item, teacherNames)
+                adapterTeacher.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+                binding.spTeacherEdit.adapter = adapterTeacher
+
+                binding.spTeacherEdit.setSelection(teacherNames.indexOf(studentTeacher))
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(this, "Failed to load levels: ${exception.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun showDatePickerDialog(context: Context, onDateSelected: (String) -> Unit) {
@@ -198,10 +188,7 @@ class EditDetailStudentActivity : AppCompatActivity() {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         val datePickerDialog = DatePickerDialog(context, { _, selectedYear, selectedMonth, selectedDay ->
-            // Mengonversi tahun ke format dua digit (contoh: 2024 -> 24)
             val formattedYear = (selectedYear % 100).toString().padStart(2, '0')
-
-            // Format tanggal menjadi "dd-MM-yy"
             val formattedDate = "${selectedDay.toString().padStart(2, '0')}-${(selectedMonth + 1).toString().padStart(2, '0')}-$formattedYear"
             onDateSelected(formattedDate)
         }, year, month, day)
@@ -246,27 +233,22 @@ class EditDetailStudentActivity : AppCompatActivity() {
 
         val db = FirebaseFirestore.getInstance()
 
-        // Perbarui nilai di Firestore
         db.collection("student").document(studentId)
             .update(scheduleMap as Map<String, Any>)
             .addOnSuccessListener {
-                // Penanganan sukses
-                println("Jadwal berhasil diperbarui!")
+                println("Schedule updated sucessfully")
             }
             .addOnFailureListener { e ->
-                // Penanganan kesalahan
-                println("Gagal memperbarui jadwal: $e")
+                println("Schedule update failed: $e")
             }
 
         db.collection("student").document(studentId)
             .update("studentDayTime", "$schDay|$schTime")
             .addOnSuccessListener {
-                // Penanganan sukses
-                println("Jadwal berhasil diperbarui!")
+                println("Schedule updated sucessfully")
             }
             .addOnFailureListener { e ->
-                // Penanganan kesalahan
-                println("Gagal memperbarui jadwal: $e")
+                println("Schedule update failed: $e")
             }
     }
 }

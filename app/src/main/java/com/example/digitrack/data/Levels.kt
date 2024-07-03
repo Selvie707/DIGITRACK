@@ -6,6 +6,5 @@ data class Levels (
     val levelSeq: Int = 0,
     val levelName: String = ""
 ) {
-    // No-argument constructor required by Firestore
     constructor() : this("", "", 0, "")
 }

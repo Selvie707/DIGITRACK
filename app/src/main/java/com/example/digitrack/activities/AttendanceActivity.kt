@@ -44,15 +44,11 @@ class AttendanceActivity : AppCompatActivity() {
         rvStudentName = binding.rvAttendance
         rvStudentName.layoutManager = LinearLayoutManager(this)
 
-        adapter = AttendancesAdapter(filteredStudentList, monthNumber, currentYear) { position ->
-//            Toast.makeText(this, "Student clicked at position $position", Toast.LENGTH_SHORT).show()
-        }
+        adapter = AttendancesAdapter(filteredStudentList, monthNumber, currentYear) {}
         rvStudentName.adapter = adapter
 
-        // Load student data initially
         loadStudentsName()
 
-        // Set the current month and year text
         updateMonthYearText()
 
         binding.btnPrevMonth.setOnClickListener {
@@ -96,12 +92,12 @@ class AttendanceActivity : AppCompatActivity() {
             }
 
             if (querySnapshot != null) {
-                studentList.clear() // Clear the list before adding new data
+                studentList.clear()
                 for (document in querySnapshot) {
                     val student = document.toObject(Students::class.java)
                     studentList.add(student)
                 }
-                filter("") // Filter with empty text to show all data initially
+                filter("")
             }
         }
     }

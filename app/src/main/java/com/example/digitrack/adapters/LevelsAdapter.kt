@@ -1,6 +1,5 @@
 package com.example.digitrack.adapters
 
-// CustomAdapter.kt
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,9 +20,7 @@ class LevelsAdapter(
 
         fun bind(level: Levels) {
             tvLevelName.text = level.levelName
-//            itemView.setOnClickListener { onItemClick(adapterPosition) }
 
-            // Set default or selected state
             if (position == selectedPosition) {
                 tvLevelName.textSize = 23f
                 tvLevelName.setTypeface(null, android.graphics.Typeface.BOLD)
@@ -32,7 +29,6 @@ class LevelsAdapter(
                 tvLevelName.setTypeface(null, android.graphics.Typeface.NORMAL)
             }
 
-            // Handle item click
             itemView.setOnClickListener {
                 notifyItemChanged(selectedPosition)
                 selectedPosition = adapterPosition

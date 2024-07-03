@@ -85,7 +85,7 @@
             android:background="@drawable/bg_corner_back"/>
 
         <ImageView
-            android:visibility="visible"
+            android:visibility="gone"
             android:id="@+id/btnAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

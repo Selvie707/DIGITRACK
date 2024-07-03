@@ -2,7 +2,6 @@ package com.example.digitrack.activities
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,59 +9,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.digitrack.BuildConfig
 import com.example.digitrack.R
-import com.example.digitrack.adapters.SomethingNewAdapter
 import com.example.digitrack.databinding.ActivityDetailStudentBinding
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 
 class DetailStudentActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailStudentBinding
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == EDIT_STUDENT_REQUEST_CODE && resultCode == RESULT_OK) {
-            val studentId = data?.getStringExtra("studentId")
-            studentId?.let {
-                fetchStudentData(it)
-            }
-        }
-    }
-
-    private fun fetchStudentData(studentId: String) {
-        val db = FirebaseFirestore.getInstance()
-        db.collection("student").document(studentId).get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    val studentName = document.getString("studentName")
-                    val studentLevel = document.getString("levelId")
-                    val studentAge = document.getString("studentAge")
-                    val studentDayTime = document.getString("studentDayTime")
-                    val studentAttendance = document.getLong("studentAttendance")?.toString()
-                    val studentTeacher = document.getString("teacherName")
-                    val studentDailyReport = document.getString("studentDailyReportLink")
-                    val studentJoinDate = document.getString("studentJoinDate")
-                    val studentLevelUp = document.getString("studentLevelUp")
-
-                    binding.tvHeader.text = studentName
-                    binding.tvStudentLevel.text = studentLevel
-                    binding.tvStudentAge.text = studentAge
-                    binding.tvDateTime.text = studentDayTime
-                    binding.tvAttendance.text = studentAttendance
-                    binding.tvTeacher.text = studentTeacher
-                    binding.tvDailyReport.text = studentDailyReport
-                    binding.tvJoinDate.text = studentJoinDate
-                    binding.tvLevelUpDate.text = studentLevelUp
-                }
-            }
-            .addOnFailureListener { exception ->
-                Toast.makeText(this, "Failed to load student data: ${exception.message}", Toast.LENGTH_SHORT).show()
-            }
-    }
 
     companion object {
         const val EDIT_STUDENT_REQUEST_CODE = 1
@@ -141,7 +94,6 @@ class DetailStudentActivity : AppCompatActivity() {
     }
 
     private fun showCustomDialog(studentId: String) {
-        // Gunakan LayoutInflater untuk memasukkan layout dialog kustom
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_detele_student, null)
 
         val btnUpdate = dialogView.findViewById<TextView>(R.id.btnYes)
@@ -150,11 +102,10 @@ class DetailStudentActivity : AppCompatActivity() {
         val dialogBuilder = AlertDialog.Builder(this)
             .setView(dialogView)
 
-        // Tampilkan dialog
         val dialog = dialogBuilder.create()
 
         btnUpdate.setOnClickListener {
-            deleteDocumentById(studentId!!)
+            deleteDocumentById(studentId)
             finish()
 
             dialog.dismiss()
@@ -165,5 +116,46 @@ class DetailStudentActivity : AppCompatActivity() {
         }
 
         dialog.show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == EDIT_STUDENT_REQUEST_CODE && resultCode == RESULT_OK) {
+            val studentId = data?.getStringExtra("studentId")
+            studentId?.let {
+                fetchStudentData(it)
+            }
+        }
+    }
+
+    private fun fetchStudentData(studentId: String) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("student").document(studentId).get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    val studentName = document.getString("studentName")
+                    val studentLevel = document.getString("levelId")
+                    val studentAge = document.getString("studentAge")
+                    val studentDayTime = document.getString("studentDayTime")
+                    val studentAttendance = document.getLong("studentAttendance")?.toString()
+                    val studentTeacher = document.getString("teacherName")
+                    val studentDailyReport = document.getString("studentDailyReportLink")
+                    val studentJoinDate = document.getString("studentJoinDate")
+                    val studentLevelUp = document.getString("studentLevelUp")
+
+                    binding.tvHeader.text = studentName
+                    binding.tvStudentLevel.text = studentLevel
+                    binding.tvStudentAge.text = studentAge
+                    binding.tvDateTime.text = studentDayTime
+                    binding.tvAttendance.text = studentAttendance
+                    binding.tvTeacher.text = studentTeacher
+                    binding.tvDailyReport.text = studentDailyReport
+                    binding.tvJoinDate.text = studentJoinDate
+                    binding.tvLevelUpDate.text = studentLevelUp
+                }
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(this, "Failed to load student data: ${exception.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 }

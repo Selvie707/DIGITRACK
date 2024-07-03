@@ -28,7 +28,6 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Initialize Firebase Auth
         auth = Firebase.auth
 
         val spinnerList = listOf("Role", "Admin", "Teacher")
@@ -37,6 +36,14 @@ class RegisterActivity : AppCompatActivity() {
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spRole.adapter = arrayAdapter
 
+        btnLoginOnClick()
+
+        binding.tvLoginRegister.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
+    }
+
+    private fun btnLoginOnClick() {
         val usersCollection = db.collection("teacher")
 
         binding.btnLoginOnboarding.setOnClickListener {
@@ -64,38 +71,30 @@ class RegisterActivity : AppCompatActivity() {
             } else {
                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
 
                         val user = auth.currentUser
 
                         val userId = user?.uid
 
-                                // Menghitung jumlah dokumen yang ada
-                                //val count = result.size()
+                        val userMap = hashMapOf(
+                            "userId" to userId,
+                            "userName" to name,
+                            "userEmail" to email,
+                            "userRole" to role
+                        )
 
-                                // Menghasilkan ID baru dengan format yang diinginkan
-                                //val newID = "USR${String.format("%03d", count + 1)}"
+                        usersCollection.document(userId!!).set(userMap).addOnSuccessListener {
+                            Toast.makeText(this, "Successfully Added!!!", Toast.LENGTH_SHORT).show()
 
-                                val userMap = hashMapOf(
-                                    "userId" to userId,
-                                    "userName" to name,
-                                    "userEmail" to email,
-                                    "userRole" to role
-                                )
-
-                                usersCollection.document(userId!!).set(userMap).addOnSuccessListener {
-                                    Toast.makeText(this, "Successfully Added!!!", Toast.LENGTH_SHORT).show()
-
-                                    val intent = Intent(this, LoginActivity::class.java)
-                                    startActivity(intent)
-                                }
-                                    .addOnFailureListener { e ->
-                                        Toast.makeText(this, "There's something wrong", Toast.LENGTH_SHORT).show()
-                                        Log.d("RegisterActivity", "Error: ${e.message}")
-                                    }
+                            val intent = Intent(this, LoginActivity::class.java)
+                            startActivity(intent)
+                        }
+                            .addOnFailureListener { e ->
+                                Toast.makeText(this, "There's something wrong", Toast.LENGTH_SHORT).show()
+                                Log.d("RegisterActivity", "Error: ${e.message}")
+                            }
 
                     } else {
-                        // If sign in fails, display a message to the user.
                         Toast.makeText(
                             baseContext,
                             "Authentication failed.",
@@ -104,10 +103,6 @@ class RegisterActivity : AppCompatActivity() {
                     }
                 }
             }
-        }
-
-        binding.tvLoginRegister.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
         }
     }
 }

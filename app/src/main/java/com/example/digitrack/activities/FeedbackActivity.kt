@@ -36,7 +36,7 @@ class FeedbackActivity : AppCompatActivity() {
 
         starCheckboxes.forEachIndexed { index, checkbox ->
             checkbox.setOnClickListener {
-                checkedStars = index + 1 // Increase by 1 since index starts from 0
+                checkedStars = index + 1
                 starCheckboxes.forEachIndexed { innerIndex, innerCheckbox ->
                     innerCheckbox.isChecked = innerIndex <= index
                 }

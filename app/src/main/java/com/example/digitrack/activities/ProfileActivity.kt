@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import com.example.digitrack.R
 import com.example.digitrack.databinding.ActivityProfileBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -52,10 +55,7 @@ class ProfileActivity : AppCompatActivity() {
             startActivity(Intent(this, HelpCenterActivity::class.java))
         }
         binding.btnLogout.setOnClickListener {
-            Firebase.auth.signOut()
-
-            startActivity(Intent(this, OnBoardingActivity::class.java))
-            finish()
+            showCustomDialog()
         }
 
         val name = sharedPref.getString("name", "")
@@ -63,5 +63,35 @@ class ProfileActivity : AppCompatActivity() {
 
         binding.tvNameProfile.text = name
         binding.tvRoleProfile.text = role
+    }
+
+    private fun showCustomDialog() {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_detele_student, null)
+
+        val tvText = dialogView.findViewById<TextView>(R.id.tvText)
+        val btnUpdate = dialogView.findViewById<TextView>(R.id.btnYes)
+        val btnCancel = dialogView.findViewById<TextView>(R.id.btnNo)
+
+        tvText.text = "Logging out?"
+
+        val dialogBuilder = AlertDialog.Builder(this)
+            .setView(dialogView)
+
+        val dialog = dialogBuilder.create()
+
+        btnUpdate.setOnClickListener {
+            Firebase.auth.signOut()
+
+            startActivity(Intent(this, OnBoardingActivity::class.java))
+            finish()
+
+            dialog.dismiss()
+        }
+
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }

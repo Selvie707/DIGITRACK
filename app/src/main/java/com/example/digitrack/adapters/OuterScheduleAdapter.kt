@@ -19,11 +19,11 @@ class OuterScheduleAdapter(
         private val innerRecyclerView: RecyclerView = itemView.findViewById(R.id.rvInner)
 
         fun bind(time: String, schedules: List<Pair<Students, String>>) {
-            val timeText = "JAM $time WIB"
+            val timeText = "TIME $time WIB"
             tvTime.text = timeText
 
             innerRecyclerView.layoutManager = LinearLayoutManager(itemView.context)
-            innerRecyclerView.adapter = InnerAdapter(schedules.map { it.first }, selectedDate, time) // Pass date and time to InnerAdapter
+            innerRecyclerView.adapter = InnerAdapter(schedules.map { it.first }, selectedDate, time)
         }
     }
 

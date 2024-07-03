@@ -1,15 +1,12 @@
 package com.example.digitrack.activities
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -19,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.digitrack.BuildConfig
 import com.example.digitrack.R
+import com.example.digitrack.Utils
 import com.example.digitrack.adapters.NearestScheduleAdapter
 import com.example.digitrack.adapters.SomethingNewAdapter
 import com.example.digitrack.data.Students
@@ -28,7 +26,6 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.google.firebase.storage.FirebaseStorage
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -37,6 +34,7 @@ class NearestScheduleActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNearestScheduleBinding
     private lateinit var rvSchedule: RecyclerView
+    private val db = FirebaseFirestore.getInstance()
 
     companion object {
         const val REQUEST_CODE_NOTIFICATIONS = 1001
@@ -47,11 +45,10 @@ class NearestScheduleActivity : AppCompatActivity() {
         binding = ActivityNearestScheduleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        showCustomDialog()
+        if (!Utils.isCancel) {
+//            showCustomDialog()
+        }
 
-        // TODO: Bikin di dalam else semua kode jika versi app normal
-
-        // Meminta izin notifikasi pada Android 13+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ActivityCompat.checkSelfPermission(
                     this,
@@ -102,19 +99,15 @@ class NearestScheduleActivity : AppCompatActivity() {
     }
 
     private fun loadNearestSchedule() {
-        val db = FirebaseFirestore.getInstance()
-
-        // Mendapatkan tanggal hari ini dalam format yang diminta
         val currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yy"))
 
-        // Mendapatkan jam saat ini dan mengubahnya menjadi jam awal rentang jam sekarang
         val currentHour = LocalTime.now().hour.toString().padStart(2, '0')
         val nextHour = (LocalTime.now().hour + 1).toString().padStart(2, '0')
         val currentMinute = "00"
         val currentTime = "$currentHour.$currentMinute"
         val nextTime = "$nextHour.$currentMinute"
 
-        val timeText = "JAM $currentTime - $nextTime WIB"
+        val timeText = "TIME $currentTime - $nextTime WIB"
         binding.tvJam.text = timeText
 
         db.collection("student").addSnapshotListener { querySnapshot, exception ->
@@ -135,7 +128,6 @@ class NearestScheduleActivity : AppCompatActivity() {
                     }
                 }
 
-                // Filter jadwal berdasarkan tanggal dan jam sekarang
                 val filteredSchedules = studentsWithSchedule.flatMap { (student, schedule) ->
                     schedule.filter { (_, value) ->
                         val scheduleDate = value.split("|").getOrNull(0) ?: ""
@@ -144,7 +136,6 @@ class NearestScheduleActivity : AppCompatActivity() {
                     }.map { entry -> Triple(student, entry.key, entry.value) }
                 }
 
-                // Ekstraksi dan konversi waktu dari kunci
                 val studentsWithTimes = filteredSchedules.map { (student, scheduleKey, _) ->
                     val timeString = scheduleKey.split("|").getOrNull(1) ?: "00.00"
                     val timeParts = timeString.split(".")
@@ -154,10 +145,8 @@ class NearestScheduleActivity : AppCompatActivity() {
                     Triple(student, scheduleKey, totalMinutes)
                 }
 
-                // Mengurutkan berdasarkan waktu
                 val sortedStudents = studentsWithTimes.sortedBy { it.third }
 
-                // Set adapter dengan daftar yang sudah diurutkan
                 rvSchedule.adapter = NearestScheduleAdapter(
                     sortedStudents.map { it.first },
                     currentDate,
@@ -173,32 +162,15 @@ class NearestScheduleActivity : AppCompatActivity() {
         }
     }
 
-    // Firebase Storage
-    private fun getApkDownloadUrl(onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
-        val storage = FirebaseStorage.getInstance()
-        val storageRef = storage.reference.child("apk/your_apk_file_name.apk")
-
-        storageRef.downloadUrl.addOnSuccessListener { uri ->
-            onSuccess(uri.toString())
-        }.addOnFailureListener { exception ->
-            onFailure(exception)
-        }
-    }
-
     private fun showCustomDialog() {
-        // Gunakan LayoutInflater untuk memasukkan layout dialog kustom
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_update_version, null)
 
-        // Inisialisasi elemen UI dalam layout dialog
         val rvSomethingNew = dialogView.findViewById<RecyclerView>(R.id.rvNewUpdate)
         val btnUpdate = dialogView.findViewById<TextView>(R.id.btnUpdate)
         val btnCancel = dialogView.findViewById<TextView>(R.id.btnCancel)
 
-        // Setup RecyclerView
         rvSomethingNew.layoutManager = LinearLayoutManager(this)
 
-        // Ambil data dari Firestore
-        val db = FirebaseFirestore.getInstance()
         db.collection("AppVersion")
             .orderBy("avId", Query.Direction.DESCENDING)
             .limit(1)
@@ -209,7 +181,6 @@ class NearestScheduleActivity : AppCompatActivity() {
                         val avDescription = document.getString("avDescription")
                         if (avDescription != null) {
                             val items = avDescription.split("|")
-                            // Set adapter ke RecyclerView
                             rvSomethingNew.adapter = SomethingNewAdapter(items)
                         } else {
                             println("avDescription is empty")
@@ -226,18 +197,14 @@ class NearestScheduleActivity : AppCompatActivity() {
         val dialogBuilder = AlertDialog.Builder(this)
             .setView(dialogView)
 
-        // Tampilkan dialog
         val dialog = dialogBuilder.create()
 
         btnUpdate.setOnClickListener {
-            val db = FirebaseFirestore.getInstance()
-
             db.collection("AppVersion")
                 .orderBy("avId", Query.Direction.DESCENDING)
                 .limit(1)
                 .get()
                 .addOnSuccessListener {
-                    // TODO
                     for (document in it) {
                         val avId = document.getLong("avId")
                         val source = document.get("avSource")
@@ -252,9 +219,6 @@ class NearestScheduleActivity : AppCompatActivity() {
                             startActivity(intent)
                         }
                     }
-
-                    // TODO: Alert dialog deskripsi fitur
-
                 }
                 .addOnFailureListener { exception ->
                     Toast.makeText(this, "Failed to load students: $exception", Toast.LENGTH_SHORT).show()
@@ -264,6 +228,7 @@ class NearestScheduleActivity : AppCompatActivity() {
         }
 
         btnCancel.setOnClickListener {
+            Utils.isCancel = true
             dialog.dismiss()
         }
 

@@ -6,8 +6,8 @@ data class Students(
     val teacherName: String = "",
     val studentName: String = "",
     val studentAttendance: Int? = 0,
-    val studentAttendanceMaterials: Map<String, String> = emptyMap(), // <pertemuan ke, materialsId>
-    val studentSchedule: Map<String, String> = emptyMap(),            // <date time, studentAttendanceMaterials>
+    val studentAttendanceMaterials: Map<String, String> = emptyMap(),
+    val studentSchedule: Map<String, String> = emptyMap(),
     val studentDailyReportLink: String? = "",
     val studentAge: String? = "",
     val studentJoinDate: String? = "",
@@ -16,7 +16,6 @@ data class Students(
     val studentUpdatedAt: String? = "",
     val studentLevelUp: String? = ""
 ) {
-    // No-argument constructor required by Firestore
     constructor() : this(
         studentId = "",
         levelId = "",

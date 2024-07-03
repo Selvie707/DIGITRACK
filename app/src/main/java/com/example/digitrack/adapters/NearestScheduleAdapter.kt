@@ -34,11 +34,9 @@ class NearestScheduleAdapter(
         fun bind(schedule: Students) {
             val context = itemView.context
 
-            // Akses SharedPreferences
             val sharedPref = context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
             val role = sharedPref.getString("role", "")
 
-            // Ubah tampilan berdasarkan nilai role
             if (!role.equals("Teacher")) {
                 cbAttendance.visibility = View.GONE
             }
